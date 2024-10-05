@@ -20,7 +20,7 @@ const name = "Victoria";
 
 const Start: FC = () => {
   return (
-    <AuthLayout heading={"Welcome"} title={"Sign-in"}>
+    <AuthLayout heading={"Welcome"} title={"Start"}>
       <AdminNavbar />
       <PageAnimation>
         <div className="authcard1">
