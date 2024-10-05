@@ -81,7 +81,7 @@ const SignIn: FC = () => {
                           <h1 className="md:text-[1.6rem] text-[1.9rem] font-semibold text-white pb-2">
                             Your Password
                           </h1>
-                          <p className="text-[#A5A5A5]">Almost there...</p>
+                          <p className="font-medium text-[#A5A5A5]">Almost there...</p>
                         </div>
                         <form
                           onSubmit={handleSubmit(onSubmit)}
@@ -119,7 +119,7 @@ const SignIn: FC = () => {
                           <h1 className="md:text-[1.6rem] text-[1.9rem] font-semibold text-white pb-2">
                             Sign in to Your Account
                           </h1>
-                          <p className="text-[#A5A5A5]">
+                          <p className="font-medium text-[#A5A5A5]">
                             Enter your email address
                           </p>
                         </div>
