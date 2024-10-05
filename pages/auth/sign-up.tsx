@@ -93,7 +93,7 @@ const SignUp: FC = () => {
                       <div className="authcard5a md:max-w-[19rem] w-fit md:pt-0 pt-28">
                         <Image alt="img" src={logo} className="authimg1" />
                         <div className="pb-8">
-                          <h1 className="text-[1.7rem] font-semibold text-white pb-2">
+                          <h1 className="md:text-[1.6rem] text-[1.9rem] font-semibold text-white pb-2">
                             Create a Password
                           </h1>
                           <p className="text-secondary-border">
