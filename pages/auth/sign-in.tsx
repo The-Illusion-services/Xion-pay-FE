@@ -88,7 +88,7 @@ const SignIn: FC = () => {
                           className="w-full"
                         >
                           <div>
-                            <label className="text-[#F8F8F8] pb-2 text-sm">
+                            <label className="text-[#F8F8F8] pb-2">
                               Password
                             </label>
                             <br />
