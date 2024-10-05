@@ -144,7 +144,7 @@ const SignUp: FC = () => {
                         <Image alt="img" src={logo} className="authimg2" />
                         <div className="pb-8">
                           <div>
-                            <h1 className="text-[1.6rem] font-medium text-white pb-2">
+                            <h1 className="md:text-[1.6rem] text-[1.9rem] font-semibold text-white pb-2">
                               Create Your Account
                             </h1>
                             <p className="text-secondary-border">
