@@ -67,7 +67,7 @@ const Navbar: FC = () => {
           <p>Watch Video</p>
         </div>
       </div>
-      <div className="md:hidden flex justify-between pt-4 px-4 text-white">
+      <div className="hidden justify-between pt-4 px-4 text-white">
         <div className="w-fit items-center bg-primary-orange flex justify-center py-1 rounded-md px-1">
           <Play fill="white" className="pr-2" />
 
