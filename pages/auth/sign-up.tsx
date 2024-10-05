@@ -96,7 +96,7 @@ const SignUp: FC = () => {
                           <h1 className="md:text-[1.6rem] text-[1.9rem] font-semibold text-white pb-2">
                             Create a Password
                           </h1>
-                          <p className="text-secondary-border">
+                          <p className="font-medium text-secondary-border">
                             Look at you go! Now, enter a password...
                           </p>
                         </div>
