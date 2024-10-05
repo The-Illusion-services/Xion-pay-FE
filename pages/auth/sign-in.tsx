@@ -52,9 +52,7 @@ const SignIn: FC = () => {
     setIsLoading(true);
     setTimeout(() => {
       console.log(getValues().password, getValues().email);
-      if(!getValues().password){
-        return errors
-      }
+      
       if (!showPassword) {
         setIsLoading(false);
         return setShowPassword(true);
