@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { AdminTable, Invoice, Menu } from "@/types";
+import { AdminTable, Invoice, Menus } from "@/types";
 import Image from "next/image";
 import orderImg from "public/orderimg.png";
 import DefaultTable from "../../../table";

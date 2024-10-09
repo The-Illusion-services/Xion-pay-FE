@@ -26,7 +26,7 @@ export type Invoice = {
   Status: string;
 }
 
-export type Menu = {
+export type Menus = {
   MenuId: number;
   Price: number,
   Category: string;

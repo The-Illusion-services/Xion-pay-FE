@@ -1,30 +1,11 @@
 import React, { FC, useState } from "react";
-import { SearchBar } from "@/components/serviette-ui";
-import { Button } from "@/components/ui/button";
-import { Modal } from "@/components/shared";
-import {
-  Check,
-  ChevronDown,
-  Circle,
-  Clock,
-  Edit3,
-  EllipsisVertical,
-  Filter,
-  Minus,
-  Plus,
-  Trash2,
-  UtensilsCrossed,
-  X,
-} from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { AdminTable, Invoice, Menu } from "@/types";
+import { Edit3, UtensilsCrossed, X } from "lucide-react";
+import { AdminTable, Menus } from "@/types";
 import Image from "next/image";
 import orderImg from "public/orderimg.png";
-import DefaultTable from "../../table";
 import { handleRowClick } from "@/utils/modal";
 
-const defaultInvoice: Menu = {
+const defaultInvoice: Menus = {
   MenuId: 0,
   Price: 0,
   Category: "",
@@ -51,7 +32,7 @@ const MenuGrid = ({
   return (
     <div>
       <div className="flex flex-wrap md:justify-start justify-center gap-4">
-        {invoiceData.map((invoice: Menu, index: number) => (
+        {invoiceData.map((invoice: Menus, index: number) => (
           <div
             onClick={() =>
               handleRowClick(invoice, setIsOpen, setSelectedInvoice)

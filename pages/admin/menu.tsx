@@ -8,7 +8,7 @@ import { Circle, EllipsisVertical, LayoutGrid, List } from "lucide-react";
 import { Tabs } from "@/components/ui/tabs";
 import Container from "@/components/shared/container";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Menu } from "@/types";
+import { Menus } from "@/types";
 import Image from "next/image";
 import orderImg from "public/orderimg.png";
 import { handleRowClick } from "@/utils/modal";
@@ -65,7 +65,7 @@ const tabHeaders = {
   pizza: "pizza",
   intercontinental: "intercontinental",
 };
-const defaultInvoice: Menu = {
+const defaultInvoice: Menus = {
   Category: "",
   MenuId: 0,
   mealImage: "",
@@ -88,7 +88,7 @@ const Menu: FC = () => {
   const [view, setView] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [orderHeader, setOrderHeader] = useState(false);
-  const [selectedInvoice, setSelectedInvoice] = useState<Menu>(defaultInvoice);
+  const [selectedInvoice, setSelectedInvoice] = useState<Menus>(defaultInvoice);
 
   let tabKey: any = "";
   let tabValue: any = "";
