@@ -181,7 +181,7 @@ const AdminNavbar = ({ title }: any) => {
                   <ChevronDown className="w-7 m-auto text-secondary-border" />
                 </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="border-none backdrop-blur-sm text-white bg-gray-100/30 w-56">
+              <DropdownMenuContent className="border-none backdrop-blur-sm text-white bg-gray-400/30 w-56">
                 <DropdownMenuLabel className="px-1 py-0">
                   <div className="items-center text-xs leading-4 h-fit w-full flex">
                     <div className="pr-2 w-12">
