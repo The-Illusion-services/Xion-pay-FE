@@ -456,6 +456,24 @@ const invoiceData = [
     Status: "pending",
   },
 ];
+const tableHeaders = [
+  "S/N",
+  "Assigned to",
+  "Customer",
+  "Table No.",
+  "Menu Items",
+  "Price",
+  "Time of Order",
+  "OrderID",
+  "Status",
+  "Actions",
+];
+const tabHeaders = {
+  all: "all",
+  dine: "dine in",
+  togo: "to go",
+  delivery: "delivery",
+};
 
 const Dashboard: FC = () => {
   let title = "Dashboard";
@@ -1063,7 +1081,15 @@ const Dashboard: FC = () => {
                           </div>
                         </div>
 
-                        <AdminOrdersTable className="h-80 overflow-scroll">
+                        <AdminOrdersTable
+                          //  view={view}
+                           tableHeaders={tableHeaders}
+                           tabHeaders={tabHeaders}
+                           invoiceData={invoiceData}
+                          //  setIsOpen={setIsOpen}
+                          //  setSelectedInvoice={setSelectedInvoice}
+                          //  selectedInvoice={selectedInvoice}
+                        className="h-80 overflow-scroll">
                           <TableBody className="h-80">
                             {invoiceData.slice(0, 10).map((invoice, index) => (
                               <TableRow
