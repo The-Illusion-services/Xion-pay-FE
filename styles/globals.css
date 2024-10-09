@@ -54,7 +54,7 @@ tr td:last-child {
   }
 
   .modal-overlay {
-    @apply fixed justify-end top-[72px] left-0 w-full h-full flex items-center bg-black bg-opacity-30;
+    @apply fixed justify-end z-[100] top-0 left-0 w-full h-full flex items-center bg-black bg-opacity-30;
   }
   .modal-content {
     @apply bg-black py-3 rounded-md h-full w-full max-w-[30rem] overflow-y-scroll;
