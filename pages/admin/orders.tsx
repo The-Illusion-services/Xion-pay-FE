@@ -245,7 +245,7 @@ const Orders: FC = () => {
                   <ScrollBar orientation="horizontal" />
                 </ScrollArea>
                 {tabs.map((item, index) => (
-                  <TabsContent value={item} className="md:px-0 px-4">
+                  <TabsContent value={item} className="md:px-0 px-2">
                     <div className="w-full bg-primary-dark pt-4 rounded-md">
                       <div className="w-full h-full">
                         <div className="px-3 flex pb-4 border-b border-primary-border">

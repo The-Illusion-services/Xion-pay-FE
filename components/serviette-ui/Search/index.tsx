@@ -14,7 +14,7 @@ const SearchBar = ({ placeholder = "", className }: SearchType) => {
         placeholder={placeholder}
         className="md:block hidden gap-2 truncate text-[0.98rem] text-white text-sm w-full mt-1 bg-transparent outline-none"
       />
-      <Search color="#d8d8d8" />
+      <Search color="#d8d8d8" className="md:w-6 w-5" />
     </div>
   );
 };

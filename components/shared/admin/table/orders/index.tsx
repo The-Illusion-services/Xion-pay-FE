@@ -79,15 +79,15 @@ const AdminOrdersTable = ({
             )}
           </TabsList>
           <div>
-            <Button className="md:rounded-xl rounded-full md:px-3 transparent-btn text-secondary-border">
-              <Filter className="w-5" />
+            <Button className="md:rounded-xl border rounded-full px-3 transparent-btn text-secondary-border">
+              <Filter className="md:w-5 w-4" />
               <ChevronDown className="md:block hidden w-5" />
             </Button>
           </div>
           <div>
             <SearchBar
               placeholder="Search for food, drinks and more"
-              className="md:rounded-xl rounded-full md:px-3 px-1"
+              className="md:rounded-xl rounded-full px-3"
             />
           </div>
         </div>
