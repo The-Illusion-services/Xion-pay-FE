@@ -71,7 +71,8 @@ const SignUp: FC = () => {
     <AuthLayout heading={"Welcome"} title={"Sign-up"}>
       <Navbar />
       <PageAnimation>
-        <Container>
+        <Container className={"min-h-[40rem]"}>
+        <div className="authcard3 md:pt-24 md:pb-16 py-0 lg:px-12 md:px-8 px-0">
           <div className="authcard4">
             {popUp ? (
               <div className="md:w-1/2 w-full h-full bg-primary-dark z-50 rounded-xl">
@@ -209,6 +210,7 @@ const SignUp: FC = () => {
                 </div>
               </>
             )}
+          </div>
           </div>
         </Container>
       </PageAnimation>

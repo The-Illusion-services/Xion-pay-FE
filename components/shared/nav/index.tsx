@@ -2,20 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "public/Logo.png";
 import { Play, SquareMenu } from "lucide-react";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 import React, { FC } from "react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 
@@ -53,7 +45,7 @@ const Navbar: FC = () => {
               <Link
                 href={item.link}
                 className={`${
-                  item.link === path ? "text-yellow-400 font-bold" : ""
+                  item.link === path ? "font-bold" : ""
                 } text-base`}
               >
                 {item.title}
@@ -64,7 +56,7 @@ const Navbar: FC = () => {
         <div className="w-[11%] bg-primary-orange flex justify-center py-1 rounded-md px-1">
           <Play fill="white" className="pr-2" />
 
-          <p>Watch Video</p>
+          <p className="md:text-base text-sm">Watch Video</p>
         </div>
       </div>
       <div className="hidden justify-between pt-4 px-4 text-white">

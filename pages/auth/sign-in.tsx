@@ -69,9 +69,10 @@ const SignIn: FC = () => {
       <>
         <Navbar />
         <PageAnimation>
-          <Container>
-            <div className="authcard4">
-              <div className="authcard5 md:rounded-xl rounded-none">
+          <Container className={"min-h-[40rem]"}>
+          <div className="authcard3 md:pt-24 md:pb-16 py-0 lg:px-12 md:px-8 px-0">
+            <div className="authcard4 md:rounded-xl rounded-none">
+              <div className="authcard5">
                 <div className="authcard5a md:pt-0 pt-28 md:w-fit w-full">
                   {showPassword ? (
                     <>
@@ -166,6 +167,7 @@ const SignIn: FC = () => {
                   <Image alt="img" src={authEmImage} className="authimg3" />
                 )}
               </div>
+            </div>
             </div>
           </Container>
         </PageAnimation>

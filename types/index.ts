@@ -25,3 +25,26 @@ export type Invoice = {
   TimeofOrder: string;
   Status: string;
 }
+
+export type Menu = {
+  MenuId: number;
+  Price: number,
+  Category: string;
+  mealImage: string;
+  Name: string;
+  Discount: string;
+  Department: string;
+}
+
+export type AdminTable = {
+  children?: any;
+  view?: any;
+  grid?: any;
+  invoiceData?: any;
+  setIsOpen?: any;
+  setSelectedInvoice?: any;
+  selectedInvoice?: any;
+  tabHeaders?: {};
+  tableHeaders?: any;
+  className?: any;
+}
