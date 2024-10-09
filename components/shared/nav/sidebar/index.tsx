@@ -118,7 +118,7 @@ const Sidebar = ({ title }: any) => {
               path === "/admin/menu" ? "text-white border-primary-green border-b-2" : "text-secondary-border"
             }`}
           >
-            <Link href="#">
+            <Link href="/admin/menu">
               <UtensilsCrossed className="m-auto w-6" />
               <h1>Menu</h1>
             </Link>
@@ -128,7 +128,7 @@ const Sidebar = ({ title }: any) => {
               path === "/admin/orders" ? "text-white border-primary-green border-b-2" : "text-secondary-border"
             }`}
           >
-            <Link href="#">
+            <Link href="/admin/orders">
               <NotepadText className="m-auto w-6" />
               <h1>Orders</h1>
             </Link>
