@@ -108,7 +108,7 @@ const Menu: FC = () => {
           <Sidebar />
           <Container>
             <div className="authcard3 h-fit lg:px-12 md:px-8 px-0">
-              <Tabs defaultValue={tabs[0]} className="w-full">
+              <Tabs defaultValue={tabs[0]} className="w-full md:px-0 px-4">
                 <div className="w-full bg-primary-dark pt-4 rounded-md">
                   <div className="w-full h-full">
                     <div className="px-3 flex pb-4 border-b border-primary-border">
