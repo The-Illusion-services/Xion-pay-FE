@@ -3,30 +3,16 @@ import Link from "next/link";
 import React, { FC, useState } from "react";
 import { PageAnimation } from "@/components/serviette-ui";
 import { Button } from "@/components/ui/button";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { AdminNavbar, Modal } from "@/components/shared";
-import {
-  ArrowBigDown,
-  Check,
-  Circle,
-  Edit3,
-  EllipsisVertical,
-  LayoutGrid,
-  List,
-  Minus,
-  Plus,
-  Trash2,
-  X,
-} from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AdminNavbar } from "@/components/shared";
+import { Circle, EllipsisVertical, LayoutGrid, List } from "lucide-react";
+import { Tabs } from "@/components/ui/tabs";
 import Container from "@/components/shared/container";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Invoice, Menu } from "@/types";
+import { Menu } from "@/types";
 import Image from "next/image";
 import orderImg from "public/orderimg.png";
 import { handleRowClick } from "@/utils/modal";
 import Sidebar from "@/components/shared/nav/sidebar";
-import AdminOrdersTable from "@/components/shared/admin/table/orders";
 import AdminMenuTable from "@/components/shared/admin/table/menu";
 
 const tabs = ["yesterday", "today", "This Week", "This Month", "This Year"];
