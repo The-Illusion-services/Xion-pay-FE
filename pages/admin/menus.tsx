@@ -299,7 +299,7 @@ const Menu: FC = () => {
                                 <p>Price</p>
                                 <p>${selectedInvoice.Price} </p>
                               </div>
-                              <div className="flex justify-between gap-x-3">
+                              <div className="flex justify-between gap-x-8">
                                 <p>Description</p>
                                 <p>{selectedInvoice.Description} </p>
                               </div>
