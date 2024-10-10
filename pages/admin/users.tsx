@@ -102,7 +102,7 @@ const tabHeaders = {
   waiters: "waiters",
   more: "more categories",
 };
-const defaultInvoice: Users = {
+const defaultInvoice: User = {
   UserId: 0,
   Name: "",
   Email: "",
