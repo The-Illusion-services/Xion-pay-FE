@@ -30,19 +30,22 @@ tr td:last-child {
   padding-right: 2rem;
 }
 
-.status-pending {
+.status-pending,
+.status-medium {
   background: #544a01;
   color: #ffe525;
 }
 
 .status-cancelled,
-.status-inactive {
+.status-inactive,
+.status-high {
   background: #1f0501;
   color: #eb5033;
 }
 
 .status-completed,
-.status-active {
+.status-active,
+.status-low {
   background: #094301;
   color: #41c82e;
 }

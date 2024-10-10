@@ -18,6 +18,10 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        'lg': '1034px',
+        // => @media (min-width: 992px) { ... }
+      },
       backgroundImage: {
         "easing-gradient":
           "linear-gradient(to bottom, #0d0f11, #121418, #191c20, #191b1f)",
