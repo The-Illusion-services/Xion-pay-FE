@@ -18,7 +18,7 @@ export default function AuthLayout({
   subtitle,
   heading,
   description,
-}: ILayout) { 
+}: ILayout) {
   const router = useRouter();
   const { token } = useAuthToken();
   title = title || "Page Title";
@@ -28,6 +28,7 @@ export default function AuthLayout({
   useEffect(() => {
     if (token) router.push("/user");
   }, [router, token]);
+  //TODO: uncomment and replace
 
   return (
     <Fragment>
@@ -40,14 +41,13 @@ export default function AuthLayout({
         <meta content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
         <meta name="description" content={description} />
         <meta name="title" content={description} />
-
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Blnk" />
+        <meta property="og:site_name" content="Serviette" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:locale:alternate" content="en_US" />
-        <meta property="og:url" content="http://https://www.blnkfinance.com/" />
+        {/* <meta property="og:url" content="http://https://www.blnkfinance.com/" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content="http://https://www.blnkfinance.com/images/logo-preview.png" />
@@ -55,8 +55,7 @@ export default function AuthLayout({
         <meta property="twitter:url" content="http://https://www.blnkfinance.com/" />
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
-        <meta property="twitter:image" content="http://https://www.blnkfinance.com/images/logo-preview.png" />
-
+        <meta property="twitter:image" content="http://https://www.blnkfinance.com/images/logo-preview.png" /> */}
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       </Head>
 

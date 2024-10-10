@@ -11,24 +11,10 @@ import Image from "next/image";
 import orderImg from "public/orderimg.png";
 import { handleRowClick } from "@/utils/modal";
 import Sidebar from "@/components/shared/nav/sidebar";
+import orderImg2 from "public/auth-email.png";
 import AdminMenuTable from "@/components/shared/admin/table/menu";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import {
-  ArrowBigDown,
-  Check,
-  Circle,
-  Edit3,
-  EllipsisVertical,
-  LayoutGrid,
-  List,
-  Minus,
-  Plus,
-  Trash2,
-  X,
-} from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Invoice } from "@/types";
-import AdminOrdersTable from "@/components/shared/admin/table/orders";
+import { Circle, EllipsisVertical, LayoutGrid, List, X } from "lucide-react";
+import { Tabs } from "@/components/ui/tabs";
 
 const tabs = ["yesterday", "today", "This Week", "This Month", "This Year"];
 const invoiceData = [
@@ -68,7 +54,7 @@ const invoiceData = [
   {
     value: "all",
     Category: "Intercontinental",
-    MenuId: 103,
+    MenuId: 104,
     mealImage: "macaroni-image.jpg",
     Name: "Macaroni with Chicken",
     Price: "120",
@@ -107,43 +93,9 @@ const tableHeaders = [
 const Menu: FC = () => {
   const [view, setView] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [orderHeader, setOrderHeader] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Menus>(defaultInvoice);
 
-  let tabKey: any = "";
-  let tabValue: any = "";
   let title = "Menu";
-
-  const handleTabChange: any = (event: any, key: any, value: any) => {
-    tabKey = key;
-    tabValue = value;
-  };
-
-  const updatedInvoice = { ...selectedInvoice };
-
-  const handleQuantityChange = (mealIndex: number, type: string) => {
-    // if (type === "increment") {
-    //   updatedInvoice.MenuItems[mealIndex].quantity += 1;
-    // } else if (
-    //   type === "decrement" &&
-    //   updatedInvoice.MenuItems[mealIndex].quantity > 0
-    // ) {
-    //   updatedInvoice.MenuItems[mealIndex].quantity -= 1;
-    // }
-    // setSelectedInvoice(updatedInvoice);
-  };
-
-  const onDeleteItem = (mealIndex: number) => {
-    const updatedMenuItems = selectedInvoice
-    // .
-    // MenuItems.filter(
-    //   (menuItem, index) => index !== mealIndex
-    // );
-    // setSelectedInvoice({
-    //   ...selectedInvoice,
-    //   MenuItems: updatedMenuItems,
-    // });
-  };
 
   return (
     <AuthLayout title={title}>
@@ -270,203 +222,101 @@ const Menu: FC = () => {
                 <div>
                   <div className="border-b-[0.3px] border-b-primary-border -border">
                     <div className="px-3">
-                      <div className="flex justify-between rounded-xl px-2 items-center bg-primary-forest-green h-20 text-white">
+                      <div className="flex justify-between rounded-xl px-2 items-center bg-primary-forest-green h-16 text-white">
                         <div className="flex flex-col h-full justify-center gap-y-3">
-                          <p className="bg-status-completed text-text-completed rounded-lg w-fit px-2 text-sm font-medium">
-                            Dine in{tabValue}{" "}
-                          </p>
-                          <p className="text-lg font-medium">
-                            Table No. {selectedInvoice.MenuId}
+                          <p className="md:text-xl text-lg font-medium">
+                            Meal Details
                           </p>
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-secondary-border">
-                            Order ID{" "}
-                          </p>
-                          <p className="text-lg font-medium">
-                            {selectedInvoice.MenuId}{" "}
-                          </p>
+                          <div className="flex justify-center">
+                            <p
+                              className={`capitalize text-white font-medium status-cancelled text-center  flex items-center rounded-xl py-[0.1rem] px-3 w-fit`}
+                            >
+                              {selectedInvoice.Category}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                      <div className="my-2 md:mb-2 md:mt-12 flex justify-between px-2 items-center h-28 text-white">
-                        <div className="flex flex-col h-full justify-center gap-y-3 text-secondary-border">
-                          <p className="text-sm">Customer </p>
-                          <p className="text-2xl font-medium capitalize text-white">
-                            {selectedInvoice.Category}
-                          </p>
-                          <p className="text-sm">
-                            Amount paid:{" "}
-                            <span className="font-medium text-white pl-1">
-                              ${selectedInvoice.Price}
-                            </span>{" "}
-                          </p>
-                        </div>
-                        <div>
-                          <button className="text-sm transparent-btn rounded-xl p-2">
-                            Give Refund
-                          </button>
+                      <div className="my-2 md:mb-3 md:mt-8 flex justify-center px-2 items-center text-white">
+                        <div className="gap-y-3 flex flex-col h-full justify-center text-secondary-border">
+                          <div className="w-36 h-36 m-auto">
+                            <Image
+                              alt="img"
+                              src={orderImg2}
+                              className="w-full h-full rounded-full"
+                            />
+                          </div>
+                          <div className="w-full flex flex-col text-center">
+                            <p className="text-2xl font-medium capitalize text-white">
+                              {selectedInvoice.Name}
+                            </p>
+                          </div>
+                          <div className="m-auto">
+                            <Link
+                              href="#"
+                              className="flex authbtn items-center 1 w-fit m-0 px-6 py-2 text-sm font-semibold"
+                            >
+                              View Full Menu
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <Tabs
-                      defaultValue="items"
-                      className="md:text-base text-sm w-full"
-                    >
-                      <div className="flex py-2 px-6">
-                        <div className="w-[60%]">
-                          <TabsList className="w-fit flex px-0 gap-x-4">
-                            <TabsTrigger
-                              value="items"
-                              className="active-order-tab px-0 py-1 rounded-lg capitalize"
-                              onClick={() => setOrderHeader(false)}
-                            >
-                              items
-                            </TabsTrigger>
-                            <TabsTrigger
-                              value="edit"
-                              className="active-order-tab px-0 py-1 rounded-lg capitalize"
-                              onClick={() => setOrderHeader(true)}
-                            >
-                              <Edit3 />
-                              edit
-                            </TabsTrigger>
-                          </TabsList>
+                    <div className="flex py-2 px-4">
+                      <div className="w-full">
+                        <div className="text-white justify-between w-full flex px-0 gap-x-4">
+                          <h1 className="">Menu Summary</h1>
+                          <h1 className="text-xs font-medium text-primary-green">
+                            See All
+                          </h1>
                         </div>
-                        {orderHeader ? (
-                          <div className="text-primary-border flex w-[40%] items-center justify-between">
-                            <div className="w-[35%]">
-                              <h1>Quantity</h1>
-                            </div>
-                            <div className="w-[30%]">
-                              <h1>Action</h1>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="text-primary-border flex w-[40%] items-center justify-center gap-x-4">
-                            <div className="w-[35%]">
-                              <h1>Quantity</h1>
-                            </div>
-                            <div className="w-[35%]">
-                              <h1>Price</h1>
-                            </div>
-                            <div className="w-[30%]">
-                              <h1>Action</h1>
-                            </div>
-                          </div>
-                        )}
                       </div>
+                    </div>
+                    <div>
                       <div>
-                        <div className="flex justify-between">
-                          <TabsContent value="items" className="w-full">
-                            <div className="flex flex-col gap-y-3 px-3 pb-4">
-                              {/* {selectedInvoice.MenuItems.map((menuItem) => (
-                                <div className="text-white items-center flex border border-primary-border px-2.5 py-2 rounded-lg">
-                                  <div className="w-[60%] flex gap-x-3">
-                                    <div>
-                                      <Image
-                                        src={orderImg}
-                                        alt="img"
-                                        className=""
-                                      />
-                                    </div>
-                                    <p className="m-auto">{menuItem.name}</p>
-                                  </div>
-                                  <div className="w-[40%] text-center flex">
-                                    <div className="w-[35%]">
-                                      <p className="transparent-btn justify-center">
-                                        {menuItem.quantity}
-                                      </p>
-                                    </div>
-                                    <div className="w-[35%]">
-                                      <p>${menuItem.price}</p>
-                                    </div>
-                                    <div className="w-[30%]">
-                                      <EllipsisVertical className="m-auto" />
-                                    </div>
-                                  </div>
-                                </div>
-                              ))} */}
-                            </div>
-
-                            <div>
-                              <div className="flex justify-between p-3 items-center border-t border-primary-border text-white">
-                                <div className=" w-full text-secondary-border">
-                                  <div className="flex justify-between">
-                                    <p>Sub-total</p>
-                                    <p>${selectedInvoice.Price} </p>
-                                  </div>
-                                  <div className="flex justify-between">
-                                    <p>Discount</p>
-                                    <p>${selectedInvoice.Discount} </p>
-                                  </div>
-                                  <div className="flex justify-between text-lg font-medium ">
-                                    <p>Total amount to be paid</p>
-                                    <p>${selectedInvoice.Price} </p>
-                                  </div>
-                                </div>
+                        <div>
+                          <div className="flex justify-between p-3 items-center border-t border-primary-border text-white">
+                            <div className="flex flex-col gap-y-3 w-full">
+                              <div className="flex justify-between">
+                                <p>Department</p>
+                                <p className="text-white">
+                                  {selectedInvoice.Department}{" "}
+                                </p>
+                              </div>
+                              <div className="flex justify-between">
+                                <p>Category</p>
+                                <p>{selectedInvoice.Category} </p>
+                              </div>
+                              <div className="flex justify-between">
+                                <p>Discount</p>
+                                <p>{selectedInvoice.Discount} </p>
+                              </div>
+                              <div className="flex justify-between">
+                                <p>Price</p>
+                                <p>${selectedInvoice.Price} </p>
+                              </div>
+                              <div className="flex justify-between">
+                                <p className="pr-6">Description</p>
+                                <p>{selectedInvoice.Description} </p>
                               </div>
                             </div>
-
-                            <div>
-                              <div className="flex justify-between p-3 items-center border-t border-primary-border text-white">
-                                <div className=" w-full text-white">
-                                  <div className="flex justify-between">
-                                    <button className="flex rounded-xl bg-text-cancelled p-2 ">
-                                      <X /> Cancel Order
-                                    </button>
-                                    <button className="flex rounded-xl bg-text-completed p-2 ">
-                                      <Check /> Approve
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </TabsContent>
-                          <TabsContent value="edit" className="w-full">
-                            <div className="flex flex-col gap-y-3 px-3 pb-4">
-                                  <div className="text-white items-center border border-primary-border px-2.5 py-2 rounded-lg flex">
-                                    <div className="w-[60%] flex gap-x-3">
-                                      <div>
-                                        <Image
-                                          src={orderImg}
-                                          alt="img"
-                                          className=""
-                                        />
-                                      </div>
-                                      <p className="m-auto">{selectedInvoice.Name}</p>
-                                    </div>
-                                    <div className="w-[40%] text-center flex">
-                                      <div className="w-[70%] flex justify-evenly">
-                                        
-                                      </div>
-                                      <div className="w-[30%]">
-                                        <Trash2
-                                          onClick={() =>
-                                            onDeleteItem(selectedInvoice.MenuId)
-                                          }
-                                          className="m-auto cursor-pointer text-text-cancelled"
-                                        />
-                                      </div>
-                                    </div>
-                                  </div>
-                            </div>
-
-                            <div>
-                              <div className="flex justify-between p-3 items-center border-t border-primary-border text-white">
-                                <div className=" w-fit m-auto text-white">
-                                  <button className="flex rounded-xl bg-text-completed p-2 ">
-                                    <Check /> Save Changes
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </TabsContent>
+                          </div>
                         </div>
+
+                        <div>
+                          <div className="flex justify-between p-3 items-center border-t border-primary-border text-white">
+                            <button className="flex text-white m-auto rounded-xl bg-text-cancelled p-2 ">
+                              <X /> Remove Menu
+                            </button>
+                          </div>
+                        </div>
+                        <div></div>
                       </div>
-                    </Tabs>
+                    </div>
                   </div>
                 </div>
               </Modal>

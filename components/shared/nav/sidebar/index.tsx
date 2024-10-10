@@ -46,7 +46,7 @@ const Sidebar = ({ title }: any) => {
     },
     {
       title: "User Management",
-      link: "/",
+      link: "/admin/users",
       tag: Users,
     },
     {

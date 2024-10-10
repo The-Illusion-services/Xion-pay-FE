@@ -2,38 +2,26 @@ import { AuthLayout } from "@layouts";
 import Link from "next/link";
 import React, { FC, useState } from "react";
 import { PageAnimation } from "@/components/serviette-ui";
-import { Button } from "@/components/ui/button";
 import { AdminNavbar, Modal } from "@/components/shared";
 import Container from "@/components/shared/container";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Menus, User } from "@/types";
+import { User } from "@/types";
 import Image from "next/image";
 import orderImg from "public/orderimg.png";
 import orderImg2 from "public/auth-email.png";
 import { handleRowClick } from "@/utils/modal";
 import Sidebar from "@/components/shared/nav/sidebar";
-import AdminMenuTable from "@/components/shared/admin/table/menu";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
-  ArrowBigDown,
-  Check,
   Circle,
   Clock,
-  Edit3,
   EllipsisVertical,
-  LayoutGrid,
-  List,
   Mail,
-  Minus,
   Phone,
   Plus,
-  Trash2,
   Wrench,
   X,
 } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Invoice } from "@/types";
-import AdminOrdersTable from "@/components/shared/admin/table/orders";
+import { Tabs } from "@/components/ui/tabs";
 import AdminUsersTable from "@/components/shared/admin/table/users";
 
 const tabs = ["yesterday", "today", "This Week", "This Month", "This Year"];
