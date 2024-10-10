@@ -6,16 +6,11 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { AdminNavbar, Modal } from "@/components/shared";
 import {
-  ArrowBigDown,
   Check,
   Circle,
-  Edit3,
   EllipsisVertical,
   LayoutGrid,
   List,
-  Minus,
-  Plus,
-  Trash2,
   X,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -181,7 +176,6 @@ const defaultInvoice: Invoice = {
 const WaiterOrders: FC = () => {
   const [view, setView] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [orderHeader, setOrderHeader] = useState(false);
   const [selectedInvoice, setSelectedInvoice] =
     useState<Invoice>(defaultInvoice);
 
@@ -189,37 +183,8 @@ const WaiterOrders: FC = () => {
   let tabValue: any = "";
   let title = "Orders";
 
-  const handleTabChange: any = (event: any, key: any, value: any) => {
-    tabKey = key;
-    tabValue = value;
-  };
-
-  const updatedInvoice = { ...selectedInvoice };
-
-  const handleQuantityChange = (mealIndex: number, type: string) => {
-    if (type === "increment") {
-      updatedInvoice.MenuItems[mealIndex].quantity += 1;
-    } else if (
-      type === "decrement" &&
-      updatedInvoice.MenuItems[mealIndex].quantity > 0
-    ) {
-      updatedInvoice.MenuItems[mealIndex].quantity -= 1;
-    }
-    setSelectedInvoice(updatedInvoice);
-  };
-
-  const onDeleteItem = (mealIndex: number) => {
-    const updatedMenuItems = selectedInvoice.MenuItems.filter(
-      (menuItem, index) => index !== mealIndex
-    );
-    setSelectedInvoice({
-      ...selectedInvoice,
-      MenuItems: updatedMenuItems,
-    });
-  };
-
   return (
-    <AuthLayout title={title}>
+    <AuthLayout subtitle="Waiter" title={title}>
       <AdminNavbar title={title} />
       <PageAnimation>
         <div className="flex justify-end h-screen w-full">

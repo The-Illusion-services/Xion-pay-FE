@@ -7,6 +7,7 @@ import { useAuthToken } from "@hooks";
 interface ILayout {
   children: JSX.Element | React.ReactNode;
   title: string;
+  subtitle?: string;
   heading?: string;
   description?: string;
 }
@@ -14,13 +15,14 @@ interface ILayout {
 export default function AuthLayout({
   children,
   title,
+  subtitle,
   heading,
   description,
 }: ILayout) { 
   const router = useRouter();
   const { token } = useAuthToken();
   title = title || "Page Title";
-  description = description || `Serviette's ${title} page`;
+  description = description || `Serviette's ${subtitle} ${title} page`;
   heading = heading || title;
 
   useEffect(() => {

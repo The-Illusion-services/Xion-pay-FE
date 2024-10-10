@@ -402,8 +402,9 @@ const WaiterDashboard: FC = () => {
   let title = "Dashboard";
   //TODO: chart mobile view
   //TODO: next waiter admin routing for sidenavbar
+  //TODO:runnig activities image adjuestment
   return (
-    <AuthLayout title={title}>
+    <AuthLayout subtitle="Waiter" title={title}>
       <AdminNavbar title={title} />
       <PageAnimation>
         <div className="flex justify-end h-screen w-full">
