@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { AdminNavbar, Modal } from "@/components/shared";
 import Container from "@/components/shared/container";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Menus, Users } from "@/types";
+import { Menus, User } from "@/types";
 import Image from "next/image";
 import orderImg from "public/orderimg.png";
 import orderImg2 from "public/auth-email.png";
@@ -131,7 +131,7 @@ const Users: FC = () => {
   const [view, setView] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [orderHeader, setOrderHeader] = useState(false);
-  const [selectedInvoice, setSelectedInvoice] = useState<Users>(defaultInvoice);
+  const [selectedInvoice, setSelectedInvoice] = useState<User>(defaultInvoice);
 
   let tabKey: any = "";
   let tabValue: any = "";
