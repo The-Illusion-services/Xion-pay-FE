@@ -475,7 +475,7 @@ const tabHeaders = {
   delivery: "delivery",
 };
 
-const AdminDashboard: FC = () => {
+const WaiterDashboard: FC = () => {
   let title = "Dashboard";
 
   return (
@@ -853,7 +853,7 @@ const AdminDashboard: FC = () => {
                               <div className="rounded-md md:w-auto w-full h-fit bg-primary-dark ">
                                 <div className="border-b border-primary-border">
                                   <div className="p-2 text-secondary-border font-medium flex justify-between pb-4">
-                                    <h1 className="text-lg">Sales</h1>
+                                    <h1 className="text-lg">Your tasks</h1>
                                     <div className="flex gap-x-4">
                                       <EllipsisVertical />
                                     </div>
@@ -901,7 +901,7 @@ const AdminDashboard: FC = () => {
                               <div className="rounded-md md:w-auto w-full h-fit bg-primary-dark ">
                                 <div className="border-b border-primary-border">
                                   <div className="p-2 text-secondary-border font-medium flex justify-between pb-4">
-                                    <h1 className="text-lg">Profit</h1>
+                                    <h1 className="text-lg">Running Activities</h1>
                                     <div className="flex gap-x-4">
                                       <EllipsisVertical />
                                     </div>
@@ -1173,4 +1173,4 @@ const AdminDashboard: FC = () => {
   );
 };
 
-export default AdminDashboard;
+export default WaiterDashboard;

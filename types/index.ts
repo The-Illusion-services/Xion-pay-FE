@@ -30,10 +30,26 @@ export type Menus = {
   MenuId: number;
   Price: number,
   Category: string;
+  Description: string;
   mealImage: string;
   Name: string;
   Discount: string;
   Department: string;
+}
+
+export type Users = {
+  UserId: number;
+  Name: string;
+  Email: string,
+  userImage: string;
+  Type: string;
+  Phone: string;
+  Department: string;
+  Date: string;
+  Status: string;
+  Requests: number;
+  Completed: number;
+  Sales: number;
 }
 
 export type AdminTable = {

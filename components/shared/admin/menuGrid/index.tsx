@@ -11,6 +11,7 @@ const defaultInvoice: Menus = {
   Category: "",
   mealImage: "",
   Name: "",
+  Description: "",
   Discount: "",
   Department: "",
 };
@@ -44,31 +45,27 @@ const MenuGrid = ({
             } md:w-auto w-full cursor-pointer text-sm text-white rounded-md py-3`}
           >
             <div className="flex w-full border-b border-primary-border pb-3 px-4">
-              <div>
                 <div className="w-full flex flex-col items-center gap-x-1  justify-between">
-                  <p>${invoice.Price}</p>
+                  <p className="w-full text-end font-medium text-lg">${invoice.Price}</p>
 
-                  <div className="flex flex-col gap-x-2">
-                    <div className="w-8">
+                  <div className="flex flex-col gap-x-2 w-full">
+                    <div className="w-24 h-24 ">
                       <Image
                         alt="img"
                         src={orderImg}
-                        className="w-10 h-8 rounded-md"
+                        className="w-full h-full rounded-full"
                       />
                     </div>
-                    <div className="w-28">
-                      <p className="text-ellipsis overflow-hidden">
+                    <div className="max-w-72">
+                      <p className="text-lg font-medium text-ellipsis overflow-hidden">
                         {invoice.Name}
                       </p>
+                      <p className="text-ellipsis overflow-hidden">
+                        {invoice.Description}
+                      </p>
                     </div>
-                    {/* {invoice.MenuItems.length > 1 ? (
-                            <h1 className="m-auto w-fit h-fit py-[0.1rem] px-[0.3rem] border-2 border-primary-green border-dashed rounded-full font-medium">
-                              +{invoice.MenuItems.length - 1}
-                            </h1>
-                          ) : null} */}
                   </div>
                 </div>
-              </div>
             </div>
             <div className="text-secondary-border">
               <div className="px-4 py-6">

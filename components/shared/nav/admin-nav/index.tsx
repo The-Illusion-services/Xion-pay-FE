@@ -1,51 +1,17 @@
 import Image from "next/image";
-import Link from "next/link";
 import logo from "public/Logo.png";
-import { Play, Search, Bell, ChevronDown, SearchIcon } from "lucide-react";
-import { Separator } from "@radix-ui/react-dropdown-menu";
-import React, { FC } from "react";
+import { Bell, ChevronDown, SearchIcon } from "lucide-react";
+import React from "react";
 import { usePathname } from "next/navigation";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-} from "@/components/ui/navigation-menu";
 import { SearchBar } from "@/components/serviette-ui";
-import {
-  Cloud,
-  CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
-  LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  PlusCircle,
-  Settings,
-  User,
-  UserPlus,
-  Users,
-} from "lucide-react";
-
-import { Button } from "@/components/ui/button";
+import { LogOut, Mail, Settings, User } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import orderImg from "public/orderimg.png";
@@ -224,7 +190,7 @@ const AdminNavbar = ({ title }: any) => {
             </DropdownMenu>
           </div>
           <div className="w-32">
-            <h1 className="text-xl text-secondary-border font-medium">
+            <h1 className="w-full truncate text-xl text-secondary-border font-medium">
               {title}
             </h1>
             <p className="text-xs">13 Ongoing Tasks</p>

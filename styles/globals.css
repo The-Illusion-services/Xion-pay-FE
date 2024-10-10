@@ -15,7 +15,7 @@
   }
 }
 
-.barchat{
+.barchat {
   width: 100% !important;
   height: fit-content !important;
   left: 0 !important;
@@ -35,12 +35,14 @@ tr td:last-child {
   color: #ffe525;
 }
 
-.status-cancelled {
+.status-cancelled,
+.status-inactive {
   background: #1f0501;
   color: #eb5033;
 }
 
-.status-completed {
+.status-completed,
+.status-active {
   background: #094301;
   color: #41c82e;
 }

@@ -65,7 +65,8 @@ const SignIn: FC = () => {
   };
 
   return (
-    <AuthLayout heading={"Welcome"} title={"Sign-in"}>
+    // TODO: password validation
+    <AuthLayout title={"Sign-in"}>
       <>
         <Navbar />
         <PageAnimation>

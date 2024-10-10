@@ -37,7 +37,6 @@ const tableHeaders = [
   "Menu Items",
   "Price",
   "Time of Order",
-  "Assigned to",
   "Status",
   "Actions",
 ];
@@ -179,7 +178,7 @@ const defaultInvoice: Invoice = {
   TimeofOrder: "",
   Status: "",
 };
-const AdminOrders: FC = () => {
+const WaiterOrders: FC = () => {
   const [view, setView] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [orderHeader, setOrderHeader] = useState(false);
@@ -250,13 +249,13 @@ const AdminOrders: FC = () => {
                         <div className="px-3 flex pb-4 border-b border-primary-border">
                           <div className="flex w-full items-center gap-x-8">
                             <h1 className="md:block hidden capitalize font-semibold text-white text-xl">
-                              {item}'s Orders
+                              your orders {item}
                             </h1>
                             <Link
                               href="#"
                               className="authbtn w-fit m-0 px-1 py-2 text-sm font-semibold"
                             >
-                              Create New Order
+                              Create Order
                             </Link>
                           </div>
                           <div>
@@ -342,21 +341,6 @@ const AdminOrders: FC = () => {
                                 <TableCell>${invoice.Price}</TableCell>
                                 <TableCell>{invoice.TimeofOrder}</TableCell>
                                 <TableCell>
-                                  <div className="w-fit flex items-center gap-x-1">
-                                    <div className="w-8 h-4">
-                                      <Image
-                                        alt="img"
-                                        src={orderImg}
-                                        className="w-10 h-8 rounded-full"
-                                      />
-                                    </div>
-                                    <p className="flex break-words">
-                                      {invoice.AssignedTo[0].name}
-                                    </p>
-                                  </div>
-                                </TableCell>
-
-                                <TableCell>
                                   <div className="flex justify-center">
                                     <p
                                       className={`status-${invoice.Status} text-center flex items-center rounded-xl py-[0.1rem] px-3 w-fit`}
@@ -428,34 +412,14 @@ const AdminOrders: FC = () => {
                     >
                       <div className="flex py-2 px-6">
                         <div className="w-[60%]">
-                          <TabsList className="w-fit flex px-0 gap-x-4">
-                            <TabsTrigger
-                              value="items"
+                          <div className="w-fit flex px-0 gap-x-4">
+                            <div
                               className="active-order-tab px-0 py-1 rounded-lg capitalize"
-                              onClick={() => setOrderHeader(false)}
                             >
                               items
-                            </TabsTrigger>
-                            <TabsTrigger
-                              value="edit"
-                              className="active-order-tab px-0 py-1 rounded-lg capitalize"
-                              onClick={() => setOrderHeader(true)}
-                            >
-                              <Edit3 />
-                              edit
-                            </TabsTrigger>
-                          </TabsList>
-                        </div>
-                        {orderHeader ? (
-                          <div className="text-primary-border flex w-[40%] items-center justify-between">
-                            <div className="w-[35%]">
-                              <h1>Quantity</h1>
-                            </div>
-                            <div className="w-[30%]">
-                              <h1>Action</h1>
                             </div>
                           </div>
-                        ) : (
+                        </div>
                           <div className="text-primary-border flex w-[40%] items-center justify-center gap-x-4">
                             <div className="w-[35%]">
                               <h1>Quantity</h1>
@@ -467,11 +431,10 @@ const AdminOrders: FC = () => {
                               <h1>Action</h1>
                             </div>
                           </div>
-                        )}
                       </div>
                       <div>
                         <div className="flex justify-between">
-                          <TabsContent value="items" className="w-full">
+                          <div className="w-full">
                             <div className="flex flex-col gap-y-3 px-3 pb-4">
                               {selectedInvoice.MenuItems.map((menuItem) => (
                                 <div className="text-white items-center flex border border-primary-border px-2.5 py-2 rounded-lg">
@@ -535,74 +498,7 @@ const AdminOrders: FC = () => {
                                 </div>
                               </div>
                             </div>
-                          </TabsContent>
-                          <TabsContent value="edit" className="w-full">
-                            <div className="flex flex-col gap-y-3 px-3 pb-4">
-                              {selectedInvoice.MenuItems.map(
-                                (menuItem, mealIndex) => (
-                                  <div className="text-white items-center border border-primary-border px-2.5 py-2 rounded-lg flex">
-                                    <div className="w-[60%] flex gap-x-3">
-                                      <div>
-                                        <Image
-                                          src={orderImg}
-                                          alt="img"
-                                          className=""
-                                        />
-                                      </div>
-                                      <p className="m-auto">{menuItem.name}</p>
-                                    </div>
-                                    <div className="w-[40%] text-center flex">
-                                      <div className="w-[70%] flex justify-evenly">
-                                        <p
-                                          onClick={() =>
-                                            handleQuantityChange(
-                                              mealIndex,
-                                              "increment"
-                                            )
-                                          }
-                                          className="transparent-btn cursor-pointer rounded-lg bg-white text-black justify-center"
-                                        >
-                                          <Plus className="w-3" />
-                                        </p>
-                                        <p className="transparent-btn rounded-lg justify-center">
-                                          {menuItem.quantity}
-                                        </p>
-                                        <p
-                                          onClick={() =>
-                                            handleQuantityChange(
-                                              mealIndex,
-                                              "decrement"
-                                            )
-                                          }
-                                          className="transparent-btn cursor-pointer rounded-lg bg-white text-black justify-center"
-                                        >
-                                          <Minus className="w-3" />
-                                        </p>
-                                      </div>
-                                      <div className="w-[30%]">
-                                        <Trash2
-                                          onClick={() =>
-                                            onDeleteItem(mealIndex)
-                                          }
-                                          className="m-auto cursor-pointer text-text-cancelled"
-                                        />
-                                      </div>
-                                    </div>
-                                  </div>
-                                )
-                              )}
-                            </div>
-
-                            <div>
-                              <div className="flex justify-between p-3 items-center border-t border-primary-border text-white">
-                                <div className=" w-fit m-auto text-white">
-                                  <button className="flex rounded-xl bg-text-completed p-2 ">
-                                    <Check /> Save Changes
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </TabsContent>
+                          </div>
                         </div>
                       </div>
                     </Tabs>
@@ -617,4 +513,4 @@ const AdminOrders: FC = () => {
   );
 };
 
-export default AdminOrders;
+export default WaiterOrders;

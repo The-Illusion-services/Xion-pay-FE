@@ -22,7 +22,7 @@ let title = "Start";
 
 const Start: FC = () => {
   return (
-    <AuthLayout heading={"Welcome"} title={title}>
+    <AuthLayout title={title}>
       <AdminNavbar title={"Welcome"} />
       <PageAnimation>
         <Container className={"min-h-[40rem]"}>

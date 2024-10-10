@@ -101,7 +101,6 @@ const Sidebar = ({ title }: any) => {
         </div>
       </div>
       <div className="md:hidden flex bg-black px-4 h-16 fixed bottom-0 w-full z-50">
-        {/* <h1 className="text-white">hiiiiiii</h1> */}
         <div className="text-xs flex w-full justify-between items-center">
           <div
             className={`nav-item ${

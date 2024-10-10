@@ -24,13 +24,9 @@ import orderImg from "public/orderimg.png";
 import DefaultTable from "../../../table";
 import MenuGrid from "../../menuGrid";
 
-const AdminMenuTable = ({
+const AdminUsersTable = ({
   children,
   view,
-  invoiceData,
-  setIsOpen,
-  setSelectedInvoice,
-  selectedInvoice,
   tabHeaders,
   tableHeaders,
   className,
@@ -87,23 +83,12 @@ const AdminMenuTable = ({
           >
             {Object.keys(tabHeaders || {}).map((item, index) => (
               <TabsContent value={item} className="w-full">
-                {view ? (
-                  <div>
-                    <MenuGrid
-                      invoiceData={invoiceData}
-                      setIsOpen={setIsOpen}
-                      setSelectedInvoice={setSelectedInvoice}
-                      selectedInvoice={selectedInvoice}
-                    />
-                  </div>
-                ) : (
-                  <div className={className}>
-                    <DefaultTable
-                      children={children}
-                      tableHeaders={tableHeaders}
-                    />
-                  </div>
-                )}
+                <div className={className}>
+                  <DefaultTable
+                    children={children}
+                    tableHeaders={tableHeaders}
+                  />
+                </div>
               </TabsContent>
             ))}
           </div>
@@ -113,4 +98,4 @@ const AdminMenuTable = ({
   );
 };
 
-export default AdminMenuTable;
+export default AdminUsersTable;
