@@ -182,7 +182,7 @@ const WaiterOrders: FC = () => {
   let tabKey: any = "";
   let tabValue: any = "";
   let title = "Orders";
-
+// TODO: 404 page
   return (
     <AuthLayout subtitle="Waiter" title={title}>
       <AdminNavbar title={title} />

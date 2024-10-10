@@ -26,7 +26,7 @@ const invoiceData = [
     Name: "Macaroni with Chicken",
     Price: "120",
     Discount: "No Discount",
-    Description: "random text about some intercontinental dish or whatever",
+    Description: "random text about some lorem ipsum intercontinental dish or whatever",
     Department: "Kitchen",
   },
   {
@@ -37,7 +37,7 @@ const invoiceData = [
     Name: "Macaroni with Chicken",
     Price: "120",
     Discount: "No Discount",
-    Description: "random text about some intercontinental dish or whatever",
+    Description: "random text about some lorem ipsum intercontinental dish or whatever",
     Department: "Kitchen",
   },
   {
@@ -48,7 +48,7 @@ const invoiceData = [
     Name: "Macaroni with Chicken",
     Price: "120",
     Discount: "No Discount",
-    Description: "random text about some intercontinental dish or whatever",
+    Description: "random text about some lorem ipsum intercontinental dish or whatever",
     Department: "Kitchen",
   },
   {
@@ -59,7 +59,7 @@ const invoiceData = [
     Name: "Macaroni with Chicken",
     Price: "120",
     Discount: "No Discount",
-    Description: "random text about some intercontinental dish or whatever",
+    Description: "random text about some lorem ipsum intercontinental dish or whatever",
     Department: "Kitchen",
   },
 ];
@@ -299,8 +299,8 @@ const Menu: FC = () => {
                                 <p>Price</p>
                                 <p>${selectedInvoice.Price} </p>
                               </div>
-                              <div className="flex justify-between">
-                                <p className="pr-6">Description</p>
+                              <div className="flex justify-between gap-x-3">
+                                <p>Description</p>
                                 <p>{selectedInvoice.Description} </p>
                               </div>
                             </div>
