@@ -22,6 +22,7 @@ export default function AuthLayout({
   const router = useRouter();
   const { token } = useAuthToken();
   title = title || "Page Title";
+  subtitle = subtitle || ""
   description = description || `Serviette's ${subtitle} ${title} page`;
   heading = heading || title;
 
