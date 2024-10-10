@@ -400,8 +400,8 @@ const handleTabChange: any = (event: any, key: any, value: any) => {
 };
 const WaiterDashboard: FC = () => {
   let title = "Dashboard";
-//TODO: chart mobile view
-//TODO: next waiter admin routing for sidenavbar
+  //TODO: chart mobile view
+  //TODO: next waiter admin routing for sidenavbar
   return (
     <AuthLayout title={title}>
       <AdminNavbar title={title} />
@@ -1010,7 +1010,7 @@ const WaiterDashboard: FC = () => {
                                   </div>
                                   <div className="lg:gap-x-2 flex w-full justify-between items-center">
                                     <div className="bg-status-cancelled p-1 rounded-md">
-                                      <NotepadText className="w-5"  />
+                                      <NotepadText className="w-5" />
                                     </div>
                                     <div className="lg:pl-0 pl-1 lg:w-48 w-44">
                                       <h1 className="text-lg text-white">
