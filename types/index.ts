@@ -37,7 +37,7 @@ export type Menus = {
   Department: string;
 }
 
-export type Users = {
+export type User = {
   UserId: number;
   Name: string;
   Email: string,
