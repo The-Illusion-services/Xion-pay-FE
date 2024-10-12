@@ -7,17 +7,12 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import {
   Check,
   ChevronDown,
   ChevronUp,
-  ChevronsUpDown,
   Clock,
   Edit3,
   EllipsisVertical,
@@ -43,15 +38,6 @@ import orderImg2 from "public/auth-email.png";
 import Sidebar from "@/components/shared/nav/sidebar";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { handleRowClick } from "@/utils/modal";
 import { useForm } from "react-hook-form";
 
 const departments: string[] = [
@@ -139,7 +125,6 @@ const defaultOrder: OrderItems = {
   location: "",
   orderType: "",
   orderTime: "",
-  estimatedDeliveryTime: "",
   handlingDepartment: [],
   orderItems: [],
 };
@@ -235,7 +220,6 @@ const CreateOrder: FC = () => {
       }));
     }
   };
-  console.log(order);
 
   const handleQuantityChange = (mealIndex: number, type: string) => {
     setOrder((prevOrder) => {
@@ -289,8 +273,24 @@ const CreateOrder: FC = () => {
       orderItems: [...prevOrder.orderItems],
     }));
   };
+
+  const isOrderComplete = () => {
+    return (
+      order.fname !== "" &&
+      order.lname !== "" &&
+      order.phone !== "" &&
+      order.location !== "" &&
+      // order.orderType !== '' &&
+      order.orderTime !== "" &&
+      order.handlingDepartment.length > 0 &&
+      order.orderItems.length > 0
+    );
+  };
   console.log(order);
 
+  const handleOrder = () => {
+    console.log("hi");
+  };
   const title = "Orders";
 
   return (
@@ -798,7 +798,11 @@ const CreateOrder: FC = () => {
                               </div>
                             </div>
                             <div className="p-3 w-full bg-neutral-700 rounded-b-md">
-                              <button className="w-full py-2 rounded-md bg-lime-700 text-black">
+                              <button
+                                disabled={!isOrderComplete()}
+                                onClick={() => handleOrder()}
+                                className={`place-order-btn ${isOrderComplete() ? 'bg-primary-green' : 'bg-lime-700'} w-full py-2 rounded-md text-black`}
+                              >
                                 Place Order
                               </button>
                             </div>
@@ -822,7 +826,11 @@ const CreateOrder: FC = () => {
                           </p>
                         </Button>
                       </DrawerTrigger>
-                      <button className="w-fit py-2 px-3 text-sm rounded-lg bg-primary-green text-black">
+                      <button
+                        disabled={!isOrderComplete()}
+                        onClick={() => handleOrder()}
+                        className={`place-order-btn ${isOrderComplete() ? 'bg-primary-green' : 'bg-lime-700'} w-full py-2 rounded-md text-black`}
+                      >
                         Place Order
                       </button>
                       <DrawerContent className="h-[85%]  text-secondary-border bg-secondary-dark border-secondary-transparent-border w-full flex px-4 pb-4">

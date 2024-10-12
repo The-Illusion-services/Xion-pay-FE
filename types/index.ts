@@ -79,7 +79,6 @@ export type OrderItems = {
   location: string;
   orderType: string;
   orderTime: string;
-  estimatedDeliveryTime: string;
   handlingDepartment: string[];
   orderItems: OrderMenuItem[];
 };
