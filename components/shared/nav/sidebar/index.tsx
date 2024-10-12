@@ -11,11 +11,7 @@ import {
 } from "lucide-react";
 import React from "react";
 import { usePathname } from "next/navigation";
-import {
-  Mail,
-  User,
-  Users,
-} from "lucide-react";
+import { Mail, User, Users } from "lucide-react";
 
 const Sidebar = ({ title }: any) => {
   const navItems = [
@@ -100,60 +96,72 @@ const Sidebar = ({ title }: any) => {
           ))}
         </div>
       </div>
-      <div className="md:hidden flex bg-black px-4 h-16 fixed bottom-0 w-full z-50">
-        <div className="text-xs flex w-full justify-between items-center">
-          <div
-            className={`nav-item ${
-              path === "/admin/dashboard" ? "text-white border-primary-green border-b-2" : "text-secondary-border"
-            }`}
-          >
-            <Link href="/admin/dashboard">
-              <LayoutDashboard className="m-auto w-6" />
-              <h1>Dashboard</h1>
-            </Link>
-          </div>
-          <div
-            className={`nav-item ${
-              path === "/admin/menu" ? "text-white border-primary-green border-b-2" : "text-secondary-border"
-            }`}
-          >
-            <Link href="/admin/menu">
-              <UtensilsCrossed className="m-auto w-6" />
-              <h1>Menu</h1>
-            </Link>
-          </div>
-          <div
-            className={`nav-item ${
-              path === "/admin/orders" ? "text-white border-primary-green border-b-2" : "text-secondary-border"
-            }`}
-          >
-            <Link href="/admin/orders">
-              <NotepadText className="m-auto w-6" />
-              <h1>Orders</h1>
-            </Link>
-          </div>
-          <div
-            className={`nav-item ${
-              path === "#" ? "text-white border-primary-green border-b-2" : "text-secondary-border"
-            }`}
-          >
-            <Link href="#">
-              <User className="m-auto w-6" />
-              <h1>Profile</h1>
-            </Link>
-          </div>
-          <div
-            className={`nav-item ${
-              path === "#" ? "text-white border-primary-green border-b-2" : "text-secondary-border"
-            }`}
-          >
-            <Link href="#">
-              <Mail className="m-auto w-6" />
-              <h1>Messages</h1>
-            </Link>
+      {path === "/waiter/create-order" ? null : (
+        <div className="md:hidden flex bg-black px-4 h-16 fixed bottom-0 w-full z-50">
+          <div className="text-xs flex w-full justify-between items-center">
+            <div
+              className={`nav-item ${
+                path === "/admin/dashboard"
+                  ? "text-white border-primary-green border-b-2"
+                  : "text-secondary-border"
+              }`}
+            >
+              <Link href="/admin/dashboard">
+                <LayoutDashboard className="m-auto w-6" />
+                <h1>Dashboard</h1>
+              </Link>
+            </div>
+            <div
+              className={`nav-item ${
+                path === "/admin/menu"
+                  ? "text-white border-primary-green border-b-2"
+                  : "text-secondary-border"
+              }`}
+            >
+              <Link href="/admin/menu">
+                <UtensilsCrossed className="m-auto w-6" />
+                <h1>Menu</h1>
+              </Link>
+            </div>
+            <div
+              className={`nav-item ${
+                path === "/admin/orders"
+                  ? "text-white border-primary-green border-b-2"
+                  : "text-secondary-border"
+              }`}
+            >
+              <Link href="/admin/orders">
+                <NotepadText className="m-auto w-6" />
+                <h1>Orders</h1>
+              </Link>
+            </div>
+            <div
+              className={`nav-item ${
+                path === "#"
+                  ? "text-white border-primary-green border-b-2"
+                  : "text-secondary-border"
+              }`}
+            >
+              <Link href="#">
+                <User className="m-auto w-6" />
+                <h1>Profile</h1>
+              </Link>
+            </div>
+            <div
+              className={`nav-item ${
+                path === "#"
+                  ? "text-white border-primary-green border-b-2"
+                  : "text-secondary-border"
+              }`}
+            >
+              <Link href="#">
+                <Mail className="m-auto w-6" />
+                <h1>Messages</h1>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

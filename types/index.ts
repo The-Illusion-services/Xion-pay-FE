@@ -1,5 +1,5 @@
 export type TAppUser = {
-  id: string; 
+  id: string;
 };
 
 export type TAppUserState = {
@@ -20,27 +20,27 @@ export type Invoice = {
   TableNo: string;
   MenuItems: MenuItem[];
   Price: number;
-  Discount: number,
-  amountPaid: number,
+  Discount: number;
+  amountPaid: number;
   TimeofOrder: string;
   Status: string;
-}
+};
 
 export type Menus = {
   MenuId: number;
-  Price: number,
+  Price: number;
   Category: string;
   Description: string;
   mealImage: string;
   Name: string;
   Discount: string;
   Department: string;
-}
+};
 
 export type User = {
   UserId: number;
   Name: string;
-  Email: string,
+  Email: string;
   userImage: string;
   Type: string;
   Phone: string;
@@ -50,7 +50,7 @@ export type User = {
   Requests: number;
   Completed: number;
   Sales: number;
-}
+};
 
 export type AdminTable = {
   children?: any;
@@ -63,4 +63,23 @@ export type AdminTable = {
   tabHeaders?: {};
   tableHeaders?: any;
   className?: any;
+};
+
+export type OrderMenuItem = {
+  MenuId: string;
+  Name: string;
+  quantity: number;
+  Price: number;
 }
+
+export type OrderItems = {
+  fname: string;
+  lname: string;
+  phone: string;
+  location: string;
+  orderType: string;
+  orderTime: string;
+  estimatedDeliveryTime: string;
+  handlingDepartment: string[];
+  orderItems: OrderMenuItem[];
+};
