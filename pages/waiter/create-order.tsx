@@ -39,6 +39,8 @@ import Sidebar from "@/components/shared/nav/sidebar";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
+import OrderTab from "@/components/shared/waiter/create-order-tab";
+import OrderDropDown from "@/components/shared/waiter/create-order-tab";
 
 const departments: string[] = [
   "kitchen",
@@ -125,6 +127,7 @@ const defaultOrder: OrderItems = {
   location: "",
   orderType: "",
   orderTime: "",
+  tableNumber: "",
   handlingDepartment: [],
   orderItems: [],
 };
@@ -138,6 +141,10 @@ const defaultMeal: OrderMenuItem = {
 
 const CreateOrder: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("toGo");
+  const [isFormValid, setIsFormValid] = useState(true);
+
   const [selectedDepartments, setSelectedDepartments] = useState<{
     [department: string]: boolean;
   }>({});
@@ -151,12 +158,16 @@ const CreateOrder: FC = () => {
     register: register1,
     handleSubmit: handleSubmit1,
     formState: { errors: errors1 },
-  } = useForm();
+    watch,
+  } = useForm({
+    defaultValues: defaultOrder
+  });
 
   const {
     register: register2,
+    setValue,
     handleSubmit: handleSubmit2,
-    formState: { errors: errors2 },
+    formState: { errors: errors2, isValid: isValid2 },
   } = useForm();
 
   const handleDepartmentSelect = (department: string) => {
@@ -267,31 +278,76 @@ const CreateOrder: FC = () => {
   };
 
   const onSubmit2 = (data: any) => {
+    
+    if (selectedTab === "delivery") {
+      data.tableNumber = "";
+      order.tableNumber = "";
+      setValue("tableNumber", "")
+
+    }
+    if (selectedTab === "dineIn") {
+      data.location = "";
+      data.orderTime = "";
+    }
+    if (selectedTab === "toGo") {
+      data.location = "";
+      data.orderTime = "";
+      data.tableNumber = "";
+      order.tableNumber = "";
+      setValue("tableNumber", "")
+
+    }
+
+    if (
+      (selectedTab === "delivery" && !data.location && !data.orderTime) ||
+      (selectedTab === "delivery" && data.location === "") ||
+      (selectedTab === "delivery" && data.orderTime === "")
+    ) {
+      return setIsFormValid(false);
+    }
+    if (
+      (selectedTab === "dineIn" && !data.tableNumber) ||
+      (selectedTab === "dineIn" && data.tableNumber === "")
+    ) {
+      console.log("here");
+
+      return setIsFormValid(false);
+    }
+
     setOrder((prevOrder) => ({
       ...prevOrder,
       ...data,
+      orderType: selectedTab,
       orderItems: [...prevOrder.orderItems],
     }));
+    setIsFormValid(true);
+    console.log("hiiii",data.tableNumber);
+
   };
+  console.log("toooo", order);
+
+  // console.log("data:", data);
 
   const isOrderComplete = () => {
     return (
       order.fname !== "" &&
       order.lname !== "" &&
       order.phone !== "" &&
-      order.location !== "" &&
-      // order.orderType !== '' &&
-      order.orderTime !== "" &&
+      // order.location !== "" &&
+      order.orderType !== "" &&
+      // order.orderTime !== "" &&
       order.handlingDepartment.length > 0 &&
       order.orderItems.length > 0
     );
   };
-  console.log(order);
+  // console.log(order);
 
   const handleOrder = () => {
-    console.log("hi");
+    // clear order
+    console.log("order created");
+    setOrder(defaultOrder);
   };
-  const title = "Orders";
+  const title = "Create Order";
 
   return (
     <AuthLayout title={title}>
@@ -561,100 +617,19 @@ const CreateOrder: FC = () => {
                             </CollapsibleTrigger>
                           </div>
                           <CollapsibleContent className="px-4 py-3">
-                            <form
-                              onSubmit={handleSubmit2(onSubmit2)}
-                              className="w-full"
-                            >
-                              <Tabs defaultValue="delivery" className="w-full">
-                                <TabsList className="bg-primary-dark grid w-full grid-cols-2">
-                                  <TabsTrigger
-                                    value="delivery"
-                                    className="active-sub-tab text-xs md:px-6 py-1 rounded-lg"
-                                  >
-                                    Delivery
-                                  </TabsTrigger>
-                                  <TabsTrigger
-                                    value="password"
-                                    className="active-sub-tab text-xs md:px-6 py-1 rounded-lg"
-                                  >
-                                    Password
-                                  </TabsTrigger>
-                                </TabsList>
-                                <TabsContent
-                                  value="delivery"
-                                  className="flex flex-col gap-y-4"
-                                >
-                                  <div>
-                                    <Label
-                                      htmlFor="location"
-                                      className="text-white font-normal"
-                                    >
-                                      Delivery To
-                                    </Label>
-                                    <div className="flex items-end">
-                                      <Input
-                                        type="text"
-                                        id="location"
-                                        placeholder="Enter a location"
-                                        {...register2("location", {
-                                          required: true,
-                                        })}
-                                        className="md:w-1/2 w-full border-y-0 border-x-0 rounded-none peer focus:border-b-primary-orange transition-colors duration-300 border-b border-primary-border focus-visible:ring-offset-0 focus-visible:ring-0 px-0 bg-transparent"
-                                      />
-                                      <MapPin className="w-5 h-5 peer-focus:text-primary-orange" />
-                                    </div>
-                                    {errors2.location && (
-                                      <p className="text-text-cancelled text-sm">
-                                        Location is required
-                                      </p>
-                                    )}
-                                  </div>
-                                  <div>
-                                    <Label
-                                      htmlFor="location"
-                                      className="text-white font-normal"
-                                    >
-                                      Order Time
-                                    </Label>
-                                    <div className="flex items-end">
-                                      <Input
-                                        type="time"
-                                        id="time"
-                                        placeholder="Enter time of order"
-                                        {...register2("orderTime", {
-                                          required: true,
-                                        })}
-                                        className="md:w-1/2 w-full border-y-0 border-x-0 rounded-none peer focus:border-b-primary-orange transition-colors duration-300 border-b border-primary-border focus-visible:ring-offset-0 focus-visible:ring-0 px-0 bg-transparent"
-                                      />
-                                      <Clock className="w-5 h-5 peer-focus:text-primary-orange" />
-                                    </div>
-                                    {errors2.orderTime && (
-                                      <p className="text-text-cancelled text-sm">
-                                        Time is required
-                                      </p>
-                                    )}
-                                  </div>
-                                  <div className="flex items-center gap-x-2">
-                                    <Button className="transparent-btn">
-                                      Estimate Delivery Time
-                                    </Button>
-                                    <p className="font-medium text-white">
-                                      10:00 AM
-                                    </p>
-                                  </div>
-                                </TabsContent>
-                                <TabsContent value="password">
-                                  <h1>hi</h1>
-                                </TabsContent>
-                              </Tabs>
-
-                              <div className="md:w-1/2 w-full flex gap-x-4 justify-end text-primary-green font-medium">
-                                <button className="">Cancel</button>
-                                <button type="submit" className="">
-                                  Save
-                                </button>
-                              </div>
-                            </form>
+                            <OrderDropDown
+                              handleSubmit2={handleSubmit2}
+                              onSubmit2={onSubmit2}
+                              register2={register2}
+                              setValue={setValue}
+                              errors2={errors2}
+                              isFormValid={isFormValid}
+                              watch={watch}
+                              setIsSubmitted={setIsSubmitted}
+                              isSubmitted={isSubmitted}
+                              setSelectedTab={setSelectedTab}
+                              selectedTab={selectedTab}
+                            />
                           </CollapsibleContent>
                         </Collapsible>
                         <Collapsible
@@ -801,7 +776,11 @@ const CreateOrder: FC = () => {
                               <button
                                 disabled={!isOrderComplete()}
                                 onClick={() => handleOrder()}
-                                className={`place-order-btn ${isOrderComplete() ? 'bg-primary-green' : 'bg-lime-700'} w-full py-2 rounded-md text-black`}
+                                className={`place-order-btn ${
+                                  isOrderComplete()
+                                    ? "bg-primary-green"
+                                    : "bg-lime-700"
+                                } w-full py-2 rounded-md text-black`}
                               >
                                 Place Order
                               </button>
@@ -829,7 +808,9 @@ const CreateOrder: FC = () => {
                       <button
                         disabled={!isOrderComplete()}
                         onClick={() => handleOrder()}
-                        className={`place-order-btn ${isOrderComplete() ? 'bg-primary-green' : 'bg-lime-700'} w-full py-2 rounded-md text-black`}
+                        className={`place-order-btn ${
+                          isOrderComplete() ? "bg-primary-green" : "bg-lime-700"
+                        } w-full py-2 rounded-md text-black`}
                       >
                         Place Order
                       </button>

@@ -882,7 +882,6 @@ const AdminDashboard: FC = () => {
                                   }}
                                 >
                                   <XAxis className="barchat" dataKey="name" />
-                                  <YAxis />
                                   <Tooltip />
                                   <Bar
                                     dataKey="decrement"

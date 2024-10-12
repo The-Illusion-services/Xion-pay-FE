@@ -76,9 +76,10 @@ export type OrderItems = {
   fname: string;
   lname: string;
   phone: string;
-  location: string;
   orderType: string;
-  orderTime: string;
+  location?: string;
+  orderTime?: string;
+  tableNumber?: string;
   handlingDepartment: string[];
   orderItems: OrderMenuItem[];
 };

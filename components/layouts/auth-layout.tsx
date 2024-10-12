@@ -38,7 +38,7 @@ export default function AuthLayout({
 
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
-        <meta name="author" content="Blnk" />
+        <meta name="author" content="Serviette" />
         <meta content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
         <meta name="description" content={description} />
         <meta name="title" content={description} />
@@ -48,10 +48,10 @@ export default function AuthLayout({
         <meta property="og:site_name" content="Serviette" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:locale:alternate" content="en_US" />
-        {/* <meta property="og:url" content="http://https://www.blnkfinance.com/" />
+         <meta property="og:url" content="http://https://www.blnkfinance.com/" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:image" content="http://https://www.blnkfinance.com/images/logo-preview.png" />
+        {/*<meta property="og:image" content="http://https://www.blnkfinance.com/images/logo-preview.png" />
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="http://https://www.blnkfinance.com/" />
         <meta property="twitter:title" content={title} />
