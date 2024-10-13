@@ -1,11 +1,11 @@
 "use client";
-import { AuthLayout } from "@layouts";
+import { AuthLayout, WaiterLayout } from "@layouts";
 import Link from "next/link";
 import React, { FC, useState } from "react";
 import { PageAnimation } from "@/components/serviette-ui";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { AdminNavbar, Modal } from "@/components/shared";
+import { MainNavbar, Modal } from "@/components/shared";
 import {
   ArrowBigDown,
   BookCheck,
@@ -19,9 +19,6 @@ import {
   EclipseIcon,
   Edit3,
   EllipsisVertical,
-  LayoutGrid,
-  List,
-  LogOut,
   Mail,
   MessageCircleQuestion,
   Minus,
@@ -88,8 +85,9 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Sidebar from "@/components/shared/nav/sidebar";
+import Sidebar from "@/components/shared/nav/sidebar/admin";
 import AdminOrdersTable from "@/components/shared/admin/table/orders";
+import AdminLayout from "@/components/layouts/admin-layout";
 const BarChart = dynamic(
   () => import("recharts").then((recharts) => recharts.BarChart),
   { ssr: false }
@@ -479,13 +477,12 @@ const AdminDashboard: FC = () => {
   let title = "Dashboard";
 
   return (
-    <AuthLayout title={title} >
-      <AdminNavbar title={title} />
-      <PageAnimation>
-        <div className="flex justify-end h-screen w-full">
-          <Sidebar />
+    <AdminLayout title={title}>
+      <MainNavbar title={title} />
+      <div className="flex justify-end h-screen w-full">
+        <Sidebar />
 
-          <Container>
+        <Container>
           <div className="authcard3 h-fit lg:px-12 md:px-8 px-0">
             <Tabs defaultValue={tabs[0]} className="w-full">
               <ScrollArea className="px-3 w-full whitespace-nowrap">
@@ -882,7 +879,7 @@ const AdminDashboard: FC = () => {
                                   }}
                                 >
                                   <XAxis className="barchat" dataKey="name" />
-                                  <Tooltip />
+                                  {/* <Tooltip /> */}
                                   <Bar
                                     dataKey="decrement"
                                     stackId="a"
@@ -1080,14 +1077,13 @@ const AdminDashboard: FC = () => {
                         </div>
 
                         <AdminOrdersTable
-                          //  view={view}
-                           tableHeaders={tableHeaders}
-                           tabHeaders={tabHeaders}
-                           invoiceData={invoiceData}
-                          //  setIsOpen={setIsOpen}
-                          //  setSelectedInvoice={setSelectedInvoice}
-                          //  selectedInvoice={selectedInvoice}
-                        className="h-80 overflow-scroll">
+                          tableHeaders={tableHeaders}
+                          tabHeaders={tabHeaders}
+                          invoiceData={invoiceData}
+                          currentPage={1}
+                          items_per_page={4}
+                          className="h-80 overflow-scroll"
+                        >
                           <TableBody className="h-80">
                             {invoiceData.slice(0, 10).map((invoice, index) => (
                               <TableRow
@@ -1164,11 +1160,10 @@ const AdminDashboard: FC = () => {
                 </TabsContent>
               ))}
             </Tabs>
-            </div>
-          </Container>
-        </div>
-      </PageAnimation>
-    </AuthLayout>
+          </div>
+        </Container>
+      </div>
+    </AdminLayout>
   );
 };
 

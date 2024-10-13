@@ -24,6 +24,7 @@ import orderImg from "public/orderimg.png";
 import DefaultTable from "../../../table";
 import { handleRowClick } from "@/utils/modal";
 import OrdersGrid from "../../ordersGrid";
+import DataPagination from "@/components/serviette-ui/Pagination";
 
 const defaultInvoice: Invoice = {
   OrderID: 0,
@@ -43,6 +44,11 @@ const AdminOrdersTable = ({
   setIsOpen,
   setSelectedInvoice,
   selectedInvoice,
+  currentPage,
+  setCurrentPage,
+  total_pages,
+  items_per_page,
+  getPageNumbers,
   tabHeaders,
   tableHeaders,
   className,
@@ -116,6 +122,14 @@ const AdminOrdersTable = ({
                     />
                   </div>
                 )}
+                <DataPagination
+                  data={invoiceData}
+                  setCurrentPage={setCurrentPage}
+                  currentPage={currentPage}
+                  total_pages={total_pages}
+                  items_per_page={items_per_page}
+                  getPageNumbers={getPageNumbers}
+                />
               </TabsContent>
             ))}
           </div>

@@ -9,9 +9,10 @@ const Container = ({ children, className }: any) => {
       className={`nav-item ${
         path === "/auth/sign-up" ||
         path === "/auth/sign-in" ||
-        path === "/" ||
-        path === "/auth/start"
-          ? ""
+        path === "/auth/start" ||
+        path === "/create-order" ||
+        path === "/"
+          ? "w-full"
           : "lg:w-[95%] md:w-[93%] w-full justify-end"
       } authcard1 ${className}`}
     >

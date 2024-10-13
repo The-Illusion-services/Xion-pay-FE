@@ -52,7 +52,7 @@ const OrdersGrid = ({
   return (
     <div>
       <div className="flex flex-wrap md:justify-start justify-center gap-4">
-        {invoiceData.map((invoice: Invoice, index: number) => (
+        {invoiceData().map((invoice: Invoice, index: number) => (
           <div
             onClick={() =>
               handleRowClick(invoice, setIsOpen, setSelectedInvoice)
@@ -86,11 +86,6 @@ const OrdersGrid = ({
                         {invoice.MenuItems[0].name}
                       </p>
                     </div>
-                    {/* {invoice.MenuItems.length > 1 ? (
-                            <h1 className="m-auto w-fit h-fit py-[0.1rem] px-[0.3rem] border-2 border-primary-green border-dashed rounded-full font-medium">
-                              +{invoice.MenuItems.length - 1}
-                            </h1>
-                          ) : null} */}
                   </div>
                   <p>${invoice.Price}</p>
                 </div>

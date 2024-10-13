@@ -4,68 +4,13 @@ import {
   LayoutDashboard,
   NotepadText,
   UtensilsCrossed,
-  ChartSpline,
-  MessageSquarePlus,
-  Bolt,
-  ShieldQuestion,
 } from "lucide-react";
 import React from "react";
 import { usePathname } from "next/navigation";
-import { Mail, User, Users } from "lucide-react";
+import { Mail, User } from "lucide-react";
 
-const Sidebar = ({ title }: any) => {
-  const navItems = [
-    {
-      title: "Dashboard",
-      link: "/admin/dashboard",
-      tag: LayoutDashboard,
-    },
-    {
-      title: "Menu",
-      link: "/admin/menu",
-      tag: UtensilsCrossed,
-    },
-    {
-      title: "Orders",
-      link: "/admin/orders",
-      tag: NotepadText,
-    },
-    {
-      title: "Messages",
-      link: "/",
-      tag: Mail,
-    },
-    {
-      title: "Analytics",
-      link: "/",
-      tag: ChartSpline,
-    },
-    {
-      title: "User Management",
-      link: "/admin/users",
-      tag: Users,
-    },
-    {
-      title: "Reviews",
-      link: "/",
-      tag: MessageSquarePlus,
-    },
-    {
-      title: "Profile",
-      link: "/",
-      tag: User,
-    },
-    {
-      title: "Account Settings",
-      link: "/",
-      tag: Bolt,
-    },
-    {
-      title: "Help Center",
-      link: "/",
-      tag: ShieldQuestion,
-    },
-  ];
+const Sidebar = ({ navItems }: any) => {
+
   const path = usePathname();
 
   return (
@@ -74,7 +19,7 @@ const Sidebar = ({ title }: any) => {
         <div className="flex h-fit flex-col gap-y-4 ">
           <Menu className="w-7 h-7" />
 
-          {navItems.map((item, index) => (
+          {navItems.map((item: any, index: number) => (
             <Link
               key={index}
               href={item.link}

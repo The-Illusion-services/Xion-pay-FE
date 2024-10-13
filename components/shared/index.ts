@@ -1,10 +1,10 @@
 import Navbar from "./nav/index";
-import AdminNavbar from "./nav/admin-nav/index";
+import MainNavbar from "./nav/main-nav/index";
 import Modal from "./modal/index";
 
 
 export {
     Navbar,
-    AdminNavbar,
+    MainNavbar,
     Modal
 };

@@ -33,7 +33,7 @@ const MenuGrid = ({
   return (
     <div>
       <div className="flex flex-wrap justify-center gap-4">
-        {invoiceData.map((invoice: Menus, index: number) => (
+        {invoiceData().map((invoice: Menus, index: number) => (
           <div
             onClick={() =>
               handleRowClick(invoice, setIsOpen, setSelectedInvoice)

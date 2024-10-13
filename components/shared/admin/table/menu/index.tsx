@@ -16,6 +16,15 @@ import {
   UtensilsCrossed,
   X,
 } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AdminTable, Invoice, Menus } from "@/types";
@@ -23,6 +32,7 @@ import Image from "next/image";
 import orderImg from "public/orderimg.png";
 import DefaultTable from "../../../table";
 import MenuGrid from "../../menuGrid";
+import DataPagination from "@/components/serviette-ui/Pagination";
 
 const AdminMenuTable = ({
   children,
@@ -31,10 +41,16 @@ const AdminMenuTable = ({
   setIsOpen,
   setSelectedInvoice,
   selectedInvoice,
+  currentPage,
+  setCurrentPage,
+  total_pages,
+  items_per_page,
+  getPageNumbers,
   tabHeaders,
   tableHeaders,
   className,
 }: AdminTable) => {
+
   let tabKey: any = "";
   let tabValue: any = "";
 
@@ -104,6 +120,14 @@ const AdminMenuTable = ({
                     />
                   </div>
                 )}
+                <DataPagination
+                  data={invoiceData}
+                  setCurrentPage={setCurrentPage}
+                  currentPage={currentPage}
+                  total_pages={total_pages}
+                  items_per_page={items_per_page}
+                  getPageNumbers={getPageNumbers}
+                />
               </TabsContent>
             ))}
           </div>

@@ -15,8 +15,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import orderImg from "public/orderimg.png";
+import Link from "next/link";
 
-const AdminNavbar = ({ title }: any) => {
+const MainNavbar = ({ title }: any) => {
   const navItems = [
     {
       title: "Home",
@@ -41,7 +42,9 @@ const AdminNavbar = ({ title }: any) => {
     <div className="fixed top-0 z-[100] flex w-full justify-between bg-black py-3 text-[#FEFEFE] items-center px-4">
       <>
         <div className="md:flex hidden w-fit h-full pb-1 items-center">
-          <Image alt="logo" src={logo} className="w-32 h-8" />
+          <Link href="#">
+            <Image alt="logo" src={logo} className="w-32 h-8" />
+          </Link>
         </div>
         <div className="md:flex hidden w-fit h-full justify-start items-center xl:gap-x-64 lg:gap-x-40 md:gap-x-1">
           <div>
@@ -209,4 +212,4 @@ const AdminNavbar = ({ title }: any) => {
   );
 };
 
-export default AdminNavbar;
+export default MainNavbar;

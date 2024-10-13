@@ -49,7 +49,7 @@ const OrderDropDown = ({
         <TabsContent value="toGo">
           {selectedTab === "toGo" && (
             <div className="flex items-center gap-x-3">
-              <h1>toGo</h1>
+              <span className="flex gap-x-2">Default Value: <h1 className="font-medium text-neutral-300"> To Go</h1></span>
             </div>
           )}
         </TabsContent>
@@ -111,7 +111,7 @@ const OrderDropDown = ({
         </TabsContent>
       </Tabs>
       <div className="md:w-1/2 w-full flex gap-x-4 justify-end text-primary-green font-medium">
-        <button className="">Cancel</button>
+        {/* <button className="">Cancel</button> */}
         <button type="submit" className="">
           Save
         </button>

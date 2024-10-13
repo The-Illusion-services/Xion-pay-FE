@@ -1,7 +1,7 @@
-import UserLayout from "./user-layout";
+import WaiterLayout from "./waiter-layout";
 import AuthLayout from "./auth-layout"
 
 export {
-    UserLayout,
+    WaiterLayout,
     AuthLayout,
 };

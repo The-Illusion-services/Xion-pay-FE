@@ -13,7 +13,7 @@ import { useAuthToken } from "@hooks";
 import { PageAnimation } from "@/components/serviette-ui";
 import { GoogleSignIn } from "@/components/serviette-icons";
 import { usePathname } from "next/navigation";
-import { AdminNavbar } from "@/components/shared";
+import { MainNavbar } from "@/components/shared";
 import { ChevronRight } from "lucide-react";
 import Container from "@/components/shared/container";
 
@@ -23,8 +23,7 @@ let title = "Start";
 const Start: FC = () => {
   return (
     <AuthLayout title={title}>
-      <AdminNavbar title={"Welcome"} />
-      <PageAnimation>
+      <MainNavbar title={"Welcome"} />
         <Container className={"min-h-[40rem]"}>
           <div className="authcard3 md:pt-24 md:pb-16 py-0 md:px-7 px-0">
             <div className="authcard4">
@@ -54,7 +53,6 @@ const Start: FC = () => {
             </div>
           </div>
         </Container>
-      </PageAnimation>
     </AuthLayout>
   );
 };

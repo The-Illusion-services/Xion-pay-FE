@@ -14,11 +14,17 @@ interface MenuItem {
   price: number;
 }
 
+interface AssignedTo {
+  staffImage: string;
+  name: string;
+}
+
 export type Invoice = {
   OrderID: number;
   Customer: string;
   TableNo: string;
   MenuItems: MenuItem[];
+  AssignedTo?: AssignedTo[];
   Price: number;
   Discount: number;
   amountPaid: number;
@@ -27,6 +33,7 @@ export type Invoice = {
 };
 
 export type Menus = {
+  value?: string;
   MenuId: number;
   Price: number;
   Category: string;
@@ -62,6 +69,12 @@ export type AdminTable = {
   selectedInvoice?: any;
   tabHeaders?: {};
   tableHeaders?: any;
+  currentPage?: number;
+  setCurrentPage?: any;
+  total_pages?: number;
+  items_per_page?: number;
+  getPageNumbers?: any;
+  handlePageChange?: any;
   className?: any;
 };
 
@@ -70,7 +83,7 @@ export type OrderMenuItem = {
   Name: string;
   quantity: number;
   Price: number;
-}
+};
 
 export type OrderItems = {
   fname: string;
