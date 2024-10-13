@@ -78,9 +78,12 @@ const MainNavbar = ({ title }: any) => {
                       className="rounded-full w-10"
                     />
                   </div>
-                  Hello,
-                  <br />
-                  Victoria
+
+                  <span className="max-w-32 truncate">
+                    Hello,
+                    <br />
+                    Victoria
+                  </span>
                   <ChevronDown className="w-7 m-auto text-secondary-border" />
                 </div>
               </DropdownMenuTrigger>
@@ -144,9 +147,11 @@ const MainNavbar = ({ title }: any) => {
                       className="rounded-full w-10"
                     />
                   </div>
-                  Hello,
-                  <br />
-                  Victoria
+                  <span className="max-w-14 truncate">
+                    Hello,
+                    <br />
+                    Victoria
+                  </span>
                   <ChevronDown className="w-7 m-auto text-secondary-border" />
                 </div>
               </DropdownMenuTrigger>

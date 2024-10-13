@@ -62,6 +62,7 @@ any) => {
                 href="#"
                 isActive={currentPage === pageNumber}
                 onClick={() => handlePageClick(pageNumber)}
+                className="w-auto h-auto px-3 py-1"
               >
                 {pageNumber}
               </PaginationLink>

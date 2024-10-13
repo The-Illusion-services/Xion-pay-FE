@@ -25,14 +25,14 @@ const Sidebar = ({ navItems }: any) => {
               href={item.link}
               className={`${
                 item.link === path
-                  ? "group/tag hover:bg-green-600 hover:text-black"
+                  ? "group/tag hover:bg-primary-green hover:text-black"
                   : " hover:bg-gray-300/30"
               } cursor-pointer transition hover:backdrop-blur-sm rounded-md duration-300 flex items-center w-40`}
             >
               <item.tag
                 className={`${
                   item.link === path
-                    ? "text-text-completed group-hover/tag:text-black"
+                    ? "text-primary-green group-hover/tag:text-black"
                     : ""
                 } pl-1 pr-4 w-10 h-8`}
               />
