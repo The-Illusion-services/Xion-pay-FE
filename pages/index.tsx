@@ -1,10 +1,10 @@
 import { AuthLayout } from "@layouts";
-import SignIn from "./auth/sign-in";
+import Start from "./auth/start";
 
 export default function Home() {
   return (
     <AuthLayout heading={"Home"} title={"Home"}>
-      <SignIn/>
+      <Start/>
     </AuthLayout>
   );
 }

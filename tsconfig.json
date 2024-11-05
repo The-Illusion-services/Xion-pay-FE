@@ -22,9 +22,9 @@
       "@shadcn-ui/*": ["components/ui/*"],
       "@pages": ["components/pages/index"],
       "@layouts": ["components/layouts/index"],
-      "@serviette-ui": ["components/serviette-ui/index"],
-      "@serviette-icons": ["components/serviette-icons/index"],
-      "@serviette-illustrations": ["components/serviette-illustrations/index"]
+      "@youchat-ui": ["components/youchat-ui/index"],
+      "@youchat-icons": ["components/youchat-icons/index"],
+      "@youchat-illustrations": ["components/youchat-illustrations/index"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

@@ -33,7 +33,6 @@ export type Invoice = {
 };
 
 export type Menus = {
-  value?: string;
   MenuId: number;
   Price: number;
   Category: string;
@@ -95,4 +94,13 @@ export type OrderItems = {
   tableNumber?: string;
   handlingDepartment: string[];
   orderItems: OrderMenuItem[];
+};
+
+export type createMenu = {
+  price: number;
+  category: string | null;
+  description: string;
+  mealImage: string;
+  name: string;
+  department: string | null;
 };
