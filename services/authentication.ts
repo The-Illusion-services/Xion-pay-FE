@@ -1,19 +1,19 @@
 import { axiosWithoutToken } from "@/utils/axios";
 
 class AuthenticationService {
-  login(payload: { email: string; password?: string }) {
+  login(payload: { mobile: string; password: string }) {
     return axiosWithoutToken.post("/auth/login", {
       ...payload,
     });
   } 
 
-  loginCheck(payload: { email: string }) {
-    return axiosWithoutToken.post("/auth/login", {
-      ...payload,
-    });
-  } 
+  // loginCheck(payload: { email: string }) {
+  //   return axiosWithoutToken.post("/auth/login", {
+  //     ...payload,
+  //   });
+  // } 
 
-  register(payload: { username: string; email: string; password: string }) {
+  register(payload: { fname: string; lname: string; username: string; mobile: string; password: string }) {
     return axiosWithoutToken.post("/auth/register", {
       ...payload,
     });

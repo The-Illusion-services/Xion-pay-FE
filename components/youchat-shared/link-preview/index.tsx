@@ -33,43 +33,68 @@ export default function LinkPreview({ url }: { url: string }) {
   const imageUrl = metadata?.image || img; // Provide a default image
 
   return (
-    <div className="flex flex-col gap-y-1">
-      <Link href="/">
-        <div className="flex items-center gap-x-1 p-1 hover:bg-brown-primary rounded-md">
+    <div className="flex flex-col gap-y-1 px-2 text-white font-medium">
+      <Link target="_blank" href={url}>
+        <div className="flex items-center gap-x-1 p-1 bg-black/80 rounded-md">
           <div>
             <Image alt="img" src={imageUrl} className="size-12 rounded-l-md" />
           </div>
           <div className="text-[0.7rem] leading-[0.8rem]">
             <h2>Mulan - Stroyteller</h2>
-            <h3 className="text-black/55">Reel by @jenysglow</h3>
+            <h3 className="font-normal">Reel by @jenysglow</h3>
             <p>open.spotify.com</p>
           </div>
         </div>
       </Link>
-      <Link href="/">
-        <div className="flex items-center gap-x-1 p-1 hover:bg-brown-primary rounded-md">
+      <Link target="_blank" href={url}>
+        <div className="flex items-center gap-x-1 p-1 bg-black/80 rounded-md">
           <div>
             <Image alt="img" src={imageUrl} className="size-12 rounded-l-md" />
           </div>
           <div className="text-[0.7rem] leading-[0.8rem]">
             <h2>Mulan - Stroyteller</h2>
-            <h3 className="text-black/55">Reel by @jenysglow</h3>
+            <h3 className="font-normal">Reel by @jenysglow</h3>
             <p>open.spotify.com</p>
           </div>
         </div>
       </Link>
-      <Link href="/">
-        <div className="flex items-center gap-x-1 p-1 hover:bg-brown-primary rounded-md">
+      <Link target="_blank" href={url}>
+        <div className="flex items-center gap-x-1 p-1 bg-black/80 rounded-md">
           <div>
             <Image alt="img" src={imageUrl} className="size-12 rounded-l-md" />
           </div>
           <div className="text-[0.7rem] leading-[0.8rem]">
             <h2>Mulan - Stroyteller</h2>
-            <h3 className="text-black/55">Reel by @jenysglow</h3>
+            <h3 className="font-normal">Reel by @jenysglow</h3>
             <p>open.spotify.com</p>
           </div>
         </div>
       </Link>
+      <Link target="_blank" href={url}>
+        <div className="flex items-center gap-x-1 p-1 bg-black/80 rounded-md">
+          <div>
+            <Image alt="img" src={imageUrl} className="size-12 rounded-l-md" />
+          </div>
+          <div className="text-[0.7rem] leading-[0.8rem]">
+            <h2>Mulan - Stroyteller</h2>
+            <h3 className="font-normal">Reel by @jenysglow</h3>
+            <p>open.spotify.com</p>
+          </div>
+        </div>
+      </Link>
+      <Link target="_blank" href={url}>
+        <div className="flex items-center gap-x-1 p-1 bg-black/80 rounded-md">
+          <div>
+            <Image alt="img" src={imageUrl} className="size-12 rounded-l-md" />
+          </div>
+          <div className="text-[0.7rem] leading-[0.8rem]">
+            <h2>Mulan - Stroyteller</h2>
+            <h3 className="font-normal">Reel by @jenysglow</h3>
+            <p>open.spotify.com</p>
+          </div>
+        </div>
+      </Link>
+      
     </div>
   );
 }

@@ -28,7 +28,7 @@ export default function Chats({
 }) {
   const chats = [
     {
-      name: "Lois Griffin",
+      name: "Lois Griffin1",
       id: "1",
       lastMessage: {
         type: "image",
@@ -38,7 +38,7 @@ export default function Chats({
       },
     },
     {
-      name: "Adam West",
+      name: "Adam West2",
       id: "2",
       lastMessage: {
         type: "text",
@@ -49,7 +49,7 @@ export default function Chats({
     },
 
     {
-      name: "Brian Griffin",
+      name: "Brian Griffin3",
       id: "3",
       lastMessage: {
         type: "audio",
@@ -60,39 +60,44 @@ export default function Chats({
     },
   ];
   return (
-    <main className="p-2">
-      <section className="w-full flex items-center justify-between pb-2">
-        <h1 className="font-semibold text-xl">Chats</h1>
-        <div className="flex gap-x-1">
-          <div className="p-1  rounded-full  bg-brown-primary">
-            <FilePenLine className="w-5 h-5" />
+    <main className="py-2">
+      <section className="px-2">
+        <section className="w-full flex items-center justify-between pb-2">
+          <h1 className="font-semibold text-xl">Chats</h1>
+          <div className="flex gap-x-1">
+            <div className="p-1  rounded-full  bg-brown-primary">
+              <FilePenLine className="w-5 h-5" />
+            </div>
+            <div className="p-1  rounded-full  bg-brown-primary">
+              <Phone className="w-5 h-5" />
+            </div>
+            <div className="p-1  rounded-full  bg-brown-primary">
+              <Ellipsis className="w-5 h-5" />
+            </div>
           </div>
-          <div className="p-1  rounded-full  bg-brown-primary">
-            <Phone className="w-5 h-5" />
+        </section>
+        <section className="pb-2">
+          <div className="flex items-center w-full h-8 px-2 bg-brown-primary rounded-lg">
+            <Search className="select-none size-5 text-black/55" />
+            <Input
+              type="text"
+              placeholder="Search You Chat"
+              className="py-0 ring-0 outline-none border-none bg-transparent placeholder:text-black/55"
+            />
           </div>
-          <div className="p-1  rounded-full  bg-brown-primary">
-            <Ellipsis className="w-5 h-5" />
-          </div>
-        </div>
+        </section>
       </section>
-      <section className="pb-2">
-        <div className="flex items-center w-full h-8 px-2 bg-brown-primary rounded-lg">
-          <Search className="select-none size-5 text-black/55" />
-          <Input
-            type="text"
-            placeholder="Search You Chat"
-            className="py-0 ring-0 outline-none border-none bg-transparent placeholder:text-black/55"
-          />
-        </div>
-      </section>
-      <section className="flex flex-col gap-y-1">
+      <section className="flex flex-col gap-y-1 h-screen overflow-y-scroll pb-36">
         {chats.map((item, index) => (
-          <div
-            key={index}
+         <div
+         key={index}
+         className="px-2"
+         >
+           <div
             onClick={() => setRecipientId(item.id)}
-            className={`transition-colors transition-border duration-500 ease-in-out flex gap-x-1 relative p-2 rounded-lg cursor-pointer hover:bg-brown-primary ${
+            className={`transition-colors transition-border duration-500 ease-in-out flex gap-x-1 p-2 rounded-lg cursor-pointer hover:bg-brown-primary ${
               recipientId === item.id
-                ? "active-chat-width bg-gradient-to-r from-brown-primary to-brown-secondary border-black border rounded-r-none border-r-0"
+                ? "bg-brown-primary"
                 : "bg-transparent"
             }`}
           >
@@ -120,6 +125,7 @@ export default function Chats({
               </div>
             </div>
           </div>
+         </div>
         ))}
       </section>
     </main>

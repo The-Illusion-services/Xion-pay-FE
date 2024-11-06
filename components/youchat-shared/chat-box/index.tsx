@@ -52,6 +52,46 @@ export default function ChatBox({
       user: "recipient",
       url: [rectangle, rectangle, rectangle],
     },
+    {
+      type: "text",
+      user: "recipient",
+      text: "hey bro!",
+    },
+    {
+      type: "text",
+      user: "sender",
+      text: "what sup?",
+    },
+    {
+      type: "text",
+      user: "recipient",
+      text: "lately I'm learning about an art style called Retro",
+    },
+
+    {
+      type: "image",
+      user: "recipient",
+      url: [rectangle],
+    },
+    {
+      type: "text",
+      user: "recipient",
+      text: "while the main vintage color tones are deep, warm colors, the Retro style is more colorful when the main color tones are pastel.      ",
+    },
+    {
+      type: "text",
+      user: "sender",
+      text: "wow look great!",
+    },
+    {
+      type: "audio",
+      user: "sender",
+    },
+    {
+      type: "image",
+      user: "recipient",
+      url: [rectangle, rectangle, rectangle],
+    },
   ];
   return (
     <div>
@@ -62,7 +102,7 @@ export default function ChatBox({
             item.user === "sender" ? "justify-end" : "justify-start"
           }`}
         >
-          <div className="flex gap-x-1 max-w-[80%] w-fit items-end">
+          <div className="flex gap-x-1 max-w-[85%] w-fit items-end">
             {item.user !== "sender" && (
               <Avatar className="h-7 w-7">
                 <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />

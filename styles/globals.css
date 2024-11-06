@@ -15,9 +15,6 @@
   }
 }
 
-.active-chat-width{
-  width: calc(100% + 0.6rem)
-}
 
 @layer components {
   .modal-overlay {

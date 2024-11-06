@@ -2,7 +2,7 @@ import axios from "axios";
 import router from "next/router"; 
 import { deleteStore, loadStore } from "./local-storage";
 
-export const baseURL = "http://localhost:4000/api"
+export const baseURL = "http://localhost:3001/api"
 
 export const axiosWithoutToken = axios.create({
   baseURL,

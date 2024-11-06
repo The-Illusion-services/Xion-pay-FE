@@ -5,14 +5,14 @@ import { TAppUser, TAppUserState } from "@types";
 
 function useAuthToken() {
   const [token, setToken] = useState<string | null>(null);
-  const [user, setUser] = useState<TAppUser | null>(null);
+  const [userData, setUser] = useState<TAppUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const updateUser = (userData: TAppUserState) => {
-    if (userData) {
-      saveStore(userData);
-      setToken(userData?.token);
-      setUser(userData?.user);
+  const updateUser = (user: TAppUserState) => {
+    if (user) {
+      saveStore(user);
+      setToken(user?.token);
+      setUser(user?.userData);
     } else {
       setToken("");
     }
@@ -27,12 +27,12 @@ function useAuthToken() {
     const storeData = loadStore();
     if (storeData) {
       setToken(storeData?.token);
-      setUser(storeData?.user);
+      setUser(storeData?.userData);
     }
     setIsLoading(false);
   }, []);
 
-  return { token, user, isLoading, updateUser, logout };
+  return { token, userData, isLoading, updateUser, logout };
 }
 
 export default useAuthToken;

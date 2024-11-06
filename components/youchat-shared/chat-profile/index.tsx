@@ -67,7 +67,7 @@ export default function ChatProfile({
     },
   ];
   return (
-    <main className="p-2 flex flex-col gap-y-5">
+    <main className="p-2 flex flex-col gap-y-5 h-screen">
       <section className="w-full flex flex-col items-center">
         <Avatar className="size-24">
           <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />
@@ -99,14 +99,17 @@ export default function ChatProfile({
       <section className="w-full flex flex-col justify-center">
         <Tabs
           defaultValue="media"
-          className="w-full flex flex-col justify-center"
+          className="w-full flex flex-col justify-center gap-y-2"
         >
           <TabsList className="bg-black/85 text-brown-secondary w-fit px-2 py-1 m-auto">
             <TabsTrigger value="media">Media</TabsTrigger>
             <TabsTrigger value="links">Links</TabsTrigger>
           </TabsList>
 
-          <Card className="w-full max-h-[31rem] overflow-y-scroll">
+          <Card
+            style={{ height: `calc(100vh/2.3)` }}
+            className="w-full h-screen bg-brown-primary overflow-y-scroll pb-2"
+          >
             <CardContent className="p-1">
               <TabsContent value="media">
                 <div className="flex w-full justify-center flex-wrap gap-1">
@@ -124,7 +127,9 @@ export default function ChatProfile({
                   <Image alt="img" src={img4} className="rounded-md size-24" />
                 </div>
               </TabsContent>
-              <TabsContent value="links"><LinkPreview url="www.preciousaffiah.com"/></TabsContent>
+              <TabsContent value="links">
+                <LinkPreview url="https://www.preciousaffiah.com" />
+              </TabsContent>
             </CardContent>
           </Card>
         </Tabs>

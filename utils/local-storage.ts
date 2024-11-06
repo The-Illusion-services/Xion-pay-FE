@@ -1,6 +1,6 @@
 import { TAppUserState } from "@types";
 
-const STORE_NAME = "BLNKSERVICE";
+const STORE_NAME = "YOUCHATSERVICE";
 
 export const loadStore = () => {
   try {
