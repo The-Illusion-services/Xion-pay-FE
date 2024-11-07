@@ -7,7 +7,7 @@ import ChatProfile from "@/components/youchat-shared/chat-profile";
 import { useMutation } from "@tanstack/react-query";
 import { MessageService } from "@/services";
 import img1 from "public/authimg1.jpg";
-import img2 from "public/authimg2.jpg";
+import img2 from "public/authimg2.png";
 import Image from "next/image";
 import {
   Card,
@@ -20,11 +20,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { usePathname } from "next/navigation";
 
 const name = "Victoria";
-let title = "Sign Up";
+let title = "Sign In";
 
-const SignUp: FC = () => {
+const SignIn: FC = () => {
+  const path = usePathname();
   return (
     <AuthLayout title={title}>
       <main className="h-full w-full flex">
@@ -32,36 +34,12 @@ const SignUp: FC = () => {
           <section className="md:col-span-2 col-span-4">
             <Card className="mx-auto max-w-md">
               <CardHeader>
-                <CardTitle className="md:text-3xl md:text-start text-center font-medium">Create an account</CardTitle>
+                <CardTitle className="md:text-3xl md:text-start text-center font-medium">
+                  Sign in to account
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4">
-                  <div className="grid gap-2">
-                    <Input
-                      id="text"
-                      type="text"
-                      placeholder="Name"
-                      required
-                      className="placeholder:font-medium px-5 rounded-3xl"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <div className="flex items-center">
-                      {/* <Link
-                        href="#"
-                        className="ml-auto inline-block text-sm underline"
-                      >
-                        Forgot your password?
-                      </Link> */}
-                    </div>
-                    <Input
-                      id="username"
-                      type="text"
-                      placeholder="Username"
-                      required
-                      className="placeholder:font-medium px-5 rounded-3xl"
-                    />
-                  </div>
                   <div className="grid gap-2">
                     <Input
                       id="mobile"
@@ -82,25 +60,31 @@ const SignUp: FC = () => {
                   </div>
                   <Button
                     type="submit"
-                    className="w-full  h-12 bg-black/90 text-brown-secondary font-semibold text-base rounded-3xl"
+                    className="w-full h-12 bg-black/90 text-brown-secondary font-semibold text-base rounded-3xl"
                   >
-                    Sign up
+                    Sign in
                   </Button>
                 </div>
                 <div className="mt-4 text-center font-medium text-sm">
-                  Already have an account?{" "}
-                  <Link href="sign-in" className="underline">
-                    Sign in
-                  </Link>
+                  Don&apos;t have an account?{" "}
+                  {path === "/" ? (
+                    <Link href="auth/sign-up" className="underline">
+                      Sign up
+                    </Link>
+                  ) : (
+                    <Link href="sign-up" className="underline">
+                      Sign up
+                    </Link>
+                  )}
                 </div>
               </CardContent>
             </Card>
           </section>
           <section className="md:col-span-2 md:flex hidden justify-center">
-            <div className="rotate-12 h-fit rounded-3xl  border-4 border-black shadow-[8px_10px_0px_0px] w-fit">
+            <div className="rotate-12 rounded-3xl h-fit border-4 border-black shadow-[8px_10px_0px_0px] w-fit">
               <Image
                 alt="img"
-                src={img1}
+                src={img2}
                 className="lg:w-[30rem] w-72 lg:h-[26rem] h-72 rounded-3xl"
               />
             </div>
@@ -111,4 +95,4 @@ const SignUp: FC = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;

@@ -1,10 +1,9 @@
-import { AuthLayout } from "@layouts";
+import { UserLayout } from "@layouts";
 import React, { FC, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Chats from "@/components/youchat-shared/chats";
 import {
   Ellipsis,
-  FilePenLine,
   Image,
   Mic,
   Phone,
@@ -60,7 +59,7 @@ const Chat: FC = () => {
   };
 
   return (
-    <AuthLayout title={title}>
+    <UserLayout title={title}>
       <main className="h-screen w-full">
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 h-full w-full">
           <div className="">
@@ -150,7 +149,7 @@ const Chat: FC = () => {
           </section>
         </div>
       </main>
-    </AuthLayout>
+    </UserLayout>
   );
 };
 

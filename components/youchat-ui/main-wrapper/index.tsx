@@ -6,7 +6,7 @@ export default function MainWrapper({
   content: JSX.Element | React.ReactNode;
 }) {
   return (
-    <main className="flex-1 h-screen min-h-screen fixed">
+    <main className="flex-1 h-screen min-h-screen">
       <header>
         <div className="fixed top-0 right-0 z-50 bg-background w-full py-1 px-3 h-14 items-center text-black flex justify-between border border-b border-b-black">
           <div className="">

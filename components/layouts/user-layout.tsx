@@ -4,8 +4,6 @@ import Head from "next/head";
 
 import { useAuthToken } from "@hooks";
 import { MainWrapper, PageAnimation } from "../youchat-ui";
-import Image from "next/image";
-import img from "public/next.svg";
 
 interface ILayout {
   children: JSX.Element | React.ReactNode;
@@ -15,7 +13,7 @@ interface ILayout {
   description?: string;
 }
 
-export default function AuthLayout({
+export default function UserLayout({
   children,
   title,
   subtitle,
@@ -30,7 +28,7 @@ export default function AuthLayout({
     description ||
     "A Global restaurant known for serving the best meals to customers";
   heading = heading || title;
-  
+
   // useEffect(() => {
   //   if (token) router.push("/user");
   // }, [router, token]);
@@ -76,18 +74,9 @@ export default function AuthLayout({
           href="https://res.cloudinary.com/dlq0uwrii/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1728843002/Logo_qcsyol.png"
         />
       </Head>
-
-      <div>
-        <PageAnimation>
-          <div className="md:px-16 md:py-8 h-screen flex flex-col">
-            <div className="items-center md:my-auto justify-center">
-            <div className="pt-24 md:pb-32 md:pt-0">
-              <Image alt="img" src={img} className="text-center mx-auto w-28" />
-            </div>
-            {children}
-            </div>
-          </div>
-        </PageAnimation>
+      
+      <div className="fixed">
+        <MainWrapper content={children}></MainWrapper>
       </div>
     </Fragment>
   );
