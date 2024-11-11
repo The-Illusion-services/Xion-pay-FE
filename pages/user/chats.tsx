@@ -1,14 +1,24 @@
+"use client";
+
 import { UserLayout } from "@layouts";
 import React, { FC, useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Chats from "@/components/youchat-shared/chats";
-import { Ellipsis, Image, Mic, Phone, Send, SmilePlus } from "lucide-react";
+import {
+  ChevronLeft,
+  Ellipsis,
+  Image,
+  Mic,
+  Phone,
+  Send,
+  SmilePlus,
+} from "lucide-react";
 import ChatBox from "@/components/youchat-shared/chat-box";
 import ChatProfile from "@/components/youchat-shared/chat-profile";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { MessageService } from "@/services";
 import { useAuthToken } from "@/hooks";
-import { TAppUserProdileDetails } from "@/types";
+import { TAppUser } from "@/types";
 
 const name = "Victoria";
 let title = "Chat";
@@ -21,17 +31,22 @@ const Chat: FC = () => {
   const [lastMessage, setlastMessage] = useState("");
   const [conversation, setConversation] = useState<any | null>(null);
 
+  const [open, setOpen] = useState(false);
   const [chats, setChats] = useState<any>([]);
   const [page, setPage] = useState(1);
-  const [currentRecipient, setCurrentRecipient] =
-    useState<TAppUserProdileDetails | null>({
-      _id: "",
-      avatar: "",
-      fname: "",
-      lname: "",
-      mobile: "",
-      username: "",
-    });
+  const [currentRecipient, setCurrentRecipient] = useState<TAppUser | null>({
+    _id: "",
+    avatar: "",
+    fname: "",
+    lname: "",
+    mobile: "",
+    username: "",
+  });
+
+  // TODO: idea for implementing ws
+  // when receied a message, push mesage to localConversation array
+  // and refetch on chage(basically how conversatoion in performing now
+  // for current conversation now, fetch only once, on load of screen
 
   // GET CHATS LIST
   const fetchChatsRequest = async () => {
@@ -71,13 +86,13 @@ const Chat: FC = () => {
         { text: message, sender_id: userData?._id },
       ]);
       setMessage("");
-      
+
       const response = await MessageService.sendMessage({
         text: message.trim(),
         recepient_id: recipientId || "",
         type: "TEXT",
       });
-      
+
       return response?.data?.data;
     } catch (error: any) {
       console.log(error);
@@ -89,9 +104,6 @@ const Chat: FC = () => {
     mutationFn: sendMessageRequest,
     onSuccess: () => {
       setMessage("");
-      // onSend();
-      // let messageInput = document.getElementById("messageInput");
-      // if (messageInput) messageInput.focus();
     },
     onError: (error: any) => {
       console.error("Error sending message:", error);
@@ -100,28 +112,35 @@ const Chat: FC = () => {
 
   const handleSendMessage = () => {
     mutate();
-    // let messageInput = document.getElementById("messageInput");
-    // console.log(messageInput);
-    // if (messageInput) messageInput.focus();
   };
 
   return (
     <UserLayout title={title}>
       <main className="h-screen w-full">
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 h-full w-full">
-          <div className="">
+          <div className={`md:block ${open ? "hidden" : "block"}`}>
             <Chats
               recipientId={recipientId}
+              setOpen={setOpen}
+              open={open}
               setRecipientId={setRecipientId}
               setCurrentRecipient={setCurrentRecipient}
               data={data}
               lastMessage={lastMessage}
             />
           </div>
-          <section className="md:flex flex-col hidden col-span-2 w-full h-full border border-t-0 border-black">
+          <section
+            className={`md:flex ${
+              open ? "flex" : "hidden"
+            } flex-col col-span-2 w-full h-full border border-t-0 border-black`}
+          >
             <div className="flex p-2 h-14 justify-between items-center border border-b-black">
-              <div className="flex gap-x-1">
-                <Avatar className="h-9 w-9">
+              <div className="flex gap-x-1 items-center">
+                <ChevronLeft
+                  className="size-7 text-start cursor-pointer"
+                  onClick={() => setOpen(!open)}
+                />
+                <Avatar className="size-9">
                   <AvatarImage
                     src="https://github.com/shadcn.png"
                     alt="avatar"
@@ -138,8 +157,8 @@ const Chat: FC = () => {
                 </div>
               </div>
               <div className="flex gap-x-3 items-center">
-                <Phone className="w-5 h-5" />
-                <Ellipsis className="w-5 h-5" />
+                <Phone className="size-5" />
+                <Ellipsis className="size-5" />
               </div>
             </div>
             <div className="h-screen overflow-y-scroll pb-44">

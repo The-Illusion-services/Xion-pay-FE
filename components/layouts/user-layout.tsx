@@ -76,7 +76,7 @@ export default function UserLayout({
         />
       </Head>
 
-      <div className="fixed">
+      <div className="fixed w-full">
         <MainWrapper content={children}></MainWrapper>
       </div>
     </Fragment>

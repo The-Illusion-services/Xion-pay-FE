@@ -1,3 +1,5 @@
+"use client";
+
 import { AuthLayout } from "@layouts";
 import React, { FC, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

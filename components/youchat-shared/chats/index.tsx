@@ -14,20 +14,17 @@ import { useEffect, useState } from "react";
 import { UseQueryOptions, queryOptions, useQuery } from "@tanstack/react-query";
 import { MessageService } from "@/services";
 import { useRouter } from "next/router";
+// TODO: verify api's error data
+// TODO: remove password suggestion from web
 
-const router = useRouter();
-const locale = router.locale;
-// TODO: use moment for date formating
-const currentDate = new Date().toLocaleTimeString(locale, {
-  hour: "2-digit",
-  minute: "2-digit",
-});
 export default function Chats({
   image,
   name,
   time,
   text,
   data,
+  setOpen,
+  open,
   recipientId,
   lastMessage,
   setRecipientId,
@@ -39,11 +36,20 @@ export default function Chats({
   time?: string;
   text?: string;
   data?: any;
+  setOpen: any;
+  open: boolean;
   recipientId?: string;
   lastMessage?: string;
   setRecipientId?: any;
   setCurrentRecipient?: any
 }) {
+  const router = useRouter();
+const locale = router.locale;
+// TODO: use moment for date formating
+const currentDate = new Date().toLocaleTimeString(locale, {
+  hour: "2-digit",
+  minute: "2-digit",
+});
 
   return (
     <main className="py-2">
@@ -80,9 +86,11 @@ export default function Chats({
               onClick={() => {setRecipientId(item.contact_id._id), setCurrentRecipient({
                 fname: item.contact_id.fname,
                 lname: item.contact_id.lname
-              })}}
+              })
+            setOpen(!open)
+            }}
               className={`w-full transition-colors transition-border duration-500 ease-in-out flex gap-x-1 p-2 rounded-lg cursor-pointer hover:bg-brown-primary ${
-                recipientId === item.id ? "bg-brown-primary" : "bg-transparent"
+                recipientId === item.contact_id._id ? "bg-brown-primary" : "bg-transparent"
               }`}
             >
               <Avatar className="size-11">
