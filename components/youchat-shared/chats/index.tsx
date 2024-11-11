@@ -10,55 +10,37 @@ import {
 } from "lucide-react";
 import rectangle from "public/rectangle.png";
 import audio from "public/audio.png";
+import { useEffect, useState } from "react";
+import { UseQueryOptions, queryOptions, useQuery } from "@tanstack/react-query";
+import { MessageService } from "@/services";
 
+const currentDate = new Date().toLocaleTimeString(navigator.language, {
+  hour: "2-digit",
+  minute: "2-digit",
+});
 export default function Chats({
   image,
   name,
   time,
   text,
+  data,
   recipientId,
+  lastMessage,
   setRecipientId,
+  setCurrentRecipient,
+
 }: {
   image?: string;
   name?: string;
   time?: string;
   text?: string;
-  recipientId?: string | null;
+  data?: any;
+  recipientId?: string;
+  lastMessage?: string;
   setRecipientId?: any;
+  setCurrentRecipient?: any
 }) {
-  const chats = [
-    {
-      name: "Lois Griffin1",
-      id: "1",
-      lastMessage: {
-        type: "image",
-        user: "recipient",
-        url: ["rectangle"],
-        date: "1m",
-      },
-    },
-    {
-      name: "Adam West2",
-      id: "2",
-      lastMessage: {
-        type: "text",
-        user: "sender",
-        text: "what sup?",
-        date: "4d",
-      },
-    },
 
-    {
-      name: "Brian Griffin3",
-      id: "3",
-      lastMessage: {
-        type: "audio",
-        user: "recipient",
-        url: ["audiourl"],
-        date: "5w",
-      },
-    },
-  ];
   return (
     <main className="py-2">
       <section className="px-2">
@@ -88,44 +70,51 @@ export default function Chats({
         </section>
       </section>
       <section className="flex flex-col gap-y-1 h-screen overflow-y-scroll pb-36">
-        {chats.map((item, index) => (
-         <div
-         key={index}
-         className="px-2"
-         >
-           <div
-            onClick={() => setRecipientId(item.id)}
-            className={`transition-colors transition-border duration-500 ease-in-out flex gap-x-1 p-2 rounded-lg cursor-pointer hover:bg-brown-primary ${
-              recipientId === item.id
-                ? "bg-brown-primary"
-                : "bg-transparent"
-            }`}
-          >
-            <Avatar className="size-11">
-              <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />
-              <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col flex-1 text-left text-sm">
-              <span className="truncate capitalize">{item.name}</span>
-              <div className="flex gap-x-2 items-center max-w-[80%]">
-                {item.lastMessage.type === "text" && (
-                  <span className="truncate text-[0.73rem]">
-                    {item.lastMessage.text}
-                  </span>
-                )}
-                {item.lastMessage.type === "audio" && (
-                  <AudioLinesIcon className="size-4 text-black/55" />
-                )}
-                {item.lastMessage.type === "image" && (
-                  <Camera className="size-4 text-black/55" />
-                )}
-                <span className="truncate text-[0.6rem]">
-                  {item.lastMessage.date}
+        {data?.map((item: any, index: number) => (
+          <div key={index} className="px-2">
+            <div
+              onClick={() => {setRecipientId(item.contact_id._id), setCurrentRecipient({
+                fname: item.contact_id.fname,
+                lname: item.contact_id.lname
+              })}}
+              className={`w-full transition-colors transition-border duration-500 ease-in-out flex gap-x-1 p-2 rounded-lg cursor-pointer hover:bg-brown-primary ${
+                recipientId === item.id ? "bg-brown-primary" : "bg-transparent"
+              }`}
+            >
+              <Avatar className="size-11">
+                <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />
+                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col flex-1 text-left text-sm justify-start my-auto w-full">
+                <span className="truncate capitalize">
+                  {item.contact_id.fname} {item.contact_id.lname}
                 </span>
+                <div className="flex gap-x-2 items-center max-w-[85%]">
+                  <span className="truncate text-[0.73rem] w-[75%]">
+                    {data
+                      ? (lastMessage || "typing")
+                      : "start conversation!"}
+                  </span>
+                  <span className="w-[12%]">
+                    {item.lastMessage?.type === "audio" && (
+                      <AudioLinesIcon className="size-4 text-black/55" />
+                    )}
+                    {item.lastMessage?.type === "image" && (
+                      <Camera className="size-4 text-black/55" />
+                    )}
+                  </span>
+                  {item.lastMessage && (
+                    <span className="truncate text-[0.6rem] w-[13%]">
+                      {new Date(item.lastMessage.date).toLocaleTimeString(
+                        navigator.language,
+                        { hour: "2-digit", minute: "2-digit" }
+                      )}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-         </div>
         ))}
       </section>
     </main>

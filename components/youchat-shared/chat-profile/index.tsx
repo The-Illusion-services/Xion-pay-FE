@@ -30,11 +30,13 @@ export default function ChatProfile({
   name,
   time,
   text,
+  currentRecipient,
 }: {
   image?: string;
   name?: string;
   time?: string;
   text?: string;
+  currentRecipient?: any;
 }) {
   const chats = [
     {
@@ -74,9 +76,9 @@ export default function ChatProfile({
           <AvatarFallback className="rounded-lg">CN</AvatarFallback>
         </Avatar>
         <div>
-          <h1 className="font-semibold">Lois Griffin</h1>
-          <p className="text-xs pb-2">+234-834-8299</p>
-          <p className="text-xs text-black/55">Active 9m ago</p>
+          <h1 className="font-semibold">{`${currentRecipient?.fname} ${currentRecipient?.lname}`}</h1>
+          <p className="text-xs pb-2"></p>
+          <p className="text-xs text-black/55 text-center">Active 9m ago</p>
         </div>
       </section>
       <section className="w-full flex items-center justify-center">

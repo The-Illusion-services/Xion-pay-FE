@@ -6,6 +6,20 @@ class MsgService {
       ...payload,
     });
   }
+  getChatList(page = 1) {
+    return axiosWithToken().get("/contact", {
+      params: {
+        page,
+      },
+    });
+  }
+  getConversation(recepient_id: string) {
+    return axiosWithToken().get("/chat/direct-message", {
+      params: {
+        recepient_id,
+      },
+    });
+  }
 }
 
 const MessageService = new MsgService();

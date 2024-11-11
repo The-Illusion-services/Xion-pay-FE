@@ -9,7 +9,7 @@ function useAuthToken() {
   const [isLoading, setIsLoading] = useState(true);
 
   const updateUser = (user: TAppUserState) => {
-    if (user) {
+    if (user) {      
       saveStore(user);
       setToken(user?.token);
       setUser(user?.userData);

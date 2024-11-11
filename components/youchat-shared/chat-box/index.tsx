@@ -3,116 +3,81 @@ import { Ellipsis, FilePenLine, Phone, Play } from "lucide-react";
 import Image from "next/image";
 import rectangle from "public/rectangle.png";
 import audio from "public/audio.png";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { MessageService } from "@/services";
+import { useAuthToken } from "@/hooks";
 
 export default function ChatBox({
   recipientId,
-  setRecipientId,
+  setlastMessage,
+  lastMessage,
+  setConversation,
+  conversation,
 }: {
-  recipientId?: string | null;
-  setRecipientId?: any;
+  recipientId: string;
+  lastMessage: string;
+  conversation: any;
+  setlastMessage?: any;
+  setConversation: any;
 }) {
-  const chats = [
-    {
-      type: "text",
-      user: "recipient",
-      text: "hey bro!",
-    },
-    {
-      type: "text",
-      user: "sender",
-      text: "what sup?",
-    },
-    {
-      type: "text",
-      user: "recipient",
-      text: "lately I'm learning about an art style called Retro",
-    },
+  const { userData } = useAuthToken();
 
-    {
-      type: "image",
-      user: "recipient",
-      url: [rectangle],
-    },
-    {
-      type: "text",
-      user: "recipient",
-      text: "while the main vintage color tones are deep, warm colors, the Retro style is more colorful when the main color tones are pastel.      ",
-    },
-    {
-      type: "text",
-      user: "sender",
-      text: "wow look great!",
-    },
-    {
-      type: "audio",
-      user: "sender",
-    },
-    {
-      type: "image",
-      user: "recipient",
-      url: [rectangle, rectangle, rectangle],
-    },
-    {
-      type: "text",
-      user: "recipient",
-      text: "hey bro!",
-    },
-    {
-      type: "text",
-      user: "sender",
-      text: "what sup?",
-    },
-    {
-      type: "text",
-      user: "recipient",
-      text: "lately I'm learning about an art style called Retro",
-    },
+  
+  // GET CURRENT CONVERSATION
+  const fetchCurrentConversation = async () => {
+    if (recipientId) {
+      try {
+        const response = await MessageService.getConversation(recipientId);
+        const text = (response?.data?.data?.data).slice(-1);
+        setlastMessage(text[0]?.text);
+        setConversation(response?.data?.data?.data);
 
-    {
-      type: "image",
-      user: "recipient",
-      url: [rectangle],
-    },
-    {
-      type: "text",
-      user: "recipient",
-      text: "while the main vintage color tones are deep, warm colors, the Retro style is more colorful when the main color tones are pastel.      ",
-    },
-    {
-      type: "text",
-      user: "sender",
-      text: "wow look great!",
-    },
-    {
-      type: "audio",
-      user: "sender",
-    },
-    {
-      type: "image",
-      user: "recipient",
-      url: [rectangle, rectangle, rectangle],
-    },
-  ];
+        return response?.data?.data?.data;
+      } catch (error: any) {
+        console.log(error);
+        throw new Error(error?.response?.data?.message || "An error occurred");
+      }
+    } else {
+      return null;
+    }
+  };
+
+  // TODO: is loading componenent for all
+  // TODO: dont format messages upon reciving
+
+  useEffect(() => {
+    // setPage(1);
+    fetchCurrentConversation();
+  }, [
+    // page,
+    recipientId,
+    conversation,
+    // lastMessage
+    // reloadBoolean
+  ]);
+
   return (
     <div>
-      {chats.map((item, index) => (
+      <div>
+      {conversation?.map((item: any, index: number) => (
         <div
           key={index}
           className={`p-2 flex ${
-            item.user === "sender" ? "justify-end" : "justify-start"
+            item.sender_id === userData?._id ? "justify-end" : "justify-start"
           }`}
         >
           <div className="flex gap-x-1 max-w-[85%] w-fit items-end">
-            {item.user !== "sender" && (
+            {item.sender_id !== userData?._id && (
               <Avatar className="h-7 w-7">
                 <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
             )}
-            {item.type === "text" && (
+            {item.type === "TEXT" && (
               <div
                 className={`grid flex-1 text-left text-sm leading-tight items-center py-1 px-2 rounded-xl border border-black shadow-[4px_4px_0px_0px] ${
-                  item.user === "sender"
+                  item.sender_id === userData?._id
                     ? "bg-brown-primary"
                     : "bg-brown-secondary"
                 }`}
@@ -120,9 +85,10 @@ export default function ChatBox({
                 <span className="text-xs capitalize">{item.text}</span>
               </div>
             )}
+           
             {item.type === "image" && (
               <div className="cursor-pointer relative flex-1 flex flex-wrap text-left text-sm leading-tight items-center rounded-xl bg-black border border-black shadow-[4px_4px_0px_0px]">
-                {item.url?.slice(0, 2).map((url, imgIndex) => (
+                {item.url?.slice(0, 2).map((url: string, imgIndex: number) => (
                   <Image
                     key={imgIndex}
                     alt="img"
@@ -154,6 +120,7 @@ export default function ChatBox({
           </div>
         </div>
       ))}
+    </div>
     </div>
   );
 }

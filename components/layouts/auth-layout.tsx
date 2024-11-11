@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 
 import { useAuthToken } from "@hooks";
-import { MainWrapper, PageAnimation } from "../youchat-ui";
+import { PageAnimation } from "../youchat-ui";
 import Image from "next/image";
 import img from "public/next.svg";
 
@@ -23,7 +23,7 @@ export default function AuthLayout({
   description,
 }: ILayout) {
   const router = useRouter();
-  const { token } = useAuthToken();
+  const { token, isLoading } = useAuthToken();
   title = title || "Page Title";
   subtitle = subtitle || "";
   description =
@@ -31,9 +31,9 @@ export default function AuthLayout({
     "A Global restaurant known for serving the best meals to customers";
   heading = heading || title;
   
-  // useEffect(() => {
-  //   if (token) router.push("/user");
-  // }, [router, token]);
+  useEffect(() => {
+    if (token) router.push("/user/chats");
+  }, [router, token]);
 
   return (
     <Fragment>
@@ -81,7 +81,7 @@ export default function AuthLayout({
         <PageAnimation>
           <div className="md:px-16 md:py-8 h-screen flex flex-col">
             <div className="items-center md:my-auto justify-center">
-            <div className="pt-24 md:pb-32 md:pt-0">
+            <div className="pt-24 md:pb-8 md:pt-0">
               <Image alt="img" src={img} className="text-center mx-auto w-28" />
             </div>
             {children}

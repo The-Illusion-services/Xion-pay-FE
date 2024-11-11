@@ -1,36 +1,83 @@
 import { UserLayout } from "@layouts";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Chats from "@/components/youchat-shared/chats";
-import {
-  Ellipsis,
-  Image,
-  Mic,
-  Phone,
-  Send,
-  SmilePlus,
-} from "lucide-react";
+import { Ellipsis, Image, Mic, Phone, Send, SmilePlus } from "lucide-react";
 import ChatBox from "@/components/youchat-shared/chat-box";
 import ChatProfile from "@/components/youchat-shared/chat-profile";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { MessageService } from "@/services";
+import { useAuthToken } from "@/hooks";
+import { TAppUserProdileDetails } from "@/types";
 
 const name = "Victoria";
 let title = "Chat";
 
 const Chat: FC = () => {
-  const [recipientId, setRecipientId] = useState<string | null>(null);
-  const [message, setMessage] = useState("");
-  console.log(message);
+  const { userData } = useAuthToken();
 
+  const [recipientId, setRecipientId] = useState<string>("");
+  const [message, setMessage] = useState("");
+  const [lastMessage, setlastMessage] = useState("");
+  const [conversation, setConversation] = useState<any | null>(null);
+
+  const [chats, setChats] = useState<any>([]);
+  const [page, setPage] = useState(1);
+  const [currentRecipient, setCurrentRecipient] =
+    useState<TAppUserProdileDetails | null>({
+      _id: "",
+      avatar: "",
+      fname: "",
+      lname: "",
+      mobile: "",
+      username: "",
+    });
+
+  // GET CHATS LIST
+  const fetchChatsRequest = async () => {
+    try {
+      const response = await MessageService.getChatList(page);
+
+      return response?.data?.data?.data.results;
+    } catch (error: any) {
+      console.log(error);
+      throw new Error(
+        error?.response?.data?.data?.message || "An error occurred"
+      );
+    }
+  };
+
+  const { isLoading, isRefetching, refetch, isError, data } = useQuery<
+    any,
+    Error
+  >({
+    queryKey: ["get-chats", page],
+    queryFn: fetchChatsRequest,
+    gcTime: 1000 * 60 * 15, // Keep data in cache for 10 minutes
+  });
+
+  // if (isLoading) {
+  //   return <ConversationListLoader />;
+  // }
+
+  // TODO: logout option
+
+  // SEND MESSAGE
   const sendMessageRequest = async () => {
     if (message.trim() === "") return;
     try {
+      setConversation([
+        ...conversation,
+        { text: message, sender_id: userData?._id },
+      ]);
+      setMessage("");
+      
       const response = await MessageService.sendMessage({
         text: message.trim(),
         recepient_id: recipientId || "",
         type: "TEXT",
       });
+      
       return response?.data?.data;
     } catch (error: any) {
       console.log(error);
@@ -38,7 +85,7 @@ const Chat: FC = () => {
     }
   };
 
-  const { isLoading, mutate }: any = useMutation({
+  const { isLoading: sendMsgLoading, mutate }: any = useMutation({
     mutationFn: sendMessageRequest,
     onSuccess: () => {
       setMessage("");
@@ -63,7 +110,13 @@ const Chat: FC = () => {
       <main className="h-screen w-full">
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 h-full w-full">
           <div className="">
-            <Chats recipientId={recipientId} setRecipientId={setRecipientId} />
+            <Chats
+              recipientId={recipientId}
+              setRecipientId={setRecipientId}
+              setCurrentRecipient={setCurrentRecipient}
+              data={data}
+              lastMessage={lastMessage}
+            />
           </div>
           <section className="md:flex flex-col hidden col-span-2 w-full h-full border border-t-0 border-black">
             <div className="flex p-2 h-14 justify-between items-center border border-b-black">
@@ -76,7 +129,11 @@ const Chat: FC = () => {
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Lois Griffin</span>
+                  <span className="truncate font-semibold">
+                    {currentRecipient
+                      ? `${currentRecipient.fname} ${currentRecipient.lname}`
+                      : ""}
+                  </span>
                   <span className="truncate text-xs">Active 9m ago</span>
                 </div>
               </div>
@@ -88,7 +145,10 @@ const Chat: FC = () => {
             <div className="h-screen overflow-y-scroll pb-44">
               <ChatBox
                 recipientId={recipientId}
-                setRecipientId={setRecipientId}
+                lastMessage={lastMessage}
+                setlastMessage={setlastMessage}
+                setConversation={setConversation}
+                conversation={conversation}
               />
             </div>
             <div className="flex p-2 h-14 justify-between bg-black/95 lg:w-1/2 w-full fixed bottom-14 items-center border-r border-r-black">
@@ -101,7 +161,7 @@ const Chat: FC = () => {
                     <input
                       autoComplete="off"
                       id="messageInput"
-                      // disabled={isLoading}
+                      // disabled={sendMsgLoading}
                       value={message}
                       onChange={(e) => {
                         if (e.target.value.length <= 1500) {
@@ -145,7 +205,7 @@ const Chat: FC = () => {
             </div>
           </section>
           <section className="lg:grid hidden">
-            <ChatProfile />
+            <ChatProfile currentRecipient={currentRecipient} />
           </section>
         </div>
       </main>

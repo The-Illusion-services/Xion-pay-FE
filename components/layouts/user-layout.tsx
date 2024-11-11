@@ -21,7 +21,7 @@ export default function UserLayout({
   description,
 }: ILayout) {
   const router = useRouter();
-  const { token } = useAuthToken();
+  const { token, isLoading } = useAuthToken();
   title = title || "Page Title";
   subtitle = subtitle || "";
   description =
@@ -29,9 +29,10 @@ export default function UserLayout({
     "A Global restaurant known for serving the best meals to customers";
   heading = heading || title;
 
-  // useEffect(() => {
-  //   if (token) router.push("/user");
-  // }, [router, token]);
+  useEffect(() => {
+    if (isLoading) return;
+    if (!token) router.push("/auth/sign-in");
+  }, [isLoading, router, token]);
 
   return (
     <Fragment>
@@ -74,7 +75,7 @@ export default function UserLayout({
           href="https://res.cloudinary.com/dlq0uwrii/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1728843002/Logo_qcsyol.png"
         />
       </Head>
-      
+
       <div className="fixed">
         <MainWrapper content={children}></MainWrapper>
       </div>
