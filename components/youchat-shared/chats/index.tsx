@@ -13,8 +13,12 @@ import audio from "public/audio.png";
 import { useEffect, useState } from "react";
 import { UseQueryOptions, queryOptions, useQuery } from "@tanstack/react-query";
 import { MessageService } from "@/services";
+import { useRouter } from "next/router";
 
-const currentDate = new Date().toLocaleTimeString(navigator.language, {
+const router = useRouter();
+const locale = router.locale;
+// TODO: use moment for date formating
+const currentDate = new Date().toLocaleTimeString(locale, {
   hour: "2-digit",
   minute: "2-digit",
 });
