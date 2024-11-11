@@ -35,7 +35,6 @@ import {
 import { useRouter } from "next/router";
 import { useAuthToken } from "@/hooks";
 import { motion, AnimatePresence } from "framer-motion";
-import { useToast } from "@/hooks/use-toast";
 import ToastMessage from "@/components/youchat-ui/toast-message";
 
 // TODO: trimbackend fields for form
