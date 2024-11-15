@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   AudioLinesIcon,
   Camera,
@@ -8,13 +9,8 @@ import {
   Phone,
   Search,
 } from "lucide-react";
-import rectangle from "public/rectangle.png";
-import audio from "public/audio.png";
-import { useEffect, useState } from "react";
-import { UseQueryOptions, queryOptions, useQuery } from "@tanstack/react-query";
-import { MessageService } from "@/services";
 import { useRouter } from "next/router";
-// TODO: verify api's error data
+// TODO: verify api's error for messge data
 // TODO: remove password suggestion from web
 
 export default function Chats({
@@ -25,11 +21,11 @@ export default function Chats({
   data,
   setOpen,
   open,
+  isLoading,
   recipientId,
   lastMessage,
   setRecipientId,
   setCurrentRecipient,
-
 }: {
   image?: string;
   name?: string;
@@ -38,18 +34,19 @@ export default function Chats({
   data?: any;
   setOpen: any;
   open: boolean;
+  isLoading?: boolean;
   recipientId?: string;
-  lastMessage?: string;
+  lastMessage?: any;
   setRecipientId?: any;
-  setCurrentRecipient?: any
+  setCurrentRecipient?: any;
 }) {
   const router = useRouter();
-const locale = router.locale;
-// TODO: use moment for date formating
-const currentDate = new Date().toLocaleTimeString(locale, {
-  hour: "2-digit",
-  minute: "2-digit",
-});
+  const locale = router.locale;
+  // TODO: use moment for date formating
+  const currentDate = new Date().toLocaleTimeString(locale, {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   return (
     <main className="py-2">
@@ -80,54 +77,82 @@ const currentDate = new Date().toLocaleTimeString(locale, {
         </section>
       </section>
       <section className="flex flex-col gap-y-1 h-screen overflow-y-scroll pb-36">
-        {data?.map((item: any, index: number) => (
-          <div key={index} className="px-2">
+        {isLoading ? (
+          <div className="px-2">
             <div
-              onClick={() => {setRecipientId(item.contact_id._id), setCurrentRecipient({
-                fname: item.contact_id.fname,
-                lname: item.contact_id.lname
-              })
-            setOpen(!open)
-            }}
-              className={`w-full transition-colors transition-border duration-500 ease-in-out flex gap-x-1 p-2 rounded-lg cursor-pointer hover:bg-brown-primary ${
-                recipientId === item.contact_id._id ? "bg-brown-primary" : "bg-transparent"
-              }`}
+              className={`w-full transition-colors transition-border duration-500 ease-in-out flex gap-x-1 p-2 rounded-lg cursor-pointer`}
             >
-              <Avatar className="size-11">
-                <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col flex-1 text-left text-sm justify-start my-auto w-full">
-                <span className="truncate capitalize">
-                  {item.contact_id.fname} {item.contact_id.lname}
-                </span>
-                <div className="flex gap-x-2 items-center max-w-[85%]">
-                  <span className="truncate text-[0.73rem] w-[75%]">
-                    {data
-                      ? (lastMessage || "typing")
-                      : "start conversation!"}
-                  </span>
-                  <span className="w-[12%]">
-                    {item.lastMessage?.type === "audio" && (
-                      <AudioLinesIcon className="size-4 text-black/55" />
-                    )}
-                    {item.lastMessage?.type === "image" && (
-                      <Camera className="size-4 text-black/55" />
-                    )}
-                  </span>
-                  {item.lastMessage && (
-                    <span className="truncate text-[0.6rem] w-[13%]">
-                      {new Date(item.lastMessage.date).toLocaleTimeString(
-                        navigator.language,
-                        { hour: "2-digit", minute: "2-digit" }
-                      )}
-                    </span>
-                  )}
+              <div className="flex items-center space-x-1 w-full">
+                <Skeleton className="w-14 h-11 rounded-full" />
+                <div className="space-y-2 w-full">
+                  <Skeleton className="h-4 w-32" />
+                  <div className="flex justify-between w-[88%]">
+                    <Skeleton className="h-4 w-20" />
+                    <Skeleton className="h-4 w-7" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        ))}
+        ) : (
+          <>
+            {data?.map((item: any, index: number) => (
+              <div key={index} className="px-2">
+                <div
+                  onClick={() => {
+                    setRecipientId(item.contact_id._id),
+                      setCurrentRecipient({
+                        fname: item.contact_id.fname,
+                        lname: item.contact_id.lname,
+                      });
+                    setOpen(!open);
+                  }}
+                  className={`w-full transition-colors transition-border duration-500 ease-in-out flex gap-x-1 p-2 rounded-lg cursor-pointer hover:bg-brown-primary ${
+                    recipientId === item.contact_id._id
+                      ? "bg-brown-primary"
+                      : "bg-transparent"
+                  }`}
+                >
+                  <Avatar className="size-11">
+                    <AvatarImage
+                      src="https://github.com/shadcn.png"
+                      alt="avatar"
+                    />
+                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col flex-1 text-left text-sm justify-start my-auto w-full">
+                    <span className="truncate capitalize">
+                      {item.contact_id.fname} {item.contact_id.lname}
+                    </span>
+                    <div className="flex gap-x-2 items-center max-w-[85%]">
+                      <span className="truncate text-[0.73rem] w-[75%]">
+                        {data
+                          ? lastMessage?.text || "typing"
+                          : "start conversation!"}
+                      </span>
+                      <span className="w-[12%]">
+                        {item.lastMessage?.type === "audio" && (
+                          <AudioLinesIcon className="size-4 text-black/55" />
+                        )}
+                        {item.lastMessage?.type === "image" && (
+                          <Camera className="size-4 text-black/55" />
+                        )}
+                      </span>
+                      {item.contact_id && (
+                        <span className="truncate text-[0.6rem] w-[13%]">
+                          {new Date(lastMessage?.time).toLocaleTimeString(
+                            navigator.language,
+                            { hour: "2-digit", minute: "2-digit" }
+                          )}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
       </section>
     </main>
   );

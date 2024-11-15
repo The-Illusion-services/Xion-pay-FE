@@ -36,6 +36,7 @@ import { useRouter } from "next/router";
 import { useAuthToken } from "@/hooks";
 import { motion, AnimatePresence } from "framer-motion";
 import ToastMessage from "@/components/youchat-ui/toast-message";
+import { LoaderCircle } from "lucide-react";
 
 // TODO: trimbackend fields for form
 
@@ -44,32 +45,37 @@ const formSchema = z
     fname: z
       .string()
       .min(3, {
-        message: "fisrt name must be at least 3 characters.",
+        message: "First name must be at least 3 characters.",
       })
-      .trim(),
+      .regex(/^\S+$/, { message: "First name cannot contain whitespace." }),
+ 
     lname: z
       .string()
       .min(3, {
-        message: "last name must be at least 3 characters.",
+        message: "Last name must be at least 3 characters.",
       })
-      .trim(),
+      .regex(/^\S+$/, { message: "Last name cannot contain whitespace." }),
+
     username: z
       .string()
       .min(3, {
         message: "Username must be at least 3 characters.",
       })
       .toLowerCase()
-      .trim(),
+      .regex(/^\S+$/, { message: "Username cannot contain whitespace." }),
+
     mobile: z
       .string()
       .length(13, { message: "Mobile number must be exactly 13 characters." }) // String with exactly 12 characters
-      .trim(),
+      .regex(/^\S+$/, { message: "Mobile cannot contain whitespace." }),
+
     password: z
       .string()
       .min(7, {
         message: "Username must be at least 7 characters.",
       })
-      .trim(),
+      .regex(/^\S+$/, { message: "Password cannot contain whitespace." }),
+
   })
   .required();
 
@@ -105,11 +111,11 @@ const SignUp: FC = () => {
 
   //TODO: make mobile number unique- logging db duplicate error
   // TODO: all password fields shoudl show as password
+// TODO: check mobile number format
 
   const mutation: any = useMutation({
     mutationFn: registerRequest,
     onSuccess: (res: any) => {
-      console.log(res.data.data);
       updateUser(res.data.data);
       router.push("/user/chats");
     },
@@ -237,6 +243,14 @@ const SignUp: FC = () => {
                         className="w-full  h-12 bg-black/90 text-brown-secondary font-semibold text-base rounded-3xl"
                       >
                         Sign up
+                        <LoaderCircle
+                          strokeWidth={3}
+                          className={`${
+                            form.formState.isValid && mutation.isPending
+                              ? "flex"
+                              : "hidden "
+                          }text-brown-secondary w-5 h-5 rotate-icon`}
+                        />
                       </Button>
                     </div>
                     <div className="mt-4 text-center font-medium text-sm">

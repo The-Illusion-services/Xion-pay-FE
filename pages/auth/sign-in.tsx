@@ -37,17 +37,24 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { motion, AnimatePresence } from "framer-motion";
+import { LoaderCircle } from "lucide-react";
 
 const name = "Victoria";
 let title = "Sign In";
 const formSchema = z
   .object({
-    mobile: z.string().min(1, {
-      message: "invalid mobile number.",
-    }).trim(),
-    password: z.string().min(1, {
-      message: "enter password.",
-    }).trim(),
+    mobile: z
+      .string()
+      .min(1, {
+        message: "invalid mobile number.",
+      })
+      .trim(),
+    password: z
+      .string()
+      .min(1, {
+        message: "enter password.",
+      })
+      .trim(),
   })
   .required();
 
@@ -70,10 +77,8 @@ const SignIn: FC = () => {
       const response = await AuthService.login(form.getValues());
 
       return response.data;
-    } catch (error: any) {
-      throw new Error(
-        error?.response?.data?.message || "An error occurred"
-      );
+    } catch (error: any) {      
+      throw new Error(error?.response?.data?.message || "An error occurred");
     }
   };
 
@@ -159,6 +164,14 @@ const SignIn: FC = () => {
                         className="w-full  h-12 bg-black/90 text-brown-secondary font-semibold text-base rounded-3xl"
                       >
                         Sign in
+                        <LoaderCircle
+                          strokeWidth={3}
+                          className={`${
+                            form.formState.isValid && mutation.isPending
+                              ? "flex"
+                              : "hidden "
+                          }text-brown-secondary w-5 h-5 rotate-icon`}
+                        />
                       </Button>
                     </div>
                     <div className="mt-4 text-center font-medium text-sm">

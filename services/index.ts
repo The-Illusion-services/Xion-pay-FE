@@ -3,5 +3,5 @@ import MessageService from "./message"
 
 export {
     AuthService,
-    MessageService
+    MessageService,
 };

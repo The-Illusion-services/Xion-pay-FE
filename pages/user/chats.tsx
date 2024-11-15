@@ -7,7 +7,7 @@ import Chats from "@/components/youchat-shared/chats";
 import {
   ChevronLeft,
   Ellipsis,
-  Image,
+  ImageIcon,
   Mic,
   Phone,
   Send,
@@ -19,6 +19,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { MessageService } from "@/services";
 import { useAuthToken } from "@/hooks";
 import { TAppUser } from "@/types";
+import emptyImg from "public/empty2.jpg";
+import Image from "next/image";
 
 const name = "Victoria";
 let title = "Chat";
@@ -28,7 +30,7 @@ const Chat: FC = () => {
 
   const [recipientId, setRecipientId] = useState<string>("");
   const [message, setMessage] = useState("");
-  const [lastMessage, setlastMessage] = useState("");
+  const [lastMessage, setlastMessage] = useState({text: "", time: ""});
   const [conversation, setConversation] = useState<any | null>(null);
 
   const [open, setOpen] = useState(false);
@@ -46,10 +48,10 @@ const Chat: FC = () => {
   // TODO: idea for implementing ws
   // when receied a message, push mesage to localConversation array
   // and refetch on chage(basically how conversatoion in performing now
-  // for current conversation now, fetch only once, on load of screen
+  // for conversations, fetch only once, on load of screen
 
   // GET CHATS LIST
-  const fetchChatsRequest = async () => {
+  const fetchChatList = async () => {
     try {
       const response = await MessageService.getChatList(page);
 
@@ -66,16 +68,16 @@ const Chat: FC = () => {
     any,
     Error
   >({
-    queryKey: ["get-chats", page],
-    queryFn: fetchChatsRequest,
+    queryKey: ["get-chat-list", page],
+    queryFn: fetchChatList,
     gcTime: 1000 * 60 * 15, // Keep data in cache for 10 minutes
   });
 
+  // TODO: check on chaching method and why it dosent shw cahced data first on reaload
   // if (isLoading) {
   //   return <ConversationListLoader />;
   // }
 
-  // TODO: logout option
 
   // SEND MESSAGE
   const sendMessageRequest = async () => {
@@ -92,7 +94,8 @@ const Chat: FC = () => {
         recepient_id: recipientId || "",
         type: "TEXT",
       });
-
+      console.log(response?.data?.data);
+      
       return response?.data?.data;
     } catch (error: any) {
       console.log(error);
@@ -127,9 +130,17 @@ const Chat: FC = () => {
               setCurrentRecipient={setCurrentRecipient}
               data={data}
               lastMessage={lastMessage}
+              isLoading={isLoading}
             />
           </div>
-          <section
+         {
+          !recipientId ? 
+          <div className="w-full h-screen lg:col-span-3 md:col-span-2">
+            <Image src={emptyImg} alt="img" className="h-full w-full"/>
+          </div>
+          :
+          <>
+           <section
             className={`md:flex ${
               open ? "flex" : "hidden"
             } flex-col col-span-2 w-full h-full border border-t-0 border-black`}
@@ -137,7 +148,7 @@ const Chat: FC = () => {
             <div className="flex p-2 h-14 justify-between items-center border border-b-black">
               <div className="flex gap-x-1 items-center">
                 <ChevronLeft
-                  className="size-7 text-start cursor-pointer"
+                  className="md:hidden flex size-7 text-start cursor-pointer"
                   onClick={() => setOpen(!open)}
                 />
                 <Avatar className="size-9">
@@ -170,11 +181,11 @@ const Chat: FC = () => {
                 conversation={conversation}
               />
             </div>
-            <div className="flex p-2 h-14 justify-between bg-black/95 lg:w-1/2 w-full fixed bottom-14 items-center border-r border-r-black">
+            <div className="flex p-2 h-14 justify-between bg-black/95 lg:w-1/2 md:w-[67%] w-full fixed bottom-14 items-center border-r border-r-black">
               <div className="w-full">
                 <div className="flex  justify-between items-center gap-x-1">
                   <div className="text-brown-primary">
-                    <Image className="cursor-pointer" />
+                    <ImageIcon className="cursor-pointer" />
                   </div>
                   <div className="flex bg-brown-secondary p-1 rounded-xl w-full">
                     <input
@@ -226,6 +237,8 @@ const Chat: FC = () => {
           <section className="lg:grid hidden">
             <ChatProfile currentRecipient={currentRecipient} />
           </section>
+          </>
+         }
         </div>
       </main>
     </UserLayout>
