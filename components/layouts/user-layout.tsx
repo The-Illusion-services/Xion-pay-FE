@@ -4,6 +4,7 @@ import Head from "next/head";
 
 import { useAuthToken } from "@hooks";
 import { MainWrapper, PageAnimation } from "../youchat-ui";
+import moment from "moment";
 
 interface ILayout {
   children: JSX.Element | React.ReactNode;
@@ -21,7 +22,7 @@ export default function UserLayout({
   description,
 }: ILayout) {
   const router = useRouter();
-  const { token, isLoading } = useAuthToken();
+  const { tokenExpiration, token, isLoading } = useAuthToken();
   title = title || "Page Title";
   subtitle = subtitle || "";
   description =
@@ -31,7 +32,7 @@ export default function UserLayout({
 
   useEffect(() => {
     if (isLoading) return;
-    if (!token) router.push("/auth/sign-in");
+    if (!token || moment().isAfter(moment(tokenExpiration))) router.push("/auth/sign-in");
   }, [isLoading, router, token]);
 
   return (

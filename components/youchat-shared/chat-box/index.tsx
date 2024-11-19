@@ -1,31 +1,27 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Ellipsis, FilePenLine, Phone, Play } from "lucide-react";
+import { Play } from "lucide-react";
 import Image from "next/image";
-import rectangle from "public/rectangle.png";
 import audio from "public/audio.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { MessageService } from "@/services";
 import { useAuthToken, useSocket } from "@/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ConversationContext } from "@/hooks/context/conversation";
 
 export default function ChatBox({
   recipientId,
   setlastMessage,
-  lastMessage,
-  setConversation,
-  conversation,
 }: {
   recipientId: string;
   lastMessage: any;
-  conversation: any;
+  receivedMsg: any;
   setlastMessage?: any;
-  setConversation: any;
 }) {
   const { userData } = useAuthToken();
 
-  const { receivedMsg } = useSocket();
-  console.log("con", conversation);
-
+  const { setReceivedMsg } = useSocket();
+  const { conversation, initializeConversation } = useContext(ConversationContext)
+  
   // GET CURRENT CONVERSATION
   const fetchCurrentConversation = async () => {
     if (recipientId) {
@@ -33,12 +29,11 @@ export default function ChatBox({
         const response = await MessageService.getConversation(recipientId);
         const text = (response?.data?.data?.data).slice(-1);
         setlastMessage({ text: text[0]?.text, time: new Date().toISOString() });
-        setConversation(response?.data?.data?.data);
+        initializeConversation(response?.data?.data?.data);
 
         return response?.data?.data?.data;
       } catch (error: any) {
-        console.log(error);
-        throw new Error(
+        console.error(
           error?.response?.data?.data?.message || "An error occurred"
         );
       }
@@ -47,21 +42,19 @@ export default function ChatBox({
     }
   };
 
-  // console.log(lastMessage);
-
-  // TODO: is loading componenent for all
-  // TODO: work on time
   // TODO: work on text area for space
+// TODO: message load componenet 
 
   useEffect(() => {
-    // setPage(1);
+    // setPage(1);\
+    const chatBottom = document.getElementById("chatBottom");
+    if (chatBottom) chatBottom.scrollIntoView({ behavior: "smooth" });
     fetchCurrentConversation();
   }, [
     // page,
     recipientId,
-    conversation,
-    // lastMessage
   ]);
+
 
   return (
     <div>
@@ -81,7 +74,7 @@ export default function ChatBox({
         </div>
       ) : (
         <div>
-          {conversation?.map((item: any, index: number) => (
+          {conversation.map((item: any, index: number) => (
             <div
               key={index}
               className={`p-2 flex ${
@@ -101,6 +94,7 @@ export default function ChatBox({
                   </Avatar>
                 )}
                 {item.type === "TEXT" && (
+                  
                   <div
                     className={`grid flex-1 text-left text-sm leading-tight items-center py-1 px-2 rounded-xl border border-black shadow-[4px_4px_0px_0px] ${
                       item.sender_id === userData?._id
@@ -150,6 +144,8 @@ export default function ChatBox({
           ))}
         </div>
       )}
+
+      <div id="chatBottom"></div>
     </div>
   );
 }

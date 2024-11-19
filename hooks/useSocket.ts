@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
 import { useAuthToken } from ".";
+import { ConversationContext } from "./context/conversation";
 
 function useSocket() {
   const { token } = useAuthToken();
   const [receivedMsg, setReceivedMsg] = useState<any>([]);
+  const { handleReceivedMessage } = useContext(ConversationContext);
 
   const socket = useMemo(() => {
     return io("https://youchatbackend-kga1.onrender.com", {
@@ -17,7 +19,10 @@ function useSocket() {
     socket.connect();
 
     // Event listeners
-    socket.on("connect", () => {});
+    socket.on("connect", () => {
+      //take ff when done
+      console.log("connected to ws");
+    });
 
     socket.on("connect_error", (err: any) => {
       console.error("Connection error", err);
@@ -25,10 +30,11 @@ function useSocket() {
 
     socket.on("disconnect", () => {});
 
-    socket.on("receive-msg", (data) => {
+    socket.on("receive-msg", (data: any) => {
       if (data) {
-        setReceivedMsg((prevReceivedMsg: any) => [...prevReceivedMsg, data]);
+        handleReceivedMessage(data);
       }
+      console.log("ws data", data);
     });
 
     // Cleanup on unmount
@@ -40,7 +46,7 @@ function useSocket() {
       socket.disconnect();
     };
   }, [socket, token]);
-  return { receivedMsg };
+  return { receivedMsg, setReceivedMsg };
 }
 
 export default useSocket;

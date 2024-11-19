@@ -1,6 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAuthToken } from "@/hooks";
+import { ConversationContext } from "@/hooks/context/conversation";
 import {
   AudioLinesIcon,
   Camera,
@@ -10,8 +12,12 @@ import {
   Search,
 } from "lucide-react";
 import { useRouter } from "next/router";
+import { useContext } from "react";
+import moment from "moment";
+
 // TODO: verify api's error for messge data
 // TODO: remove password suggestion from web
+// TODO: load comonent
 
 export default function Chats({
   image,
@@ -23,7 +29,6 @@ export default function Chats({
   open,
   isLoading,
   recipientId,
-  lastMessage,
   setRecipientId,
   setCurrentRecipient,
 }: {
@@ -36,17 +41,14 @@ export default function Chats({
   open: boolean;
   isLoading?: boolean;
   recipientId?: string;
-  lastMessage?: any;
   setRecipientId?: any;
   setCurrentRecipient?: any;
 }) {
   const router = useRouter();
   const locale = router.locale;
-  // TODO: use moment for date formating
-  const currentDate = new Date().toLocaleTimeString(locale, {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+
+  const { lastMessages } = useContext(ConversationContext);
+  const { userData } = useAuthToken();
 
   return (
     <main className="py-2">
@@ -100,15 +102,15 @@ export default function Chats({
               <div key={index} className="px-2">
                 <div
                   onClick={() => {
-                    setRecipientId(item.contact_id._id),
+                    setRecipientId(item.contact.contact_id._id),
                       setCurrentRecipient({
-                        fname: item.contact_id.fname,
-                        lname: item.contact_id.lname,
+                        fname: item.contact.contact_id.fname,
+                        lname: item.contact.contact_id.lname,
                       });
                     setOpen(!open);
                   }}
-                  className={`w-full transition-colors transition-border duration-500 ease-in-out flex gap-x-1 p-2 rounded-lg cursor-pointer hover:bg-brown-primary ${
-                    recipientId === item.contact_id._id
+                  className={`w-full transitio-colors transition-border duration-500 ease-in-out flex gap-x-1 p-2 rounded-lg cursor-pointer hover:bg-brown-primary ${
+                    recipientId === item.contact.contact_id._id
                       ? "bg-brown-primary"
                       : "bg-transparent"
                   }`}
@@ -122,13 +124,18 @@ export default function Chats({
                   </Avatar>
                   <div className="flex flex-col flex-1 text-left text-sm justify-start my-auto w-full">
                     <span className="truncate capitalize">
-                      {item.contact_id.fname} {item.contact_id.lname}
+                      {item.contact.contact_id.fname}{" "}
+                      {item.contact.contact_id.lname}
                     </span>
                     <div className="flex gap-x-2 items-center max-w-[85%]">
                       <span className="truncate text-[0.73rem] w-[75%]">
-                        {data
-                          ? lastMessage?.text || "typing"
-                          : "start conversation!"}
+                        {item.lastMsg?.text ||
+                          lastMessages[
+                            [userData?._id, item.contact.contact_id._id]
+                              .sort()
+                              .join("_")
+                          ]?.text ||
+                          "start conversation!"}
                       </span>
                       <span className="w-[12%]">
                         {item.lastMessage?.type === "audio" && (
@@ -138,12 +145,21 @@ export default function Chats({
                           <Camera className="size-4 text-black/55" />
                         )}
                       </span>
-                      {item.contact_id && (
+                      {item.contact.contact_id && (
                         <span className="truncate text-[0.6rem] w-[13%]">
-                          {new Date(lastMessage?.time).toLocaleTimeString(
-                            navigator.language,
-                            { hour: "2-digit", minute: "2-digit" }
-                          )}
+                          {lastMessages[
+                            [userData?._id, item.contact.contact_id._id]
+                              .sort()
+                              .join("_")
+                          ]?.createdAt || item.lastMsg?.createdAt
+                            ? moment(
+                                lastMessages[
+                                  [userData?._id, item.contact.contact_id._id]
+                                    .sort()
+                                    .join("_")
+                                ]?.createdAt || item.lastMsg?.createdAt
+                              ).format("HH:mm")
+                            : null}
                         </span>
                       )}
                     </div>
