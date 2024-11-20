@@ -27,21 +27,29 @@ export const axiosWithToken = () => {
 export const handleAxiosError = (err: any, thunkAPI: any) => {
   const { message, status } = err.toJSON();
 
+  if (status === 401) {
+    deleteStore();
+    router.push("/auth/sign-in");
+    // router.reload();
+  }
+
   if (status === 403) {
     deleteStore();
     router.push("/auth/sign-in");
-    router.reload();
+    // router.reload();
   }
 
   if (message === "Network Error") {
-    throw thunkAPI.rejectWithValue({
-      status: 500,
-      message: "You are offline",
-    });
+    console.log("netwwork error ooo");
+    
+    // throw thunkAPI.rejectWithValue({ //TODO: whats thunkAPI
+    //   status: 500,
+    //   message: "You are offline", //TODO: chek tthid
+    // });
   } else {
-    throw thunkAPI.rejectWithValue({
-      status: err.response.status || 0,
-      message: err.response.data.message,
-    });
+    // throw thunkAPI.rejectWithValue({
+    //   status: err.response.status || 0,
+    //   message: err.response.data.message,
+    // });
   }
 };

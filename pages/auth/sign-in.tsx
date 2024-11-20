@@ -1,25 +1,18 @@
 "use client";
 
 import { AuthLayout } from "@layouts";
-import React, { FC, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Chats from "@/components/youchat-shared/chats";
-import ChatBox from "@/components/youchat-shared/chat-box";
-import ChatProfile from "@/components/youchat-shared/chat-profile";
+import React, { FC } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { AuthService, MessageService } from "@/services";
-import img1 from "public/authimg1.jpg";
+import { AuthService } from "@/services";
 import img2 from "public/authimg2.png";
 import Image from "next/image";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";

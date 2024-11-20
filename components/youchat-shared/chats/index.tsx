@@ -11,13 +11,11 @@ import {
   Phone,
   Search,
 } from "lucide-react";
-import { useRouter } from "next/router";
 import { useContext } from "react";
 import moment from "moment";
 
 // TODO: verify api's error for messge data
 // TODO: remove password suggestion from web
-// TODO: load comonent
 
 export default function Chats({
   image,
@@ -44,9 +42,6 @@ export default function Chats({
   setRecipientId?: any;
   setCurrentRecipient?: any;
 }) {
-  const router = useRouter();
-  const locale = router.locale;
-
   const { lastMessages } = useContext(ConversationContext);
   const { userData } = useAuthToken();
 
@@ -127,14 +122,14 @@ export default function Chats({
                       {item.contact.contact_id.fname}{" "}
                       {item.contact.contact_id.lname}
                     </span>
-                    <div className="flex gap-x-2 items-center max-w-[85%]">
+                    <div className="flex gap-x-2 items-center">
                       <span className="truncate text-[0.73rem] w-[75%]">
-                        {item.lastMsg?.text ||
-                          lastMessages[
+                        {(lastMessages[
                             [userData?._id, item.contact.contact_id._id]
                               .sort()
                               .join("_")
-                          ]?.text ||
+                          ]?.text || item.lastMsg?.text
+                          ) ||
                           "start conversation!"}
                       </span>
                       <span className="w-[12%]">

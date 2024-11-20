@@ -20,8 +20,9 @@ export default function ChatBox({
   const { userData } = useAuthToken();
 
   const { setReceivedMsg } = useSocket();
-  const { conversation, initializeConversation } = useContext(ConversationContext)
-  
+  const { conversation, initializeConversation } =
+    useContext(ConversationContext);
+
   // GET CURRENT CONVERSATION
   const fetchCurrentConversation = async () => {
     if (recipientId) {
@@ -43,7 +44,7 @@ export default function ChatBox({
   };
 
   // TODO: work on text area for space
-// TODO: message load componenet 
+  // TODO: message load componenet
 
   useEffect(() => {
     // setPage(1);\
@@ -54,7 +55,6 @@ export default function ChatBox({
     // page,
     recipientId,
   ]);
-
 
   return (
     <div>
@@ -94,7 +94,6 @@ export default function ChatBox({
                   </Avatar>
                 )}
                 {item.type === "TEXT" && (
-                  
                   <div
                     className={`grid flex-1 text-left text-sm leading-tight items-center py-1 px-2 rounded-xl border border-black shadow-[4px_4px_0px_0px] ${
                       item.sender_id === userData?._id

@@ -24,6 +24,7 @@ import Image from "next/image";
 import { MessageTypeEnum } from "@/types/enum";
 import { ConversationContext } from "@/hooks/context/conversation";
 import { generateRoomId } from "@/utils/generator";
+import { handleAxiosError } from "@/utils/axios";
 
 let title = "Chat";
 
@@ -37,6 +38,7 @@ const Chat: FC = () => {
   const [lastMessage, setlastMessage] = useState({ text: "", time: "" });
 
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const { updateConversation } = useContext(ConversationContext);
   const [currentRecipient, setCurrentRecipient] = useState<TAppUser | null>({
@@ -52,13 +54,15 @@ const Chat: FC = () => {
   const fetchChatList = async () => {
     try {
       const response = await MessageService.getChatList(page);
-      
+
       return response?.data?.data?.data;
     } catch (error: any) {
-      console.log(error);
-      throw new Error(
-        error?.response?.data?.data?.message || "An error occurred"
-      );
+      console.log("error", error);
+      setError(true);
+      handleAxiosError(error, "")
+      // throw new Error(
+      //   error?.response?.data?.data?.message || "An error occurred"
+      // );
     }
   };
 
