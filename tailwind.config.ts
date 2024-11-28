@@ -27,6 +27,7 @@ const config = {
   			'black-secondary': '#7f8ea3',
   			'brown-secondary': '#ede0d0',
   			'brown-primary': '#edcfaa',
+  			'brown-dark': '#e3bc8d',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			sidebar: {

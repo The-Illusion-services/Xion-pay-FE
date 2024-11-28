@@ -2,20 +2,18 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Play } from "lucide-react";
 import Image from "next/image";
 import audio from "public/audio.png";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MessageService } from "@/services";
 import { useAuthToken, useSocket } from "@/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ConversationContext } from "@/hooks/context/conversation";
+import LinkPreview from "../links";
 
 export default function ChatBox({
   recipientId,
-  setlastMessage,
 }: {
   recipientId: string;
-  lastMessage: any;
   receivedMsg: any;
-  setlastMessage?: any;
 }) {
   const { userData } = useAuthToken();
 
@@ -29,7 +27,7 @@ export default function ChatBox({
       try {
         const response = await MessageService.getConversation(recipientId);
         const text = (response?.data?.data?.data).slice(-1);
-        setlastMessage({ text: text[0]?.text, time: new Date().toISOString() });
+        // setlastMessage({ text: text[0]?.text, time: new Date().toISOString() });
         initializeConversation(response?.data?.data?.data);
 
         return response?.data?.data?.data;
@@ -101,7 +99,13 @@ export default function ChatBox({
                         : "bg-brown-secondary"
                     }`}
                   >
-                    <span className="text-xs">{item.text}</span>
+                    <span className="text-xs">
+                      {item.text.includes("https") && (
+                        <LinkPreview text={item.text} />
+                      )}
+
+                      {item.text}
+                    </span>
                   </div>
                 )}
 

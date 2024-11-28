@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useContext } from "react";
 import moment from "moment";
+import { Streak } from "@/components/youchat-icons";
 
 // TODO: verify api's error for messge data
 // TODO: remove password suggestion from web
@@ -101,10 +102,11 @@ export default function Chats({
                       setCurrentRecipient({
                         fname: item.contact.contact_id.fname,
                         lname: item.contact.contact_id.lname,
+                        streak_count: item.streak_count,
                       });
                     setOpen(!open);
                   }}
-                  className={`w-full transitio-colors transition-border duration-500 ease-in-out flex gap-x-1 p-2 rounded-lg cursor-pointer hover:bg-brown-primary ${
+                  className={`w-full transitio-colors justify-evenly items-baseline transition-border duration-500 ease-in-out flex gap-x-1 py-2 px-1 rounded-lg cursor-pointer hover:bg-brown-primary ${
                     recipientId === item.contact.contact_id._id
                       ? "bg-brown-primary"
                       : "bg-transparent"
@@ -117,19 +119,19 @@ export default function Chats({
                     />
                     <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                   </Avatar>
-                  <div className="flex flex-col flex-1 text-left text-sm justify-start my-auto w-full">
+                  <div className="flex flex-col text-left text-sm justify-start my-auto w-[75%]">
                     <span className="truncate capitalize">
                       {item.contact.contact_id.fname}{" "}
                       {item.contact.contact_id.lname}
                     </span>
                     <div className="flex gap-x-2 items-center">
                       <span className="truncate text-[0.73rem] w-[75%]">
-                        {(lastMessages[
-                            [userData?._id, item.contact.contact_id._id]
-                              .sort()
-                              .join("_")
-                          ]?.text || item.lastMsg?.text
-                          ) ||
+                        {lastMessages[
+                          [userData?._id, item.contact.contact_id._id]
+                            .sort()
+                            .join("_")
+                        ]?.text ||
+                          item.lastMsg?.text ||
                           "start conversation!"}
                       </span>
                       <span className="w-[12%]">
@@ -141,7 +143,7 @@ export default function Chats({
                         )}
                       </span>
                       {item.contact.contact_id && (
-                        <span className="truncate text-[0.6rem] w-[13%]">
+                        <span className="truncate text-end text-[0.6rem] w-[13%]">
                           {lastMessages[
                             [userData?._id, item.contact.contact_id._id]
                               .sort()
@@ -159,6 +161,13 @@ export default function Chats({
                       )}
                     </div>
                   </div>
+                  {lastMessages[
+                    [userData?._id, item.contact.contact_id._id]
+                      .sort()
+                      .join("_")
+                  ]?.streak_count > 0 || item.streak_count > 0 ? (
+                    <Streak />
+                  ) : null}
                 </div>
               </div>
             ))}

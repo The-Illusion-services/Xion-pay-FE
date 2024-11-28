@@ -20,6 +20,14 @@ class MsgService {
       },
     });
   }
+  getLinkPreview(url: string) {
+    return axiosWithToken().get("/utils/link-preview", {
+      params: {
+        url,
+      },
+    });
+  }
+
 }
 
 const MessageService = new MsgService();

@@ -16,6 +16,7 @@ interface ConversationContextType {
   updateConversation: (newMessage: any) => void;
   receivedMsg: any[];
   handleReceivedMessage: (newMessage: any) => void;
+  handleStreak: (newMessage: any) => void;
   lastMessages: { [key: string]: any };
   //   setLastMessages: React.Dispatch<React.SetStateAction<{ [key: string]: any }>>;
 }
@@ -26,6 +27,7 @@ const ConversationContext = createContext<ConversationContextType>({
   updateConversation: () => {},
   receivedMsg: [],
   handleReceivedMessage: () => {},
+  handleStreak: () => {},
   lastMessages: {},
   //   setLastMessages: () => {}
 });
@@ -74,6 +76,22 @@ const ConversationProvider = ({
     }
   };
 
+  const handleStreak = (data: any) => {
+    if (!userData) return;
+
+    const conversationKey = generateRoomId(data.user_id, data.contact_id);
+
+    if (conversationKey.includes(userData._id)) {
+      setLastMessages((prevLastMessages: any) => ({
+        ...prevLastMessages,
+        [conversationKey]: {
+          ...prevLastMessages[conversationKey],
+          streak_count: data.streak_count,
+        },
+      }));
+    }
+  };
+
   const initializeConversation = (conversations: any[]) => {
     setConversation(conversations);
   };
@@ -86,6 +104,7 @@ const ConversationProvider = ({
         updateConversation,
         receivedMsg,
         handleReceivedMessage,
+        handleStreak,
         lastMessages,
       }}
     >

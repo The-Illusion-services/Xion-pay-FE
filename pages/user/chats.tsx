@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Chats from "@/components/youchat-shared/chats";
 import {
   ChevronLeft,
+  Dot,
   Ellipsis,
   ImageIcon,
   Mic,
@@ -25,6 +26,7 @@ import { MessageTypeEnum } from "@/types/enum";
 import { ConversationContext } from "@/hooks/context/conversation";
 import { generateRoomId } from "@/utils/generator";
 import { handleAxiosError } from "@/utils/axios";
+import { Streak } from "@/components/youchat-icons";
 
 let title = "Chat";
 
@@ -35,7 +37,12 @@ const Chat: FC = () => {
   const [recipientId, setRecipientId] = useState<string>("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-  const [lastMessage, setlastMessage] = useState({ text: "", time: "" });
+  // const [lastMessage, setlastMessage] = useState({
+  //   text: "",
+  //   time: "",
+  //   streak_count: 0,
+  // });
+  const { lastMessages } = useContext(ConversationContext);
 
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
@@ -48,7 +55,12 @@ const Chat: FC = () => {
     lname: "",
     mobile: "",
     username: "",
+    streak_count: 0,
   });
+
+  const streak_count =
+    lastMessages[[userData?._id, recipientId].sort().join("_")]?.streak_count ||
+    currentRecipient?.streak_count;
 
   // GET CHATS LIST
   const fetchChatList = async () => {
@@ -59,10 +71,7 @@ const Chat: FC = () => {
     } catch (error: any) {
       console.log("error", error);
       setError(true);
-      handleAxiosError(error, "")
-      // throw new Error(
-      //   error?.response?.data?.data?.message || "An error occurred"
-      // );
+      handleAxiosError(error, "");
     }
   };
 
@@ -156,12 +165,22 @@ const Chat: FC = () => {
                       <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">
+                      <span className="truncate font-semibold items-center flex gap-x-2">
                         {currentRecipient
                           ? `${currentRecipient.fname} ${currentRecipient.lname}`
                           : ""}
+
+                        {streak_count && (
+                          <>
+                            <Dot className="w-7 h-7" />
+                            <div className="flex items-center font-normal">
+                              {streak_count}
+                              <Streak />
+                            </div>
+                          </>
+                        )}
                       </span>
-                      <span className="truncate text-xs">Active 9m ago</span>
+                      <span className="truncate text-xs">Active 5m ago</span>
                     </div>
                   </div>
                   <div className="flex gap-x-3 items-center">
@@ -173,8 +192,6 @@ const Chat: FC = () => {
                   <ChatBox
                     recipientId={recipientId}
                     receivedMsg={receivedMsg}
-                    lastMessage={lastMessage}
-                    setlastMessage={setlastMessage}
                   />
                 </div>
                 <div className="flex p-2 h-14 justify-between bg-black/95 lg:w-1/2 md:w-[67%] w-full fixed bottom-14 items-center border-r border-r-black">

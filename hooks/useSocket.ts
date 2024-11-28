@@ -6,11 +6,12 @@ import { ConversationContext } from "./context/conversation";
 function useSocket() {
   const { token } = useAuthToken();
   const [receivedMsg, setReceivedMsg] = useState<any>([]);
-  const { handleReceivedMessage } = useContext(ConversationContext);
+  const { handleReceivedMessage, handleStreak } = useContext(ConversationContext);
 
   const socket = useMemo(() => {
-    return io("https://youchatbackend-kga1.onrender.com", {
-      query: { token },
+    // return io("https://youchatbackend-kga1.onrender.com", {
+    return io("http://localhost:3001", {
+      query: { token: token?.trim() },
       autoConnect: false, // Disable automatic connection on initialization
     });
   }, [token]);
@@ -37,12 +38,21 @@ function useSocket() {
       console.log("ws data", data);
     });
 
+    socket.on("update-streak", (data: any) => {
+      if (data) {
+        handleStreak(data);
+      }
+      console.log("ws data", data);
+    });
+    
+
     // Cleanup on unmount
     return () => {
       socket.off("connect");
       socket.off("connect_error");
       socket.off("disconnect");
       socket.off("receive-msg");
+      socket.off("add-streak");
       socket.disconnect();
     };
   }, [socket, token]);

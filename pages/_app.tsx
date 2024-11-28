@@ -14,3 +14,4 @@ export default function App({ Component, pageProps }: AppProps) {
     </QueryClientProvider>
   );
 }
+// TODO: if any error in the ap, show error pge
