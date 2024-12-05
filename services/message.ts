@@ -6,20 +6,28 @@ class MsgService {
       ...payload,
     });
   }
-  getChatList(page = 1) {
+  getChatList(page = 1) { //TODO: set page where request is ebing made
     return axiosWithToken().get("/contact", {
       params: {
         page,
       },
     });
   }
-  getConversation(recepient_id: string) {
+  
+  getConversation(recepient_id: string, page: number) {
     return axiosWithToken().get("/chat/direct-message", {
       params: {
         recepient_id,
+        page
       },
     });
   }
+  uploadImage(payload: { recepient_id: string; type: string, base64: string; caption?: string; }) {
+    return axiosWithToken().post("/chat/direct-message-image-upload",  {
+      ...payload,
+    });
+  }
+
   getLinkPreview(url: string) {
     return axiosWithToken().get("/utils/link-preview", {
       params: {
@@ -27,7 +35,6 @@ class MsgService {
       },
     });
   }
-
 }
 
 const MessageService = new MsgService();

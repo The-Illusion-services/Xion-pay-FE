@@ -14,10 +14,13 @@ interface ConversationContextType {
   conversation: any[];
   initializeConversation: (conversations: any[]) => void;
   updateConversation: (newMessage: any) => void;
+  updateImagePreview: (base64: string) => void;
   receivedMsg: any[];
   handleReceivedMessage: (newMessage: any) => void;
   handleStreak: (newMessage: any) => void;
   lastMessages: { [key: string]: any };
+  imagePreview: string;
+  
   //   setLastMessages: React.Dispatch<React.SetStateAction<{ [key: string]: any }>>;
 }
 
@@ -25,10 +28,12 @@ const ConversationContext = createContext<ConversationContextType>({
   conversation: [],
   initializeConversation: () => {},
   updateConversation: () => {},
+  updateImagePreview: () => {},
   receivedMsg: [],
   handleReceivedMessage: () => {},
   handleStreak: () => {},
   lastMessages: {},
+  imagePreview: "",
   //   setLastMessages: () => {}
 });
 
@@ -38,6 +43,7 @@ const ConversationProvider = ({
   const [conversation, setConversation] = useState<any[]>([]);
   const [receivedMsg, setReceivedMsg] = useState<any[]>([]);
   const [lastMessages, setLastMessages] = useState<{ [key: string]: any }>({});
+  const [imagePreview, setImagePreview] = useState<string>("");
   const { userData } = useAuthToken();
 
   const updateConversation = (newMessage: any) => {
@@ -92,6 +98,11 @@ const ConversationProvider = ({
     }
   };
 
+
+  const updateImagePreview = (base64: string) => {
+    setImagePreview(base64);
+  };
+
   const initializeConversation = (conversations: any[]) => {
     setConversation(conversations);
   };
@@ -106,6 +117,8 @@ const ConversationProvider = ({
         handleReceivedMessage,
         handleStreak,
         lastMessages,
+        imagePreview,
+        updateImagePreview
       }}
     >
       {children}

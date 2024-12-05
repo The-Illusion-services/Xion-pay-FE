@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Play } from "lucide-react";
+import { LoaderCircle, Play } from "lucide-react";
 import Image from "next/image";
 import audio from "public/audio.png";
 import { useContext, useEffect, useState } from "react";
@@ -8,14 +8,24 @@ import { useAuthToken, useSocket } from "@/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ConversationContext } from "@/hooks/context/conversation";
 import LinkPreview from "../links";
+import { MessageTypeEnum } from "@/types/enum";
+import { handleAxiosError } from "@/utils/axios";
+import { useQuery } from "@tanstack/react-query";
 
 export default function ChatBox({
   recipientId,
+  uploadImageLoading,
+  textMsgLoading,
+  lastMsgId,
 }: {
   recipientId: string;
   receivedMsg: any;
+  uploadImageLoading: boolean;
+  textMsgLoading: boolean;
+  lastMsgId: any;
 }) {
   const { userData } = useAuthToken();
+  const [page, setPage] = useState(1);
 
   const { setReceivedMsg } = useSocket();
   const { conversation, initializeConversation } =
@@ -25,9 +35,11 @@ export default function ChatBox({
   const fetchCurrentConversation = async () => {
     if (recipientId) {
       try {
-        const response = await MessageService.getConversation(recipientId);
-        const text = (response?.data?.data?.data).slice(-1);
-        // setlastMessage({ text: text[0]?.text, time: new Date().toISOString() });
+        const response = await MessageService.getConversation(
+          recipientId,
+          page
+        );
+
         initializeConversation(response?.data?.data?.data);
 
         return response?.data?.data?.data;
@@ -35,20 +47,33 @@ export default function ChatBox({
         console.error(
           error?.response?.data?.data?.message || "An error occurred"
         );
+        // setError(true);
+        handleAxiosError(error, "");
       }
     } else {
       return null;
     }
   };
 
+  const { isLoading, isRefetching, refetch, isError, data } = useQuery<
+    any,
+    Error
+  >({
+    queryKey: ["get-conversation", page],
+    queryFn: fetchCurrentConversation,
+    gcTime: 1000 * 60 * 15, // Keep data in cache for 10 minutes
+    refetchOnWindowFocus: true,
+  });
+
   // TODO: work on text area for space
-  // TODO: message load componenet
 
   useEffect(() => {
     // setPage(1);\
     const chatBottom = document.getElementById("chatBottom");
+    console.log(chatBottom);
+    
     if (chatBottom) chatBottom.scrollIntoView({ behavior: "smooth" });
-    fetchCurrentConversation();
+    refetch;
   }, [
     // page,
     recipientId,
@@ -56,7 +81,7 @@ export default function ChatBox({
 
   return (
     <div>
-      {!conversation ? (
+      {!conversation || isLoading ? (
         <div className="flex flex-col gap-y-3 px-2 pt-2">
           <div className="flex ">
             <div className="flex gap-x-1 max-w-[85%]">
@@ -91,7 +116,7 @@ export default function ChatBox({
                     <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                   </Avatar>
                 )}
-                {item.type === "TEXT" && (
+                {item.type === MessageTypeEnum.TEXT && (
                   <div
                     className={`grid flex-1 text-left text-sm leading-tight items-center py-1 px-2 rounded-xl border border-black shadow-[4px_4px_0px_0px] ${
                       item.sender_id === userData?._id
@@ -100,7 +125,7 @@ export default function ChatBox({
                     }`}
                   >
                     <span className="text-xs">
-                      {item.text.includes("https") && (
+                      {item?.text?.includes("https") && (
                         <LinkPreview text={item.text} />
                       )}
 
@@ -109,28 +134,29 @@ export default function ChatBox({
                   </div>
                 )}
 
-                {item.type === "image" && (
+                {item.type === MessageTypeEnum.IMAGE && (
                   <div className="cursor-pointer relative flex-1 flex flex-wrap text-left text-sm leading-tight items-center rounded-xl bg-black border border-black shadow-[4px_4px_0px_0px]">
-                    {item.url
+                    {item.media
                       ?.slice(0, 2)
                       .map((url: string, imgIndex: number) => (
-                        <Image
-                          key={imgIndex}
-                          alt="img"
-                          src={url}
-                          className={`w-48 h-48`}
-                        />
+                        <div key={imgIndex} className="flex">
+                          <img
+                            alt="img"
+                            src={url}
+                            className="w-48 h-48 rounded-xl"
+                          />
+                        </div>
                       ))}
-                    {(item.url?.length ?? 0) > 2 ? (
+                    {(item.media?.length ?? 0) > 2 ? (
                       <div className="absolute top-0 right-0 bg-[#000000a3] w-1/2 h-full flex rounded-xl">
                         <h1 className="m-auto text-white text-2xl py-[0.1rem] px-1 border-2 border-dashed rounded-full font-medium">
-                          +{(item.url?.length ?? 0) - 2}
+                          +{(item.media?.length ?? 0) - 2}
                         </h1>
                       </div>
                     ) : null}
                   </div>
                 )}
-                {item.type === "audio" && (
+                {item.type === MessageTypeEnum.AUDIO && (
                   <div
                     className={`flex flex-1 gap-x-1 text-left px-2 py-1 text-sm leading-tight items-center rounded-xl border border-black shadow-[4px_4px_0px_0px] ${
                       item.user === "sender"
@@ -142,6 +168,13 @@ export default function ChatBox({
                     <Image alt="img" src={audio} className="h-5" />
                   </div>
                 )}
+                {item.lastMsgId === lastMsgId &&
+                  (textMsgLoading || uploadImageLoading) && (
+                    <LoaderCircle
+                      strokeWidth={3}
+                      className="text-black w-4 h-4 rotate-icon"
+                    />
+                  )}
               </div>
             </div>
           ))}

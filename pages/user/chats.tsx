@@ -1,7 +1,7 @@
 "use client";
 
 import { UserLayout } from "@layouts";
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Chats from "@/components/youchat-shared/chats";
 import {
@@ -27,27 +27,32 @@ import { ConversationContext } from "@/hooks/context/conversation";
 import { generateRoomId } from "@/utils/generator";
 import { handleAxiosError } from "@/utils/axios";
 import { Streak } from "@/components/youchat-icons";
+import { Input } from "@/components/ui/input";
 
 let title = "Chat";
 
 const Chat: FC = () => {
+  // let base64Image: string
+
   const { receivedMsg } = useSocket();
   const { userData } = useAuthToken();
-
   const [recipientId, setRecipientId] = useState<string>("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-  // const [lastMessage, setlastMessage] = useState({
-  //   text: "",
-  //   time: "",
-  //   streak_count: 0,
-  // });
-  const { lastMessages } = useContext(ConversationContext);
+
+  const { lastMessages, updateImagePreview, imagePreview } =
+    useContext(ConversationContext);
+
+  // Ref for the hidden file input
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const { updateConversation } = useContext(ConversationContext);
+  const [randomId, setRandomId] = useState(
+    Math.floor(100000 + Math.random() * 900000)
+  );
   const [currentRecipient, setCurrentRecipient] = useState<TAppUser | null>({
     _id: "",
     avatar: "",
@@ -66,7 +71,6 @@ const Chat: FC = () => {
   const fetchChatList = async () => {
     try {
       const response = await MessageService.getChatList(page);
-
       return response?.data?.data?.data;
     } catch (error: any) {
       console.log("error", error);
@@ -98,12 +102,13 @@ const Chat: FC = () => {
         sender_id: userData?._id,
         type: messageType,
         recepient_id: recipientId || null,
+        lastMsgId: randomId,
       });
 
       const response = await MessageService.sendMessage({
         text: message.trim(),
         recepient_id: recipientId || "",
-        type: "TEXT",
+        type: messageType,
       });
 
       return response?.data?.data;
@@ -113,7 +118,7 @@ const Chat: FC = () => {
     }
   };
 
-  const { isLoading: sendMsgLoading, mutate }: any = useMutation({
+  const { isPending: isMsgPending, mutate }: any = useMutation({
     mutationFn: sendMessageRequest,
     onError: (error: any) => {
       console.error("Error sending message:", error);
@@ -121,8 +126,87 @@ const Chat: FC = () => {
   });
 
   const handleSendMessage = (e: React.FormEvent) => {
+    setRandomId(Math.floor(100000 + Math.random() * 900000)); // Generate a new uploadId
+
     e.preventDefault();
     mutate();
+  };
+  let hi: any;
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setRandomId(Math.floor(100000 + Math.random() * 900000)); // Generate a new uploadId
+      // Wait for the base64 value
+      const base64Image = await convertToBase64(file).then((image) => {
+        setMessageType(MessageTypeEnum.IMAGE);
+        updateImagePreview(image);
+        handleUploadImage(e, image, randomId);
+      });
+
+      // Update preview and message type
+
+      // Call the upload function with the Base64 string
+    } catch (error) {
+      console.error("Error reading image file:", error);
+    }
+  };
+
+  // Helper function to convert file to Base64
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
+  // Function to trigger the file input click
+  const handleIconClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  // UPLOAD IMAGE
+  const uploadImageRequest = async (base64Image: string) => {
+    try {
+      setMessage("");
+
+      updateConversation({
+        sender_id: userData?._id,
+        type: MessageTypeEnum.IMAGE,
+        media: [base64Image],
+        recepient_id: recipientId || null,
+        lastMsgId: randomId,
+      });
+
+      const response = await MessageService.uploadImage({
+        recepient_id: recipientId || "",
+        type: MessageTypeEnum.IMAGE,
+        base64: base64Image,
+      });
+
+      return response?.data?.data;
+    } catch (error: any) {
+      console.log(error);
+      throw new Error(error?.response?.data?.message || "An error occurred");
+    }
+  };
+
+  const { isPending: isImagePending, mutate: imageMutate }: any = useMutation({
+    mutationFn: (base64Image: string) => uploadImageRequest(base64Image),
+    onError: (error: any) => {
+      console.error("Error uploading image/images:", error);
+    },
+  });
+
+  const handleUploadImage = async (
+    e: React.FormEvent,
+    base64Image: string,
+    randomId: number
+  ) => {
+    e.preventDefault();
+    imageMutate(base64Image, randomId);
   };
 
   return (
@@ -192,20 +276,27 @@ const Chat: FC = () => {
                   <ChatBox
                     recipientId={recipientId}
                     receivedMsg={receivedMsg}
+                    uploadImageLoading={isImagePending}
+                    textMsgLoading={isMsgPending}
+                    lastMsgId={randomId}
                   />
                 </div>
                 <div className="flex p-2 h-14 justify-between bg-black/95 lg:w-1/2 md:w-[67%] w-full fixed bottom-14 items-center border-r border-r-black">
                   <div className="w-full">
                     <form onSubmit={handleSendMessage}>
                       <div className="flex  justify-between items-center gap-x-1">
-                        <div
-                          onClick={(e) => {
-                            setMessageType(MessageTypeEnum.IMAGE);
-                          }}
-                          className="text-brown-primary"
-                        >
-                          <ImageIcon className="cursor-pointer" />
-                        </div>
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          // {...register1("mealImage")}
+                          onChange={handleImageChange}
+                          ref={fileInputRef}
+                          className="hidden"
+                        />
+                        <ImageIcon
+                          onClick={isImagePending ? undefined : handleIconClick}
+                          className={`cursor-pointer size-7 text-brown-primary ${isImagePending ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        />
                         <div
                           onClick={(e) => {
                             setMessageType(MessageTypeEnum.TEXT);
@@ -248,6 +339,9 @@ const Chat: FC = () => {
 
                           <button
                             type="submit"
+                            onClick={(e) => {
+                              setMessageType(MessageTypeEnum.TEXT);
+                            }}
                             className={`absolute  cursor-pointer rounded-full bg-brown-primary p-[0.4rem] transition-opacity duration-300 ease-in-out 
       ${
         message && message.trim().length !== 0

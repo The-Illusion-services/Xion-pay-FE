@@ -14,6 +14,7 @@ import {
 import { useContext } from "react";
 import moment from "moment";
 import { Streak } from "@/components/youchat-icons";
+import { MessageTypeEnum } from "@/types/enum";
 
 // TODO: verify api's error for messge data
 // TODO: remove password suggestion from web
@@ -98,7 +99,7 @@ export default function Chats({
               <div key={index} className="px-2">
                 <div
                   onClick={() => {
-                    setRecipientId(item.contact.contact_id._id),
+                    setRecipientId(item.contact.contact_id._id);
                       setCurrentRecipient({
                         fname: item.contact.contact_id.fname,
                         lname: item.contact.contact_id.lname,
@@ -126,21 +127,37 @@ export default function Chats({
                     </span>
                     <div className="flex gap-x-2 items-center">
                       <span className="truncate text-[0.73rem] w-[75%]">
-                        {lastMessages[
+                        {((lastMessages[
                           [userData?._id, item.contact.contact_id._id]
                             .sort()
                             .join("_")
-                        ]?.text ||
-                          item.lastMsg?.text ||
+                        ]?.type || item.lastMsg?.type) ===
+                          MessageTypeEnum.TEXT &&
+                          lastMessages[
+                            [userData?._id, item.contact.contact_id._id]
+                              .sort()
+                              .join("_")
+                          ]?.text) ||
+                          item.lastMsg?.text}
+
+                        {(lastMessages[
+                          [userData?._id, item.contact.contact_id._id]
+                            .sort()
+                            .join("_")
+                        ]?.type || item.lastMsg?.type) ===
+                          MessageTypeEnum.IMAGE && (
+                          <div className="flex items-center gap-x-3">
+                            <p>sent a photo</p>
+                            <Camera className="size-4 text-black/55" />
+                          </div>
+                        )}
+                        {!lastMessages[
+                          [userData?._id, item.contact.contact_id._id]
+                            .sort()
+                            .join("_")
+                        ]?.type &&
+                          !item.lastMsg?.type &&
                           "start conversation!"}
-                      </span>
-                      <span className="w-[12%]">
-                        {item.lastMessage?.type === "audio" && (
-                          <AudioLinesIcon className="size-4 text-black/55" />
-                        )}
-                        {item.lastMessage?.type === "image" && (
-                          <Camera className="size-4 text-black/55" />
-                        )}
                       </span>
                       {item.contact.contact_id && (
                         <span className="truncate text-end text-[0.6rem] w-[13%]">
