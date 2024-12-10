@@ -60,6 +60,7 @@ const Chat: FC = () => {
     lname: "",
     mobile: "",
     username: "",
+    onlineStatus: false,
     streak_count: 0,
   });
 
