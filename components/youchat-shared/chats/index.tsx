@@ -23,9 +23,9 @@ import notFound from "public/shit.png";
 
 // TODO: verify api's error for messge data
 // TODO: remove password suggestion from web
-const debounce = (func: any, wait: any) => {
-  let timeout: any;
-  return (...args) => {
+const debounce = (func: Function, wait: number) => {
+  let timeout: NodeJS.Timeout;
+  return (...args: any[]) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       func.apply(this, args);
@@ -62,13 +62,13 @@ export default function Chats({
   const { userData, onlineStat } = useAuthToken();
   const [page, setPage] = useState(1);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
-  const [searchData, setSearchData] = useState(null);
+  const [searchData, setSearchData] = useState<any>(null);
   const [query, setQuery] = useState("");
 
   console.log("data", data);
 
   // GET CONTACT SEARCH LIST
-  const fetchContactSearch = async (query) => {
+  const fetchContactSearch = async (query: string) => {
     if (!query) return;
     setIsSearchLoading(true);
     try {
@@ -92,7 +92,7 @@ export default function Chats({
 
   const debouncedHandleSearch = debounce(fetchContactSearch, 500);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     setSearchData(null);
     setQuery(query);
