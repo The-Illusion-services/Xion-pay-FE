@@ -24,7 +24,7 @@ import notFound from "public/shit.png";
 // TODO: verify api's error for messge data
 // TODO: remove password suggestion from web
 const debounce = (func: any, wait: any) => {
-  let timeout;
+  let timeout: any;
   return (...args) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
