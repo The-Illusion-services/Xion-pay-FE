@@ -104,7 +104,7 @@ const SignUp: FC = () => {
       return response.data;
     } catch (error: any) {
       throw new Error(
-        error?.response?.data?.data?.message || "An error occurred"
+        error?.response?.data?.message || error?.response?.data?.data?.message || "An error occurred"
       );
     }
   };
@@ -165,7 +165,7 @@ const SignUp: FC = () => {
                             <Input
                               placeholder="First Name"
                               {...field}
-                              className="placeholder:font-medium px-5 rounded-3xl"
+                              className="placeholder:font-medium px-5 rounded-3xl focus-visible:ring-black/55"
                             />
                           </FormControl>
                           <FormMessage />
@@ -181,7 +181,7 @@ const SignUp: FC = () => {
                             <Input
                               placeholder="Last Name"
                               {...field}
-                              className="placeholder:font-medium px-5 rounded-3xl"
+                              className="placeholder:font-medium px-5 rounded-3xl focus-visible:ring-black/55"
                             />
                           </FormControl>
                           <FormMessage />
@@ -197,7 +197,7 @@ const SignUp: FC = () => {
                             <Input
                               placeholder="Username"
                               {...field}
-                              className="placeholder:font-medium px-5 rounded-3xl"
+                              className="placeholder:font-medium px-5 rounded-3xl focus-visible:ring-black/55"
                             />
                           </FormControl>
                           <FormMessage />
@@ -213,7 +213,7 @@ const SignUp: FC = () => {
                             <Input
                               placeholder="Mobile Number"
                               {...field}
-                              className="placeholder:font-medium px-5 rounded-3xl"
+                              className="placeholder:font-medium px-5 rounded-3xl focus-visible:ring-black/55"
                             />
                           </FormControl>
                           <FormMessage />
@@ -228,8 +228,10 @@ const SignUp: FC = () => {
                           <FormControl>
                             <Input
                               placeholder="Password"
+                              autoComplete="new-password"
+                              type="password"
                               {...field}
-                              className="placeholder:font-medium px-5 rounded-3xl"
+                              className="placeholder:font-medium px-5 rounded-3xl focus-visible:ring-black/55"
                             />
                           </FormControl>
                           <FormMessage />

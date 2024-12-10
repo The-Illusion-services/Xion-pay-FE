@@ -9,8 +9,8 @@ function useSocket() {
   const { handleReceivedMessage, handleStreak } = useContext(ConversationContext);
 
   const socket = useMemo(() => {
-    return io("https://youchatbackend-kga1.onrender.com", {
-    // return io("http://localhost:3001", {
+    // return io("https://youchatbackend-kga1.onrender.com", {
+    return io("http://localhost:3001", {
       query: { token: token?.trim() },
       autoConnect: false, // Disable automatic connection on initialization
     });

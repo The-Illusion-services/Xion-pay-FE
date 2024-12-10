@@ -6,13 +6,6 @@ class MsgService {
       ...payload,
     });
   }
-  getChatList(page = 1) { //TODO: set page where request is ebing made
-    return axiosWithToken().get("/contact", {
-      params: {
-        page,
-      },
-    });
-  }
   
   getConversation(recepient_id: string, page: number) {
     return axiosWithToken().get("/chat/direct-message", {

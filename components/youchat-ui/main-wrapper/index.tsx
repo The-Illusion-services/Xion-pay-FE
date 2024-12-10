@@ -18,7 +18,7 @@ export default function MainWrapper({
 }: {
   content: JSX.Element | React.ReactNode;
 }) {
-  const { userData, logout } = useAuthToken();
+  const { userData, logout, onlineStat } = useAuthToken();
 
   return (
     <main className="flex-1 h-screen min-h-screen">
@@ -30,10 +30,7 @@ export default function MainWrapper({
           <div className="flex w-fit h-full gap-x-4 items-center">
             <div className="w-full flex justify-center p-1rounded-md">
               <DropdownMenu>
-                <DropdownMenuTrigger
-                  asChild
-                  className="cursor-pointer px-3"
-                >
+                <DropdownMenuTrigger asChild className="cursor-pointer px-3">
                   <div className="items-center text-xs leading-4 h-fit w-fit flex bg-brown-primary border-black border px-1 py-1 rounded-2xl">
                     <div className="flex gap-x-2 items-center">
                       <div className="leading-none">
@@ -44,10 +41,17 @@ export default function MainWrapper({
                           {userData?.username}
                         </span>
                       </div>
-                      <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
+                      <div>
+                        <Avatar>
+                          <AvatarImage src="https://github.com/shadcn.png" />
+                          <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                        <div
+                          className={`${
+                            onlineStat ? "bg-[#99D609] border border-lime-700" : "bg-brown-secondary"
+                          } rounded-full p-1.5 absolute bottom-2 z-50`}
+                        ></div>
+                      </div>
                     </div>
                     <ChevronDown className="w-6 text-secondary-border" />
                   </div>
@@ -62,9 +66,11 @@ export default function MainWrapper({
                         </Avatar>
                       </div>
                       <div>
-                        <p className="text-sm">{userData?.fname} {userData?.lname}</p>
+                        <p className="text-sm">
+                          {userData?.fname} {userData?.lname}
+                        </p>
                         <p className="font-normal text-xs">
-                        {userData?.mobile}
+                          {userData?.mobile}
                         </p>
                       </div>
                     </div>
@@ -81,7 +87,7 @@ export default function MainWrapper({
                       <span>Settings</span>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
-                  <DropdownMenuItem onClick={()=> logout()}>
+                  <DropdownMenuItem onClick={() => logout()}>
                     <LogOut color="#c01c28" className="mr-2 h-4 w-4" />
                     <span>Sign out</span>
                   </DropdownMenuItem>

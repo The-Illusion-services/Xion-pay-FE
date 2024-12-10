@@ -6,6 +6,7 @@ import { TAppUser, TAppUserState } from "@types";
 function useAuthToken() {
   const [token, setToken] = useState<string | null>(null);
   const [userData, setUser] = useState<TAppUser | null>(null);
+  const [onlineStat, setOnlineStat] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const updateUser = (user: TAppUserState) => {
@@ -28,11 +29,12 @@ function useAuthToken() {
     if (storeData) {
       setToken(storeData?.token);
       setUser(storeData?.userData);
+      setOnlineStat(true);
     }
     setIsLoading(false);
   }, []);
 
-  return { token, userData, isLoading, updateUser, logout };
+  return { token, userData, isLoading, updateUser, logout, onlineStat };
 }
 
 export default useAuthToken;

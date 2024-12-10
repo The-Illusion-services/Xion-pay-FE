@@ -2,8 +2,8 @@ import axios from "axios";
 import router from "next/router";
 import { deleteStore, loadStore } from "./local-storage";
 
-// export const url = "http://localhost:3001"
-export const url = "https://youchatbackend-kga1.onrender.com";
+export const url = "http://localhost:3001"
+// export const url = "https://youchatbackend-kga1.onrender.com";
 export const baseURL = `${url}/api`;
 
 export const axiosWithoutToken = axios.create({

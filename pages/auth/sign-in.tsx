@@ -6,12 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AuthService } from "@/services";
 import img2 from "public/authimg2.png";
 import Image from "next/image";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -70,8 +65,8 @@ const SignIn: FC = () => {
       const response = await AuthService.login(form.getValues());
 
       return response.data;
-    } catch (error: any) {      
-      throw new Error(error?.response?.data?.message || "An error occurred");
+    } catch (error: any) {
+      throw new Error(error?.response?.data?.message || error?.response?.data?.data?.message || "An error occurred");
     }
   };
 
@@ -106,7 +101,7 @@ const SignIn: FC = () => {
                     <ToastMessage
                       message={
                         mutation?.error?.message ||
-                        "An error occured during sign up"
+                        "An error occured during sign in"
                       }
                     />
                   </motion.div>
@@ -127,7 +122,7 @@ const SignIn: FC = () => {
                             <Input
                               placeholder="Mobile Number"
                               {...field}
-                              className="placeholder:font-medium px-5 rounded-3xl"
+                              className="placeholder:font-medium px-5 rounded-3xl focus-visible:ring-black/55"
                             />
                           </FormControl>
                           <FormMessage />
@@ -142,8 +137,10 @@ const SignIn: FC = () => {
                           <FormControl>
                             <Input
                               placeholder="Password"
+                              autoComplete="new-password"
+                              type="password"
                               {...field}
-                              className="placeholder:font-medium px-5 rounded-3xl"
+                              className="placeholder:font-medium px-5 rounded-3xl focus-visible:ring-black/55"
                             />
                           </FormControl>
                           <FormMessage />
@@ -154,7 +151,7 @@ const SignIn: FC = () => {
                       <Button
                         type="submit"
                         disabled={!form.formState.isValid}
-                        className="w-full  h-12 bg-black/90 text-brown-secondary font-semibold text-base rounded-3xl"
+                        className="w-full focus-visible:ring-black/55  h-12 bg-black/90 text-brown-secondary font-semibold text-base rounded-3xl"
                       >
                         Sign in
                         <LoaderCircle

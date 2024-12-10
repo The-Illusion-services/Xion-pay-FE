@@ -17,7 +17,7 @@ import {
 import ChatBox from "@/components/youchat-shared/chat-box";
 import ChatProfile from "@/components/youchat-shared/chat-profile";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { MessageService } from "@/services";
+import { ContactService, MessageService } from "@/services";
 import { useAuthToken, useSocket } from "@/hooks";
 import { TAppUser } from "@/types";
 import emptyImg from "public/empty2.jpg";
@@ -70,7 +70,7 @@ const Chat: FC = () => {
   // GET CHATS LIST
   const fetchChatList = async () => {
     try {
-      const response = await MessageService.getChatList(page);
+      const response = await ContactService.getChatList(page);
       return response?.data?.data?.data;
     } catch (error: any) {
       console.log("error", error);
