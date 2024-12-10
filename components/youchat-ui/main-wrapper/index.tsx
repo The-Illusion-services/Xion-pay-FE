@@ -1,6 +1,6 @@
 import { PageAnimation } from "@/components/youchat-ui";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAuthToken } from "@/hooks";
+import { useAuthToken, useSocket } from "@/hooks";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,15 +10,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Image from "next/image";
-import { Bell, ChevronDown, LogOut, Mail, Settings, User } from "lucide-react";
-import img from "public/auth-email.png";
+import { ChevronDown, LogOut, Settings, User } from "lucide-react";
+import { useContext } from "react";
+import { ConversationContext } from "@/hooks/context/conversation";
 export default function MainWrapper({
   content,
 }: {
   content: JSX.Element | React.ReactNode;
 }) {
-  const { userData, logout, onlineStat } = useAuthToken();
+  const { userData, logout } = useAuthToken();
+  const { onlineUsers } = useContext(ConversationContext);
+  const { socket } = useSocket();
 
   return (
     <main className="flex-1 h-screen min-h-screen">
@@ -43,12 +45,15 @@ export default function MainWrapper({
                       </div>
                       <div>
                         <Avatar>
-                          <AvatarImage src="https://github.com/shadcn.png" />
+                          <AvatarImage src= {userData?.avatar || "https://github.com/shadcn.png"} />
                           <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                         <div
                           className={`${
-                            onlineStat ? "bg-[#99D609] border border-lime-700" : "bg-brown-secondary"
+                            (userData && onlineUsers[userData._id])
+                              ?.onlineStatus || userData?.onlineStatus
+                              ? "bg-[#99D609] border border-lime-700"
+                              : "bg-brown-secondary"
                           } rounded-full p-1.5 absolute bottom-2 z-50`}
                         ></div>
                       </div>
@@ -87,7 +92,12 @@ export default function MainWrapper({
                       <span>Settings</span>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
-                  <DropdownMenuItem onClick={() => logout()}>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      logout();
+                      socket.disconnect();
+                    }}
+                  >
                     <LogOut color="#c01c28" className="mr-2 h-4 w-4" />
                     <span>Sign out</span>
                   </DropdownMenuItem>

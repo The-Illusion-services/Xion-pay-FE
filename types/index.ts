@@ -6,6 +6,7 @@ export type TAppUser = {
   mobile: string;
   username: string;
   streak_count: number;
+  onlineStatus: boolean
 };
 
 export type TAppUserState = {

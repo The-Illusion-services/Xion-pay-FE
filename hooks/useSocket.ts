@@ -6,11 +6,12 @@ import { ConversationContext } from "./context/conversation";
 function useSocket() {
   const { token } = useAuthToken();
   const [receivedMsg, setReceivedMsg] = useState<any>([]);
-  const { handleReceivedMessage, handleStreak } = useContext(ConversationContext);
+  const { handleReceivedMessage, handleStreak, handleOnlineUser } =
+    useContext(ConversationContext);
 
   const socket = useMemo(() => {
-    return io("https://youchatbackend-kga1.onrender.com", {
-    // return io("http://localhost:3001", {
+    // return io("https://youchatbackend-kga1.onrender.com", {
+    return io("http://localhost:3001", {
       query: { token: token?.trim() },
       autoConnect: false, // Disable automatic connection on initialization
     });
@@ -38,13 +39,19 @@ function useSocket() {
       console.log("ws data", data);
     });
 
+    socket.on("online-status", (data: any) => {
+      console.log("texting", data);
+      if (data) {
+        handleOnlineUser(data);
+      }
+    });
+
     socket.on("update-streak", (data: any) => {
       if (data) {
         handleStreak(data);
       }
       console.log("ws data", data);
     });
-    
 
     // Cleanup on unmount
     return () => {
@@ -52,11 +59,12 @@ function useSocket() {
       socket.off("connect_error");
       socket.off("disconnect");
       socket.off("receive-msg");
+      socket.off("online-status");
       socket.off("add-streak");
       socket.disconnect();
     };
   }, [socket, token]);
-  return { receivedMsg, setReceivedMsg };
+  return { receivedMsg, setReceivedMsg, socket };
 }
 
 export default useSocket;

@@ -39,7 +39,7 @@ const Chat: FC = () => {
   const [recipientId, setRecipientId] = useState<string>("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-
+  
   const { lastMessages, updateImagePreview, imagePreview } =
     useContext(ConversationContext);
 
@@ -209,6 +209,7 @@ const Chat: FC = () => {
     imageMutate(base64Image, randomId);
   };
 
+  
   return (
     <UserLayout title={title}>
       <main className="h-screen w-full">

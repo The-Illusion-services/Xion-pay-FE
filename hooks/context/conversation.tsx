@@ -17,10 +17,12 @@ interface ConversationContextType {
   updateImagePreview: (base64: string) => void;
   receivedMsg: any[];
   handleReceivedMessage: (newMessage: any) => void;
+  handleOnlineUser: (data: any) => void;
   handleStreak: (newMessage: any) => void;
   lastMessages: { [key: string]: any };
+  onlineUsers: { [key: string]: any };
   imagePreview: string;
-  
+
   //   setLastMessages: React.Dispatch<React.SetStateAction<{ [key: string]: any }>>;
 }
 
@@ -31,8 +33,10 @@ const ConversationContext = createContext<ConversationContextType>({
   updateImagePreview: () => {},
   receivedMsg: [],
   handleReceivedMessage: () => {},
+  handleOnlineUser: () => {},
   handleStreak: () => {},
   lastMessages: {},
+  onlineUsers: {},
   imagePreview: "",
   //   setLastMessages: () => {}
 });
@@ -43,6 +47,8 @@ const ConversationProvider = ({
   const [conversation, setConversation] = useState<any[]>([]);
   const [receivedMsg, setReceivedMsg] = useState<any[]>([]);
   const [lastMessages, setLastMessages] = useState<{ [key: string]: any }>({});
+  const [onlineUsers, setOnlineUsers] = useState<{ [key: string]: any }>({});
+  
   const [imagePreview, setImagePreview] = useState<string>("");
   const { userData } = useAuthToken();
 
@@ -82,6 +88,23 @@ const ConversationProvider = ({
     }
   };
 
+  const handleOnlineUser = (data: {
+    user_id: string;
+    onlineStatus: boolean;
+  }) => {
+    if (!userData) return;
+
+    console.log(data, "online-data");
+
+    setOnlineUsers((prevLastData: any) => ({
+      ...prevLastData,
+      [data.user_id]: {
+        ...data,
+        // lastSeen: data ? new Date().toISOString() : null,
+      },
+    }));
+    
+  };
 
   const handleStreak = (data: any) => {
     if (!userData) return;
@@ -99,7 +122,6 @@ const ConversationProvider = ({
     }
   };
 
-
   const updateImagePreview = (base64: string) => {
     setImagePreview(base64);
   };
@@ -116,10 +138,12 @@ const ConversationProvider = ({
         updateConversation,
         receivedMsg,
         handleReceivedMessage,
+        handleOnlineUser,
         handleStreak,
         lastMessages,
+        onlineUsers,
         imagePreview,
-        updateImagePreview
+        updateImagePreview,
       }}
     >
       {children}

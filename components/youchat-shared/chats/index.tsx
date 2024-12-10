@@ -58,7 +58,7 @@ export default function Chats({
   setRecipientId?: any;
   setCurrentRecipient?: any;
 }) {
-  const { lastMessages } = useContext(ConversationContext);
+  const { lastMessages, onlineUsers } = useContext(ConversationContext);
   const { userData, onlineStat } = useAuthToken();
   const [page, setPage] = useState(1);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
@@ -86,9 +86,6 @@ export default function Chats({
       setIsSearchLoading(false);
     }
   };
-
-  const [searchResults, setSearchResults] = useState([]);
-  const [isLoading2, setIsLoading2] = useState(false);
 
   const debouncedHandleSearch = debounce(fetchContactSearch, 500);
 
@@ -187,7 +184,7 @@ export default function Chats({
                     <div className="relative">
                       <Avatar className="size-11">
                         <AvatarImage
-                          src="https://github.com/shadcn.png"
+                          src={item.contact.avatar || "https://github.com/shadcn.png"}
                           alt="avatar"
                         />
                         <AvatarFallback className="rounded-lg">
@@ -196,16 +193,19 @@ export default function Chats({
                       </Avatar>
                       <div
                         className={`${
+                          onlineUsers[item.contact._id]?.onlineStatus ||
                           item.contact.onlineStatus
                             ? "bg-[#99D609] border border-lime-700"
                             : "bg-brown-secondary border border-black"
                         } rounded-full p-1.5 absolute bottom-0 z-50`}
                       ></div>
                     </div>
+
                     <div className="flex flex-col text-left text-sm justify-start my-auto w-[75%]">
                       <span className="truncate capitalize">
                         {item.contact.fname} {item.contact.lname}
                       </span>
+
                       <div className="flex gap-x-2 items-center">
                         <span className="truncate text-[0.73rem] w-[75%]">
                           {((lastMessages[
@@ -304,7 +304,7 @@ export default function Chats({
                     <div className="relative">
                       <Avatar className="size-11">
                         <AvatarImage
-                          src="https://github.com/shadcn.png"
+                          src={item.contact.contact_id.avatar || "https://github.com/shadcn.png"}
                           alt="avatar"
                         />
                         <AvatarFallback className="rounded-lg">
@@ -313,6 +313,8 @@ export default function Chats({
                       </Avatar>
                       <div
                         className={`${
+                          onlineUsers[item.contact.contact_id._id]
+                            ?.onlineStatus ||
                           item.contact.contact_id.onlineStatus
                             ? "bg-[#99D609] border border-lime-700"
                             : "bg-brown-secondary border border-black"
