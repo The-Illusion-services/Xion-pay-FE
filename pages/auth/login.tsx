@@ -1,7 +1,7 @@
 "use client";
 
-import { AuthLayout, UserLayout } from "@layouts";
-import React, { FC, useState } from "react";
+import { AuthLayout } from "@layouts";
+import React, { FC } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { AuthService } from "@/services";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -27,14 +26,9 @@ import {
 } from "@/components/ui/form";
 import { useRouter } from "next/router";
 import { useAuthToken } from "@/hooks";
-import { motion, AnimatePresence } from "framer-motion";
-import ToastMessage from "@/components/illusion-ui/toast-message";
-import { LoaderCircle } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import Milestone from "@/components/illusion-shared/milestone";
 import Link from "next/link";
-
-// TODO: trimbackend fields for form
+import { Input } from "@/components/illusion-ui/input/input";
 
 const formSchema = z
   .object({
@@ -105,10 +99,6 @@ const SignIn: FC = () => {
       );
     }
   };
-
-  //TODO: make mobile number unique- logging db duplicate error
-  // TODO: all password fields shoudl show as password
-  // TODO: check mobile number format
 
   const mutation: any = useMutation({
     mutationFn: registerRequest,

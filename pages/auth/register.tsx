@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/illusion-ui/input/input";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -126,8 +126,8 @@ const SignIn: FC = () => {
         <div className="flex h-full w-full items-center justify-center">
           <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white">
             <CardHeader className="p-0 text-center">
-              <CardTitle className="text-2xl font-medium">Log In</CardTitle>
-              <CardDescription className="pb-4 text-border-secondary">Enter your credentials to acccess your account</CardDescription>
+              <CardTitle className="text-2xl font-medium">Register</CardTitle>
+              <CardDescription className="pb-4 text-border-secondary">Enter your credentials to create your account</CardDescription>
               <Separator/>
             </CardHeader>
             <CardContent className="p-0 flex flex-col gap-y-5">

@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/illusion-ui/input/input";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -125,7 +125,7 @@ const CreateContract: FC = () => {
         <div className="flex h-full w-full items-center justify-center">
         <Card className="md:w-[550px] w-full h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white">
             <CardHeader className="p-0">
-              <CardTitle className="text-xl font-medium pb-4">
+              <CardTitle className="md:text-xl text-2xl font-medium pb-4">
                 Create Contract
               </CardTitle>
               <Separator />
@@ -149,7 +149,7 @@ const CreateContract: FC = () => {
                       className=""
                     />
                   </div>
-                  <CardContent className="py-4 px-6 bg-foreground rounded-md flex flex-col gap-y-6">
+                  <CardContent className="px-6 py-8 bg-foreground rounded-md flex flex-col gap-y-6">
                     <div className="flex">
                       <Milestone />
                       <div className="w-full">
