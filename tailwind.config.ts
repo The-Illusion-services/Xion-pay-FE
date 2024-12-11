@@ -24,10 +24,10 @@ const config = {
   			'easing-gradient': 'linear-gradient(to bottom, #0d0f11, #121418, #191c20, #191b1f)'
   		},
   		colors: {
-  			'black-secondary': '#7f8ea3',
-  			'brown-secondary': '#ede0d0',
-  			'brown-primary': '#edcfaa',
-  			'brown-dark': '#e3bc8d',
+  			'blue-secondary': '#171b26',
+			'indigo-primary': '#5754d7',
+  			'border-secondary': '#A3A3A3',
+  			'border-primary': '#404040',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			sidebar: {

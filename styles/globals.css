@@ -16,7 +16,7 @@
 }
 
 
-@layer components {
+/* @layer components {
   .modal-overlay {
     @apply fixed justify-end z-[100] top-0 left-0 w-full h-full flex items-center bg-black bg-opacity-30;
   }
@@ -24,12 +24,12 @@
     @apply bg-black py-3 rounded-md h-full w-full max-w-[30rem] overflow-y-scroll;
   }
 
-}
+} */
 
 @layer base {
   :root {
-    --background: 36 44% 87%;
-    --foreground: 0 0% 3.9%;
+    --background: 240, 20%, 8%;
+    --foreground: 240, 20%, 8%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;

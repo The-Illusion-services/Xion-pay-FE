@@ -5,19 +5,11 @@ export type TAppUser = {
   lname: string;
   mobile: string;
   username: string;
-  streak_count: number;
-  onlineStatus: boolean
-};
+}
 
 export type TAppUserState = {
   token: string;
   userData: TAppUser;
 };
 
-export type TAppUserProfile = {
-  _id: string;
-  contact_id: TAppUser;
-  createdAt: string;
-  updatedAt: string;
-  user_id: string;
-};
+// @TODO: remove if not in use
