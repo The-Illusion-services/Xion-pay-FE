@@ -77,83 +77,81 @@ export default function ConfirmVerfificationCode() {
     mutationFn: registerRequest,
     onSuccess: (res: any) => {
       // updateUser(res.data.data);
-    //   router.push("/user/chats");
+      //   router.push("/user/chats");
     },
   });
 
   const onSubmit = () => mutation.mutate();
 
   return (
-    <PageAnimation>
-      <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white">
-        <AnimatePresence>
-          {mutation.isError && (
-            <motion.div
-              initial={{ y: -20, opacity: 0.5 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -20, opacity: 0.2 }}
-            >
-              <ToastMessage
-                message={
-                  mutation?.error?.message || "An error occured during sign in"
-                }
-              />
-            </motion.div>
+    <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white">
+      <AnimatePresence>
+        {mutation.isError && (
+          <motion.div
+            initial={{ y: -20, opacity: 0.5 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -20, opacity: 0.2 }}
+          >
+            <ToastMessage
+              message={
+                mutation?.error?.message || "An error occured during sign in"
+              }
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <Image alt="img" src={confirmEmail} className="m-auto md:size-auto" />
+      <CardHeader className="p-0 text-center">
+        <CardTitle className="md:text-2xl text-lg font-medium">
+          Enter your verification code
+        </CardTitle>
+        <CardDescription className="font-normal">
+          We sent a verfifcaion code to{" "}
+          {userData?.email || (
+            <span className="lowercase">johnDoe@mail.com</span>
           )}
-        </AnimatePresence>
-        <Image alt="img" src={confirmEmail} className="m-auto md:size-auto" />
-        <CardHeader className="p-0 text-center">
-          <CardTitle className="md:text-2xl text-lg font-medium">
-            Enter your verification code
-          </CardTitle>
-          <CardDescription className="font-normal">
-            We sent a verfifcaion code to{" "}
-            {userData?.email || (
-              <span className="lowercase">johnDoe@mail.com</span>
-            )}
-          </CardDescription>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="flex justify-center flex-col items-center"
-            >
-              <FormField
-                control={form.control}
-                name="code"
-                render={({ field }) => (
-                  <FormItem className="py-5">
-                    <FormControl>
-                      <InputOTP maxLength={6} {...field}>
-                        <InputOTPGroup>
-                          <InputOTPSlot index={0} />
-                          <InputOTPSlot index={1} />
-                          <InputOTPSlot index={2} />
-                          <InputOTPSlot index={3} />
-                          <InputOTPSlot index={4} />
-                          <InputOTPSlot index={5} />
-                        </InputOTPGroup>
-                      </InputOTP>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <CardFooter className="p-0 w-full">
-                <Button className="md:text-base text-sm bg-indigo-primary w-full">
-                  Verify Email Address
-                  {mutation.isPending && (
-                    <LoaderCircle
-                      strokeWidth={3}
-                      className="flex
+        </CardDescription>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex justify-center flex-col items-center"
+          >
+            <FormField
+              control={form.control}
+              name="code"
+              render={({ field }) => (
+                <FormItem className="py-5">
+                  <FormControl>
+                    <InputOTP maxLength={6} {...field}>
+                      <InputOTPGroup>
+                        <InputOTPSlot index={0} />
+                        <InputOTPSlot index={1} />
+                        <InputOTPSlot index={2} />
+                        <InputOTPSlot index={3} />
+                        <InputOTPSlot index={4} />
+                        <InputOTPSlot index={5} />
+                      </InputOTPGroup>
+                    </InputOTP>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <CardFooter className="p-0 w-full">
+              <Button className="md:text-base text-sm bg-indigo-primary w-full">
+                Verify Email Address
+                {mutation.isPending && (
+                  <LoaderCircle
+                    strokeWidth={3}
+                    className="flex
                         text-white w-5 h-5 rotate-icon"
-                    />
-                  )}
-                </Button>
-              </CardFooter>
-            </form>
-          </Form>
-        </CardHeader>
-      </Card>
-    </PageAnimation>
+                  />
+                )}
+              </Button>
+            </CardFooter>
+          </form>
+        </Form>
+      </CardHeader>
+    </Card>
   );
 }
