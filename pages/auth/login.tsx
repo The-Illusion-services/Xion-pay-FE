@@ -29,6 +29,7 @@ import { useAuthToken } from "@/hooks";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { Input } from "@/components/illusion-ui/input/input";
+import { LoaderCircle } from "lucide-react";
 
 const formSchema = z
   .object({
@@ -94,8 +95,10 @@ const SignIn: FC = () => {
           <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white">
             <CardHeader className="p-0 text-center">
               <CardTitle className="text-2xl font-medium">Log In</CardTitle>
-              <CardDescription className="pb-4 text-border-secondary">Enter your credentials to acccess your account</CardDescription>
-              <Separator/>
+              <CardDescription className="pb-4 text-border-secondary">
+                Enter your credentials to acccess your account
+              </CardDescription>
+              <Separator />
             </CardHeader>
             <CardContent className="p-0 flex flex-col gap-y-5">
               <form>
@@ -120,13 +123,31 @@ const SignIn: FC = () => {
                 </div>
               </form>
               <p className="text-sm text-border-secondary">
-                Forgot Password? <Link href="#" className="text-indigo-primary font-medium">Recover</Link>
+                Forgot Password?{" "}
+                <Link href="#" className="text-indigo-primary font-medium">
+                  Recover
+                </Link>
               </p>
             </CardContent>
             <CardFooter className="flex-col gap-y-12 p-0">
-              <Button className="bg-indigo-primary w-full">Log In</Button>
+              <Button className="bg-indigo-primary w-full">
+                Log In{" "}
+                {mutation.isPending && (
+                  <LoaderCircle
+                    strokeWidth={3}
+                    className="flex
+                        text-white w-5 h-5 rotate-icon"
+                  />
+                )}
+              </Button>
               <p className="text-sm text-border-secondary">
-                Are you new here? <Link href="/auth/register" className="text-indigo-primary font-medium">Create Account</Link>
+                Are you new here?{" "}
+                <Link
+                  href="/auth/register"
+                  className="text-indigo-primary font-medium"
+                >
+                  Create Account
+                </Link>
               </p>
             </CardFooter>
           </Card>

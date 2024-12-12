@@ -7,7 +7,7 @@ const ToastMessage = ({
   }) => {
     return (
       <div
-        className={`flex w-[85%] m-auto mb-4 px-4 text-sm ${error?"bg-red-200":"bg-green-50"} rounded-full border border-1 ${
+        className={`flex w-full m-auto mb-4 px-4 text-sm ${error?"bg-red-200":"bg-green-50"} rounded-md border border-1 ${
           error ? "border-red-500" : "border-green-500"
         }`}
       >

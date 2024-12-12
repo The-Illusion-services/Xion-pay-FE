@@ -38,33 +38,12 @@ import Link from "next/link";
 
 const formSchema = z
   .object({
-    fname: z
+    email: z
       .string()
-      .min(3, {
-        message: "First name must be at least 3 characters.",
+      .min(1, {
+        message: "Email must be at least 1 characters.",
       })
-      .regex(/^\S+$/, { message: "First name cannot contain whitespace." }),
-
-    lname: z
-      .string()
-      .min(3, {
-        message: "Last name must be at least 3 characters.",
-      })
-      .regex(/^\S+$/, { message: "Last name cannot contain whitespace." }),
-
-    username: z
-      .string()
-      .min(3, {
-        message: "Username must be at least 3 characters.",
-      })
-      .toLowerCase()
-      .regex(/^\S+$/, { message: "Username cannot contain whitespace." }),
-
-    mobile: z
-      .string()
-      .length(13, { message: "Mobile number must be exactly 13 characters." }) // String with exactly 12 characters
-      .regex(/^\S+$/, { message: "Mobile cannot contain whitespace." }),
-
+      .regex(/^\S+$/, { message: "Email name cannot contain whitespace." }),
     password: z
       .string()
       .min(7, {
@@ -83,10 +62,7 @@ const SignIn: FC = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fname: "",
-      lname: "",
-      username: "",
-      mobile: "",
+      email: "",
       password: "",
     },
     mode: "onChange", // Ensures validation checks on each change
@@ -136,17 +112,15 @@ const SignIn: FC = () => {
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="name">Email Address</Label>
                     <Input
-                      id="name"
+                      id="email"
                       placeholder="Enter email address"
-                      className=""
                     />
                   </div>
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="name">Password</Label>
                     <Input
-                      id="name"
+                      id="password"
                       placeholder="Enter password"
-                      className=""
                     />
                   </div>
                 </div>

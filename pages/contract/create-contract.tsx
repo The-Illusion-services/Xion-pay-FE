@@ -118,6 +118,7 @@ const CreateContract: FC = () => {
 
   const [milestoneCount, setMilestoneCount] = useState(1);
   const [contractModal, setContractModal] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | undefined>();
 
   const registerRequest: any = async (data: any) => {
     try {
@@ -140,7 +141,9 @@ const CreateContract: FC = () => {
     mutationFn: registerRequest,
     onSuccess: (res: any) => {
       console.log("contract created");
+      // TODO: remove when api starts working
       // setContractModal(true);
+
       // updateUser(res.data.data);
       // router.push("/user/chats");
     },
@@ -155,7 +158,6 @@ const CreateContract: FC = () => {
   };
 
   const onCreateContract = async (data: any) => {
-    console.log(data);
     transformedData = {
       title: data.title,
       amount: data.amount,
@@ -170,22 +172,31 @@ const CreateContract: FC = () => {
         },
       ],
     };
-    setShowModal(true);
+    let total = 0;
 
-    console.log(transformedData);
+    transformedData.milestones.forEach((item: any, index: number) => {
+      if (item.title === undefined || item.amount === undefined) {
+        return null;
+      }
+      total = Number(item.amount) + Number(total);
+    });
+
+    if (total !== Number(transformedData.amount)) {
+      return setErrorMsg(
+        "The sum of all the milstone amounts must be equal to the contract amount"
+      );
+    }
+    setShowModal(true);
   };
 
   const onRejectContract = async () => {
+    setErrorMsg(undefined);
     reset();
     transformedData = "";
     setShowModal(false);
-
-    console.log(transformedData);
   };
 
   const onSubmit = async () => {
-    console.log("suitting form", transformedData);
-
     mutation.mutate({ ...transformedData });
   };
 
@@ -214,7 +225,6 @@ const CreateContract: FC = () => {
       return false;
     }
   };
-  console.log("form", isFormValid());
 
   return (
     <UserLayout title={title}>
@@ -285,13 +295,15 @@ const CreateContract: FC = () => {
                         <Milestone />
 
                         <div className="w-full">
-                          <div className="grid w-full items-center gap-y-3">
+                          <div className="grid w-full items-center gap-y-8">
                             {transformedData?.milestones.map(
                               (milestone: any, index: number) => {
                                 if (
                                   milestone.title === undefined ||
-                                  milestone.amount === undefined
-                                ) {
+                                  milestone.title === "" ||
+                                  milestone.amount === undefined ||
+                                  milestone.amount === ""
+                                  ) {
                                   return null;
                                 }
                                 return (
@@ -299,7 +311,7 @@ const CreateContract: FC = () => {
                                     key={index}
                                     className="flex flex-col space-y-1"
                                   >
-                                    <h4 className="pb-6">
+                                    <h4 className="pb-3">
                                       Milestone {index + 1}
                                     </h4>
 
@@ -330,7 +342,13 @@ const CreateContract: FC = () => {
                   </Button>
                   <Button onClick={onSubmit} className="bg-indigo-primary">
                     Approve Contract
-                    {mutation.isLoading && <p>loading</p>}
+                    {mutation.isPending && (
+                      <LoaderCircle
+                        strokeWidth={3}
+                        className="flex
+                        text-white w-5 h-5 rotate-icon"
+                      />
+                    )}
                   </Button>
                 </CardFooter>
               </Card>
@@ -347,6 +365,17 @@ const CreateContract: FC = () => {
                 </CardTitle>
                 <Separator />
               </CardHeader>
+              <AnimatePresence>
+                {errorMsg && (
+                  <motion.div
+                    initial={{ y: -20, opacity: 0.5 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -20, opacity: 0.2 }}
+                  >
+                    <ToastMessage message={errorMsg} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
               <CardContent className="p-0">
                 <form
                   onSubmit={handleSubmit(onCreateContract)}
