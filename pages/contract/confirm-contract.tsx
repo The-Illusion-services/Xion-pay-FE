@@ -73,7 +73,7 @@ const formSchema = z
   })
   .required();
 
-let title = "Create Contract";
+let title = "Confirm Contract";
 
 const ConfirmContract: FC = () => {
   const router = useRouter();
