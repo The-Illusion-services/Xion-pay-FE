@@ -18,13 +18,6 @@ import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
 import { useRouter } from "next/router";
 import { useAuthToken } from "@/hooks";
 import { motion, AnimatePresence } from "framer-motion";
@@ -34,8 +27,6 @@ import { Separator } from "@/components/ui/separator";
 import Milestone from "@/components/illusion-shared/milestone";
 import MilestoneForm from "@/components/illusion-shared/milestone-form";
 import confirmContract from "public/confirm-contract.png";
-
-import { PageAnimation } from "@/components/illusion-ui";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -126,6 +117,7 @@ const CreateContract: FC = () => {
       setContractModal(true);
 
       const response = await AuthService.register(data);
+console.log(response.data);
 
       return response.data;
     } catch (error: any) {

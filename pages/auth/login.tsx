@@ -13,6 +13,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { motion, AnimatePresence } from "framer-motion";
+
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -30,28 +32,27 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { Input } from "@/components/illusion-ui/input/input";
 import { LoaderCircle } from "lucide-react";
+import ToastMessage from "@/components/illusion-ui/toast-message";
 
 const formSchema = z
   .object({
     email: z
       .string()
-      .min(1, {
-        message: "Email must be at least 1 character.",
-      })
+      .email()
       .toLowerCase()
-      .regex(/^\S+$/, { message: "Email cannot contain whitespace." }),
+      .regex(/^\S+$/, { message: "email cannot contain whitespace." }),
     password: z
       .string()
-      .min(7, {
-        message: "Username must be at least 7 characters.",
+      .min(1, {
+        message: "password must be at least 1 character.",
       })
-      .regex(/^\S+$/, { message: "Password cannot contain whitespace." }),
+      .regex(/^\S+$/, { message: "password cannot contain whitespace." }),
   })
   .required();
 
 let title = "Log In";
 
-const SignIn: FC = () => {
+const Login: FC = () => {
   const router = useRouter();
   const { updateUser } = useAuthToken();
 
@@ -64,7 +65,7 @@ const SignIn: FC = () => {
     mode: "onChange", // Ensures validation checks on each change
   });
 
-  const registerRequest: any = async () => {
+  const loginRequest: any = async () => {
     try {
       const response = await AuthService.login(form.getValues());
 
@@ -79,10 +80,10 @@ const SignIn: FC = () => {
   };
 
   const mutation: any = useMutation({
-    mutationFn: registerRequest,
+    mutationFn: loginRequest,
     onSuccess: (res: any) => {
-      updateUser(res.data.data);
-      router.push("/user/chats");
+      // updateUser(res.data.data);
+      // router.push("/user/chats");
     },
   });
 
@@ -100,56 +101,94 @@ const SignIn: FC = () => {
               </CardDescription>
               <Separator />
             </CardHeader>
-            <CardContent className="p-0 flex flex-col gap-y-5">
-              <form>
-                <div className="grid w-full items-center gap-y-6">
-                  <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="name">Email Address</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="Enter email address"
-                    />
-                  </div>
-                  <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="name">Password</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      placeholder="Enter password"
-                      className=""
-                    />
-                  </div>
-                </div>
-              </form>
-              <p className="text-sm text-border-secondary">
-                Forgot Password?{" "}
-                <Link href="#" className="text-indigo-primary font-medium">
-                  Recover
-                </Link>
-              </p>
-            </CardContent>
-            <CardFooter className="flex-col gap-y-12 p-0">
-              <Button className="bg-indigo-primary w-full">
-                Log In{" "}
-                {mutation.isPending && (
-                  <LoaderCircle
-                    strokeWidth={3}
-                    className="flex
-                        text-white w-5 h-5 rotate-icon"
-                  />
-                )}
-              </Button>
-              <p className="text-sm text-border-secondary">
-                Are you new here?{" "}
-                <Link
-                  href="/auth/register"
-                  className="text-indigo-primary font-medium"
+            <AnimatePresence>
+              {mutation.isError && (
+                <motion.div
+                  initial={{ y: -20, opacity: 0.5 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -20, opacity: 0.2 }}
                 >
-                  Create Account
-                </Link>
-              </p>
-            </CardFooter>
+                  <ToastMessage
+                    message={
+                      mutation?.error?.message ||
+                      "An error occured during sign in"
+                    }
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <CardContent className="p-0 flex flex-col gap-y-5">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="flex flex-col gap-y-6"
+                >
+                  <div className="grid w-full items-center gap-y-6">
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col space-y-1.5">
+                          <Label htmlFor="email">Email Address</Label>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter email address"
+                              autoComplete="off"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col space-y-1.5">
+                          <Label htmlFor="password">Password</Label>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter password"
+                              autoComplete="new-password"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <p className="text-sm text-border-secondary">
+                    Forgot Password?{" "}
+                    <Link href="#" className="text-indigo-primary font-medium">
+                      Recover
+                    </Link>
+                  </p>
+                  <CardFooter className="flex-col gap-y-12 p-0">
+                    <Button className="bg-indigo-primary w-full">
+                      Log In{" "}
+                      {mutation.isPending && (
+                        <LoaderCircle
+                          strokeWidth={3}
+                          className="flex
+                        text-white w-5 h-5 rotate-icon"
+                        />
+                      )}
+                    </Button>
+                    <p className="text-sm text-border-secondary">
+                      Are you new here?{" "}
+                      <Link
+                        href="/auth/register"
+                        className="text-indigo-primary font-medium"
+                      >
+                        Create Account
+                      </Link>
+                    </p>
+                  </CardFooter>
+                </form>
+              </Form>
+            </CardContent>
           </Card>
         </div>
       </main>
@@ -157,4 +196,4 @@ const SignIn: FC = () => {
   );
 };
 
-export default SignIn;
+export default Login;

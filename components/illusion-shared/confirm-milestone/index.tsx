@@ -13,12 +13,10 @@ import {
 import Image from "next/image";
 import confirmContract from "public/confirm-contract.png"
 
-let title = "Confirm Email";
 
-export default function confirmMilestone(){
+export default function ConfirmMilestone(){
  
   return (
-    // <AuthLayout title={title}>
       <main className="h-full w-full flex capitalize">
         <div className="flex h-full w-full items-center justify-center">
           <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white">
@@ -36,7 +34,6 @@ export default function confirmMilestone(){
           </Card>
         </div>
       </main>
-    // </AuthLayout>
   );
 };
 

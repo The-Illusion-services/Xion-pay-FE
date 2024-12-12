@@ -26,11 +26,9 @@ export default function AuthLayout({
   const { token, isLoading } = useAuthToken();
   title = title || "Page Title";
   subtitle = subtitle || "";
-  description =
-    description ||
-    "A Global restaurant known for serving the best meals to customers";
+  description = description || "Xion Pay";
   heading = heading || title;
-  
+
   // useEffect(() => {
   //   if (token) router.push("/user/chats");
   // }, [router, token]);
@@ -58,7 +56,7 @@ export default function AuthLayout({
         {/* <meta
           property="og:image"
           content="https://res.cloudinary.com/dlq0uwrii/image/upload/v1728843002/Logo_qcsyol.png"
-        /> //TODO: relace images */} 
+        /> //TODO: relace images */}
         <meta property="twitter:card" content="summary_large_image" />
         <meta
           property="twitter:url"
@@ -81,7 +79,7 @@ export default function AuthLayout({
         <PageAnimation>
           <div className="md:py-8 py-0 h-full flex flex-col justify-center min-h-screen">
             <div className="flex items-center justify-center h-full px-4">
-            {children}
+              {children}
             </div>
           </div>
         </PageAnimation>

@@ -26,7 +26,7 @@ export default function UserLayout({
   subtitle = subtitle || "";
   description =
     description ||
-    "A Global restaurant known for serving the best meals to customers";
+    "Xion Pay";
   heading = heading || title;
 
   // useEffect(() => {

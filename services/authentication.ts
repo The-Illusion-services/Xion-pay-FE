@@ -7,11 +7,11 @@ class AuthenticationService {
     });
   } 
 
-  // loginCheck(payload: { email: string }) {
-  //   return axiosWithoutToken.post("/auth/login", {
-  //     ...payload,
-  //   });
-  // } 
+  confirmCode(payload: { code: string }) {
+    return axiosWithoutToken.post("/auth/confirm-code", {
+      ...payload,
+    });
+  } 
 
   register(payload: {email: string; password: string }) {
     return axiosWithoutToken.post("/auth/register", {
