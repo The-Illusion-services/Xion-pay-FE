@@ -30,7 +30,8 @@ export default function MilestoneForm({
               <p className="text-red-500 text-xs">
                 {formState.errors[
                   `milestone${index + 1}Title`
-                ]?.message?.toString()}
+                ]?.message?.toString() || (index + 1 === 2 ? formState.errors.milestone2Amount.message : null )}
+
               </p>
             )}
           </div>
@@ -46,7 +47,7 @@ export default function MilestoneForm({
               <p className="text-red-500 text-xs">
                 {formState.errors[
                   `milestone${index + 1}Amount`
-                ]?.message?.toString()}
+                ]?.message?.toString() || (index + 1 === 2 ? formState.errors.milestone2Title.message : null )}
               </p>
             )}
           </div>

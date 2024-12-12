@@ -1,7 +1,7 @@
 import { axiosWithoutToken } from "@/utils/axios";
 
 class AuthenticationService {
-  login(payload: { mobile: string; password: string }) {
+  login(payload: { email: string; password: string }) {
     return axiosWithoutToken.post("/auth/login", {
       ...payload,
     });
@@ -13,7 +13,7 @@ class AuthenticationService {
   //   });
   // } 
 
-  register(payload: { fname: string; lname: string; username: string; mobile: string; password: string }) {
+  register(payload: {email: string; password: string }) {
     return axiosWithoutToken.post("/auth/register", {
       ...payload,
     });
