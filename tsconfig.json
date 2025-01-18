@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -14,19 +18,53 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@types": ["types"],
-      "@utils/*": ["utils/*"],
-      "@hooks": ["hooks/index"],
-      "@services": ["services/index"],
-      "@shadcn-ui/*": ["components/ui/*"],
-      "@pages": ["components/pages/index"],
-      "@layouts": ["components/layouts/index"],
-      "@illusion-ui": ["components/illusion-ui/index"],
-      "@illusion-icons": ["components/illusion-icons/index"],
-      "@illusion-illustrations": ["components/illusion-illustrations/index"]
-    }
+      "@/*": [
+        "./*"
+      ],
+      "@types": [
+        "types"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@hooks": [
+        "hooks/index"
+      ],
+      "@services": [
+        "services/index"
+      ],
+      "@shadcn-ui/*": [
+        "components/ui/*"
+      ],
+      "@pages": [
+        "components/pages/index"
+      ],
+      "@layouts": [
+        "components/layouts/index"
+      ],
+      "@illusion-ui": [
+        "components/illusion-ui/index"
+      ],
+      "@illusion-icons": [
+        "components/illusion-icons/index"
+      ],
+      "@illusion-illustrations": [
+        "components/illusion-illustrations/index"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
