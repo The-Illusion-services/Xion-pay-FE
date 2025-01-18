@@ -1,6 +1,6 @@
-import { Label } from "@/components/ui/label";
+import { Label } from "@/src/components/ui/label";
 import Milestone from "../milestone";
-import { Input } from "@/components/illusion-ui/input/input";
+import { Input } from "@/src/components/illusion-ui/input/input";
 
 export default function MilestoneForm({
   index,

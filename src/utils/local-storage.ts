@@ -1,4 +1,4 @@
-import { TAppUserState } from "@types";
+import { TAppUserState } from "@/src/types";
 
 const STORE_NAME = "illusionSERVICE";
 

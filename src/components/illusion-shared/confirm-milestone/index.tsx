@@ -1,15 +1,16 @@
 "use client";
 
-import { AuthLayout } from "@layouts";
+
+import { AuthLayout } from "../../layouts";
 import React, { FC } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../ui/button";
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/src/components/ui/card";
 import Image from "next/image";
 import confirmContract from "public/confirm-contract.png"
 
