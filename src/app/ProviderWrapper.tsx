@@ -3,8 +3,8 @@ import React from "react";
 import ContextProvider from "../Context/context";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactQueryProvider from "./ReactQueryProvider";
-// import Spinner from "@/Shared/Spinner";
-// import Toast from "@/Shared/Toast";
+import Spinner from "@/src/components/Spinner";
+import Toast from "@/src/components/Toast";
 import { SessionProvider } from "next-auth/react";
 import { Suspense } from "react";
 import Modal from "./app/dashboard/modal";
@@ -23,8 +23,8 @@ const ProviderWrapper = ({
           <ContextProvider>
           <Modal/>
             <section>
-              {/* <Spinner />
-              <Toast /> */}
+               <Spinner />
+              <Toast />
               {children}
             </section>
           </ContextProvider>

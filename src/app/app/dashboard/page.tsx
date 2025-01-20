@@ -4,6 +4,7 @@ import { CreateContext } from "@/src/Context/context";
 import Topbar from "@/src/components/Topbar";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 import { useQuery } from "@tanstack/react-query";
 const Page = () => {
@@ -40,12 +41,18 @@ const Page = () => {
   const [modalMsg, setModalMsg] = useState("");
   const { msg, setMsg, setShowModal, showModal } =
   useContext(CreateContext).modal;
-  const {paymentLink, setPaymentLink} = useContext(CreateContext)
+  const {paymentLink, setPaymentLink, loader} = useContext(CreateContext)
+  const {setIsLoading} = loader
 
 
   const generatePaymentLink = async (e: any) => {
     e.preventDefault();
+    if(!email || !amount){
+      toast.error("Email or Amount cannot be empty")
+      return
+    }
     try {
+      setIsLoading(true)
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}payments/create-link/`,
         {
@@ -59,17 +66,20 @@ const Page = () => {
       );
       const responseData = await response.json();
       // setModalMsg(responseData)
+      setIsLoading(false)
       setPaymentLink(true)
       setMsg(` ${responseData.payment_link}`)
       setShowModal(true)
       console.log(responseData);
     } catch (err) {
+      setIsLoading(false)
       console.log(err);
     }
   };
   const generateApiKey = async(e: any)=>{
     e.preventDefault();
     try {
+      setIsLoading(true)
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}api-keys/create/`,
         {
@@ -83,11 +93,13 @@ const Page = () => {
       );
       const responseData = await response.json();
       // setModalMsg(responseData)
+      setIsLoading(false)
       setPaymentLink(false)
       setMsg(` ${responseData.key}`)
       setShowModal(true)
       console.log(responseData);
     } catch (err) {
+      setIsLoading(false)
       console.log(err);
     }
   };

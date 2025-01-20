@@ -4,6 +4,7 @@ import { CreateContext } from "@/src/Context/context";
 import { HiXCircle } from "react-icons/hi";
 import { IoCopyOutline } from "react-icons/io5";
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const Modal = () => {
 
@@ -17,7 +18,7 @@ const Modal = () => {
     const copyText = () => {
       const text = msg;
       navigator.clipboard.writeText(text)
-        .then(() => alert("Text copied to clipboard!"))
+        .then(() => toast.success("Text copied to clipboard!"))
         .catch(err => console.error("Failed to copy text: ", err));
     };
 
