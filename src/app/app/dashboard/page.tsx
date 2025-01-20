@@ -129,7 +129,7 @@ const Page = () => {
             <div className="flex items-center gap-x-1">
               <CiWallet className="text-white font-bold text-lg"/>
               <h1 className="text-sm text-[#AAAAAA] font-light">
-              {balanceObj?.address.slice(0, 30)}...
+              {balanceObj?.address?.slice(0, 30)}...
               </h1>
             </div>
           </article>
