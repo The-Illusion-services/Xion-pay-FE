@@ -101,7 +101,7 @@ const Login: FC = () => {
   const onSubmit = () => loginRequest();
 
   useEffect(() => {
-    const lastVisitedPage = localStorage.getItem("lastVisitedPage");
+    const lastVisitedPage = localStorage.getItem("xion-pay-lastVisitedPage");
     if (status === "authenticated" && !lastVisitedPage) {
       router.push("/app/dashboard")
     } else if (status !== "unauthenticated" && lastVisitedPage) {

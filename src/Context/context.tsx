@@ -100,7 +100,7 @@ const ContextProvider = ({
       const updatedPathname = `/${window.location.href.split("/app")[1]}`;
       console.log(window.location.href);
       
-      localStorage.setItem("lastVisitedPage", pathname);
+      localStorage.setItem("xion-pay-lastVisitedPage", pathname);
       // setPreviousLocation(updatedPathname);
     }
   }, [pathname]);
