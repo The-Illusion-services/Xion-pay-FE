@@ -7,6 +7,7 @@ import Image from "next/image";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import Navbar from "@/src/components/Navbar";
+import apiAccess from "@/src/assets/api-access.png"
 
 const Page = () => {
   useEffect(() => {
@@ -60,7 +61,7 @@ const Page = () => {
               <button
                 className={` ${
                   isDarkMode ? "bg-[#EEEEEE] text-[#101012]" : "bg-[#101012] text-[#EEEEEE]"
-                } rounded-lg  h-8 px-3 text-sm w-full lg:w-[30%]`}
+                } rounded-lg  h-8 px-3 text-sm w-full lg:w-[30%] transition-transform hover:scale-105 delay-50`}
               >
                 Join the waitlist
               </button>
@@ -92,7 +93,8 @@ const Page = () => {
               isDarkMode ? "bg-[#1A1A1A]" : "bg-[#F9F9F9]"
             }`}
           >
-            <Link />
+            {/* <Link /> */}
+            <Image src={apiAccess} alt="api-access-key" className="w-5 h-5"/>
             <h2 className="text-sm font-bold">Api Access</h2>
             <p className="text-xs font-light">
             Integrate payments directly into your <br/> applications

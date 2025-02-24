@@ -89,21 +89,27 @@ const ContextProvider = ({
  
   const { token, userId, userRole } = authState;
 
-  useEffect(() => {
-    if (
-      pathname !== "/auth/login" &&
-      pathname !== "/auth/register" &&
-      !pathname?.includes("/auth/pay") &&
-      pathname !== "/"
-      && pathname !== null
-    ) {
-      const updatedPathname = `/${window.location.href.split("/app")[1]}`;
-      console.log(window.location.href);
+  // useEffect(() => {
+  //   if (
+  //     pathname !== "/auth/login" &&
+  //     pathname !== "/auth/register" &&
+  //     !pathname?.includes("/auth/pay") &&
+  //     pathname !== "/"
+  //     && pathname !== null
+  //   ) {
+  //     const updatedPathname = `/${window.location.href.split("/app")[1]}`;
+  //     console.log(window.location.href);
       
-      localStorage.setItem("xion-pay-lastVisitedPage", pathname);
-      // setPreviousLocation(updatedPathname);
+  //     localStorage.setItem("xion-pay-lastVisitedPage", pathname);
+  //     // setPreviousLocation(updatedPathname);
+  //   }
+  // }, [pathname]);
+
+  useEffect(()=>{
+    if(pathname !== "/waitlist"){
+      router.push("/waitlist")
     }
-  }, [pathname]);
+  },[])
 
   // Login function
   const login = (accessToken: string, userId: string, userRole: string) => {

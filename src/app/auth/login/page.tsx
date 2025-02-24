@@ -118,118 +118,118 @@ const Login: FC = () => {
     );
   }
 
-  if (status === "unauthenticated") {
-    return (
-      <AuthLayout title={title}>
-        <main className="h-full w-full flex capitalize">
-          <div className="flex h-full w-full items-center justify-center">
-            <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white">
-              <CardHeader className="p-0 text-center">
-                <CardTitle className="text-2xl font-medium">Log In</CardTitle>
-                <CardDescription className="pb-4 text-border-secondary">
-                  Enter your credentials to acccess your account
-                </CardDescription>
-                <Separator />
-              </CardHeader>
-              <AnimatePresence>
-                {mutation.isError && (
-                  <motion.div
-                    initial={{ y: -20, opacity: 0.5 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -20, opacity: 0.2 }}
-                  >
-                    <ToastMessage
-                      message={
-                        mutation?.error?.message ||
-                        "An error occured during sign in"
-                      }
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              <CardContent className="p-0 flex flex-col gap-y-5">
-                <Form {...form}>
-                  <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="flex flex-col gap-y-6"
-                  >
-                    <div className="grid w-full items-center gap-y-6">
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-col space-y-1.5">
-                            <Label htmlFor="email">Email Address</Label>
-                            <FormControl>
-                              <Input
-                                placeholder="Enter email address"
-                                autoComplete="off"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="password"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-col space-y-1.5">
-                            <Label htmlFor="password">Password</Label>
-                            <FormControl>
-                              <Input
-                                placeholder="Enter password"
-                                autoComplete="new-password"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <p className="text-sm text-border-secondary">
-                      Forgot Password?{" "}
-                      <Link
-                        href="#"
-                        className="text-indigo-primary font-medium"
-                      >
-                        Recover
-                      </Link>
-                    </p>
-                    <CardFooter className="flex-col gap-y-12 p-0">
-                      <Button className="bg-indigo-primary w-full">
-                        Log In{" "}
-                        {mutation.isPending && (
-                          <LoaderCircle
-                            strokeWidth={3}
-                            className="flex
-                        text-white w-5 h-5 rotate-icon"
-                          />
-                        )}
-                      </Button>
-                      <p className="text-sm text-border-secondary">
-                        Are you new here?{" "}
-                        <Link
-                          href="/auth/register"
-                          className="text-indigo-primary font-medium"
-                        >
-                          Create Account
-                        </Link>
-                      </p>
-                    </CardFooter>
-                  </form>
-                </Form>
-              </CardContent>
-            </Card>
-          </div>
-        </main>
-      </AuthLayout>
-    );
-  } else {
-    return null;
-  }
+  // if (status === "unauthenticated") {
+  //   return (
+  //     <AuthLayout title={title}>
+  //       <main className="h-full w-full flex capitalize">
+  //         <div className="flex h-full w-full items-center justify-center">
+  //           <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white">
+  //             <CardHeader className="p-0 text-center">
+  //               <CardTitle className="text-2xl font-medium">Log In</CardTitle>
+  //               <CardDescription className="pb-4 text-border-secondary">
+  //                 Enter your credentials to acccess your account
+  //               </CardDescription>
+  //               <Separator />
+  //             </CardHeader>
+  //             <AnimatePresence>
+  //               {mutation.isError && (
+  //                 <motion.div
+  //                   initial={{ y: -20, opacity: 0.5 }}
+  //                   animate={{ y: 0, opacity: 1 }}
+  //                   exit={{ y: -20, opacity: 0.2 }}
+  //                 >
+  //                   <ToastMessage
+  //                     message={
+  //                       mutation?.error?.message ||
+  //                       "An error occured during sign in"
+  //                     }
+  //                   />
+  //                 </motion.div>
+  //               )}
+  //             </AnimatePresence>
+  //             <CardContent className="p-0 flex flex-col gap-y-5">
+  //               <Form {...form}>
+  //                 <form
+  //                   onSubmit={form.handleSubmit(onSubmit)}
+  //                   className="flex flex-col gap-y-6"
+  //                 >
+  //                   <div className="grid w-full items-center gap-y-6">
+  //                     <FormField
+  //                       control={form.control}
+  //                       name="email"
+  //                       render={({ field }) => (
+  //                         <FormItem className="flex flex-col space-y-1.5">
+  //                           <Label htmlFor="email">Email Address</Label>
+  //                           <FormControl>
+  //                             <Input
+  //                               placeholder="Enter email address"
+  //                               autoComplete="off"
+  //                               {...field}
+  //                             />
+  //                           </FormControl>
+  //                           <FormMessage />
+  //                         </FormItem>
+  //                       )}
+  //                     />
+  //                     <FormField
+  //                       control={form.control}
+  //                       name="password"
+  //                       render={({ field }) => (
+  //                         <FormItem className="flex flex-col space-y-1.5">
+  //                           <Label htmlFor="password">Password</Label>
+  //                           <FormControl>
+  //                             <Input
+  //                               placeholder="Enter password"
+  //                               autoComplete="new-password"
+  //                               {...field}
+  //                             />
+  //                           </FormControl>
+  //                           <FormMessage />
+  //                         </FormItem>
+  //                       )}
+  //                     />
+  //                   </div>
+  //                   <p className="text-sm text-border-secondary">
+  //                     Forgot Password?{" "}
+  //                     <Link
+  //                       href="#"
+  //                       className="text-indigo-primary font-medium"
+  //                     >
+  //                       Recover
+  //                     </Link>
+  //                   </p>
+  //                   <CardFooter className="flex-col gap-y-12 p-0">
+  //                     <Button className="bg-indigo-primary w-full">
+  //                       Log In{" "}
+  //                       {mutation.isPending && (
+  //                         <LoaderCircle
+  //                           strokeWidth={3}
+  //                           className="flex
+  //                       text-white w-5 h-5 rotate-icon"
+  //                         />
+  //                       )}
+  //                     </Button>
+  //                     <p className="text-sm text-border-secondary">
+  //                       Are you new here?{" "}
+  //                       <Link
+  //                         href="/auth/register"
+  //                         className="text-indigo-primary font-medium"
+  //                       >
+  //                         Create Account
+  //                       </Link>
+  //                     </p>
+  //                   </CardFooter>
+  //                 </form>
+  //               </Form>
+  //             </CardContent>
+  //           </Card>
+  //         </div>
+  //       </main>
+  //     </AuthLayout>
+  //   );
+  // } else {
+  //   return null;
+  // }
 };
 
 export default Login;
