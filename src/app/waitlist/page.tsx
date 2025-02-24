@@ -1,10 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HeroImg from "@/src/assets/payment-link2.png";
 import Image from "next/image";
-import { Check, ArrowRight, Link, Key } from "lucide-react";
+import { Check, Link, Key } from "lucide-react";
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 const Page = () => {
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+  }, []);
+
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -15,8 +21,11 @@ const Page = () => {
   return (
     <>
       <section className="flex w-full justify-between lg:px-20 px-4">
-        <div className="flex flex-col items-start justify-center h-screen w-full max-w-xl px-6 ">
-          <div className="w-full space-y-6">
+        <div className="flex flex-col items-start justify-center h-screen w-full max-w-xl px-6 " data-aos="fade-right"
+            data-aos-easing="ease-out"
+            data-aos-duration="1200"
+            data-aos-once="true">
+          <div className="w-full space-y-20 lg:space-y-12 ">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold text-white">
                 Join the waitlist
@@ -26,7 +35,7 @@ const Page = () => {
               </p>
             </div>
 
-            <div className="grid gap-4">
+            <div className="grid gap-8">
               <div className="flex items-center gap-3">
                 <div
                   className="flex items-center justify-center w-8 h-8 rounded-full"
@@ -63,7 +72,7 @@ const Page = () => {
             </div>
 
             <section className="border-0 shadow-lg">
-              <article className="p-6">
+              <article className="lg:w-[70%] ">
                 {!submitted ? (
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
@@ -105,7 +114,10 @@ const Page = () => {
             </section>
           </div>
         </div>
-        <section className="w-[50%] hidden lg:block">
+        <section className="w-[50%] hidden lg:block" data-aos="fade-left"
+            data-aos-easing="ease-out"
+            data-aos-duration="1200"
+            data-aos-once="true">
         <Image src={HeroImg} alt="HeroImg" height={700} width={700} />
         </section>
       </section>
