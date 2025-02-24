@@ -1,16 +1,19 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import HeroImg from "@/src/assets/payment-link2.png";
+import background from "@/src/assets/bg-black.png"
+import users from "@/src/assets/users.png";
+import {Link } from "lucide-react";
 import Image from "next/image";
-import { Check, Link, Key } from "lucide-react";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import Navbar from "@/src/components/Navbar";
 
 const Page = () => {
   useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
 
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -20,107 +23,94 @@ const Page = () => {
   };
   return (
     <>
-      <section className="flex w-full justify-between lg:px-20 px-4">
-        <div className="flex flex-col items-start justify-center h-screen w-full max-w-xl px-6 " data-aos="fade-right"
-            data-aos-easing="ease-out"
-            data-aos-duration="1200"
-            data-aos-once="true">
-          <div className="w-full space-y-20 lg:space-y-12 ">
-            <div className="space-y-2">
-              <h1 className="text-4xl font-bold text-white">
-                Join the waitlist
-              </h1>
-              <p className="text-lg text-[#5856D6]">
-                Be among the first to experience seamless payment processing
-              </p>
-            </div>
-
-            <div className="grid gap-8">
-              <div className="flex items-center gap-3">
-                <div
-                  className="flex items-center justify-center w-8 h-8 rounded-full"
-                  style={{ backgroundColor: "#5856D6" }}
-                >
-                  <Link className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-semibold" style={{ color: "#5856D6" }}>
-                    Payment Links
-                  </h3>
-                  <p className="text-sm text-white">
-                    Generate instant payment links for your customers
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div
-                  className="flex items-center justify-center w-8 h-8 rounded-full"
-                  style={{ backgroundColor: "#5856D6" }}
-                >
-                  <Key className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-semibold" style={{ color: "#5856D6" }}>
-                    API Access
-                  </h3>
-                  <p className="text-sm text-white">
-                    Integrate payments directly into your applications
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <section className="border-0 shadow-lg">
-              <article className="lg:w-[70%] ">
-                {!submitted ? (
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="space-y-2">
-                      <input
-                        type="email"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full p-2"
-                        required
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      className="w-full text-white p-2 transition-transform hover:scale-105 delay-50"
-                      style={{ backgroundColor: "#5856D6" }}
-                    >
-                      Join Waitlist
-                      {/* <ArrowRight className="w-4 h-4 ml-2" /> */}
-                    </button>
-                  </form>
-                ) : (
-                  <div className="text-center space-y-3">
-                    <div
-                      className="flex items-center justify-center w-12 h-12 mx-auto rounded-full"
-                      style={{ backgroundColor: "#5856D6" }}
-                    >
-                      <Check className="w-6 h-6 text-white" />
-                    </div>
-                    <h3 className="text-xl font-semibold">
-                      You're on the list!
-                    </h3>
-                    <p className="text-sm text-gray-600">
-                      We'll notify you when we launch. Thanks for your interest!
-                    </p>
-                  </div>
-                )}
-              </article>
-            </section>
-          </div>
+      <Navbar setIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode} />
+      <main
+        className={`lg:px-20 flex flex-col justify-between h-fit py-12  gap-y-16  ${
+          isDarkMode ? "text-[#EEEEEE] " : "text-[#101012]"
+        }`}
+        // style={{backgroundImage: url()}}
+      >
+        <div className={`${isDarkMode ? "flex" : "hidden"} absolute z-[-10] bottom-0 top-0 right-0 left-0`}>
+          <Image src={background} alt="background" className="w-full lg:h-full h-[1000px] md:h-[1200px]"/>
         </div>
-        <section className="w-[50%] hidden lg:block" data-aos="fade-left"
+        <section className="flex flex-col items-center gap-y-6 w-[80%] lg:w-[60%] mx-auto pt-8" data-aos="fade-in"
             data-aos-easing="ease-out"
             data-aos-duration="1200"
             data-aos-once="true">
-        <Image src={HeroImg} alt="HeroImg" height={700} width={700} />
+          <div className="text-center leading-8">
+            <span className="text-2xl lg:text-[40px] font-bold">
+              Be among the first to experience <br className="hidden lg:flex" />{" "}
+              next-gen crypto payments!
+            </span>
+          </div>
+          <div className="text-center text-sm font-light">
+            <p>
+              Seamless, secure, and borderless transactions—experience the
+              future of Web3 payments <br className="hidden lg:flex" /> before
+              anyone else. Join the waitlist today!
+            </p>
+          </div>
+
+          <article className="w-full flex flex-col gap-y-2 text-sm font-light">
+            <form className="w-full flex lg:flex-row flex-col gap-y-2 lg:gap-y-0 gap-x-2 items-center justify-center">
+              <input
+                placeholder="Enter email address "
+                className={`border rounded-lg w-full h-8 text-sm px-4 focus:outline-none ${isDarkMode ? "bg-transparent border-[#474747]" : "bg-white"}`}
+              />
+              <button
+                className={` ${
+                  isDarkMode ? "bg-[#EEEEEE] text-[#101012]" : "bg-[#101012] text-[#EEEEEE]"
+                } rounded-lg  h-8 px-3 text-sm w-full lg:w-[30%]`}
+              >
+                Join the waitlist
+              </button>
+            </form>
+            <div className="mx-auto flex items-center gap-x-2">
+              <Image src={users} alt="users" className="h-6 w-12" />
+              <span>2k+ users joined the waitlist</span>
+            </div>
+          </article>
         </section>
-      </section>
+
+        <section className={` flex lg:flex-row flex-col items-center gap-x-4 justify-evenly gap-y-5`} data-aos="fade-right"
+            data-aos-easing="ease-out"
+            data-aos-duration="1200"
+            data-aos-once="true">
+          <article
+            className={`rounded-lg flex flex-col gap-y-2 px-6 py-4 w-[80%] lg:w-[30%] ${
+              isDarkMode ? "bg-[#1A1A1A]" : "bg-[#F9F9F9]"
+            }`}
+          >
+            <Link />
+            <h2 className="text-sm font-bold">Payment Links</h2>
+            <p className="text-xs font-light">
+              Generate instant payment links <br /> for your customers
+            </p>
+          </article>
+          <article
+            className={`rounded-lg flex flex-col gap-y-2 px-6 py-4 w-[80%] lg:w-[30%] ${
+              isDarkMode ? "bg-[#1A1A1A]" : "bg-[#F9F9F9]"
+            }`}
+          >
+            <Link />
+            <h2 className="text-sm font-bold">Api Access</h2>
+            <p className="text-xs font-light">
+            Integrate payments directly into your <br/> applications
+            </p>
+          </article>
+          <article
+            className={`rounded-lg flex flex-col gap-y-2 px-6 py-4 w-[80%] lg:w-[30%] ${
+              isDarkMode ? "bg-[#1A1A1A]" : "bg-[#F9F9F9]"
+            }`}
+          >
+            <Link />
+            <h2 className="text-sm font-bold">Payment Links</h2>
+            <p className="text-xs font-light">
+              Generate instant payment links <br /> for your customers
+            </p>
+          </article>
+        </section>
+      </main>
     </>
   );
 };
