@@ -7,14 +7,18 @@ import Image from "next/image";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import Navbar from "@/src/components/Navbar";
-import apiAccess from "@/src/assets/api-access.png"
+import apiAccessBlack from "@/src/assets/api-access.png"
+import apiAccessWhite from "@/src/assets/api-access-white.png"
+import Head from "next/head";
+import "../globals.css";
+
 
 const Page = () => {
   useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
 
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -24,12 +28,12 @@ const Page = () => {
   };
   return (
     <>
+       
       <Navbar setIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode} />
       <main
-        className={`lg:px-20 flex flex-col justify-between h-fit py-12  gap-y-16  ${
+        className={`lg:px-20 flex flex-col justify-between h-fit py-12  gap-y-16   ${
           isDarkMode ? "text-[#EEEEEE] " : "text-[#101012]"
         }`}
-        // style={{backgroundImage: url()}}
       >
         <div className={`${isDarkMode ? "flex" : "hidden"} absolute z-[-10] bottom-0 top-0 right-0 left-0`}>
           <Image src={background} alt="background" className="w-full lg:h-full h-[1000px] md:h-[1200px]"/>
@@ -38,13 +42,13 @@ const Page = () => {
             data-aos-easing="ease-out"
             data-aos-duration="1200"
             data-aos-once="true">
-          <div className="text-center leading-8">
+          <div className="text-center leading-8 font-rationalSemibold">
             <span className="text-2xl lg:text-[40px] font-bold">
               Be among the first to experience <br className="hidden lg:flex" />{" "}
               next-gen crypto payments!
             </span>
           </div>
-          <div className="text-center text-sm font-light">
+          <div className="text-center text-sm font-rationalLight">
             <p>
               Seamless, secure, and borderless transactions—experience the
               future of Web3 payments <br className="hidden lg:flex" /> before
@@ -52,7 +56,7 @@ const Page = () => {
             </p>
           </div>
 
-          <article className="w-full flex flex-col gap-y-2 text-sm font-light">
+          <article className="w-full flex flex-col gap-y-2 text-sm font-rationalLight">
             <form className="w-full flex lg:flex-row flex-col gap-y-2 lg:gap-y-0 gap-x-2 items-center justify-center">
               <input
                 placeholder="Enter email address "
@@ -83,8 +87,8 @@ const Page = () => {
             }`}
           >
             <Link />
-            <h2 className="text-sm font-bold">Payment Links</h2>
-            <p className="text-xs font-light">
+            <h2 className="text-sm font-bold font-rationalSemibold">Payment Links</h2>
+            <p className="text-xs font-rationalLight">
               Generate instant payment links <br /> for your customers
             </p>
           </article>
@@ -94,9 +98,9 @@ const Page = () => {
             }`}
           >
             {/* <Link /> */}
-            <Image src={apiAccess} alt="api-access-key" className="w-5 h-5"/>
-            <h2 className="text-sm font-bold">Api Access</h2>
-            <p className="text-xs font-light">
+            <Image src={!isDarkMode ? apiAccessBlack : apiAccessWhite} alt="api-access-key" className="w-5 h-5"/>
+            <h2 className="text-sm font-rationalSemibold">API Access</h2>
+            <p className="text-xs font-rationalLight">
             Integrate payments directly into your <br/> applications
             </p>
           </article>
@@ -106,8 +110,8 @@ const Page = () => {
             }`}
           >
             <Link />
-            <h2 className="text-sm font-bold">Payment Links</h2>
-            <p className="text-xs font-light">
+            <h2 className="text-sm font-bold font-rationalSemibold">Payment Links</h2>
+            <p className="text-xs font-rationalLight">
               Generate instant payment links <br /> for your customers
             </p>
           </article>

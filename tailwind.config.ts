@@ -17,6 +17,10 @@ const config = {
   		}
   	},
   	extend: {
+      fontFamily: {
+        rationalSemibold: ['"Rational Text DEMO SemiBold"', "sans-serif"],
+        rationalLight: ['"Rational Text DEMO Light"', "sans-serif"],
+      },
   		screens: {
   			lg: '1034px'
   		},

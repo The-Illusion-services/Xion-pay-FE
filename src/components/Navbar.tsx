@@ -14,7 +14,7 @@ const Navbar: React.FC<Props> = ({ setIsDarkMode, isDarkMode }) => {
     setIsDarkMode(!isDarkMode);
   };
   return (
-    <div className="fixed top-0 w-full z-40 backdrop-blur-sm bg-white/30 px-4 lg:px-20">
+    <div className="fixed top-0 w-full z-40 lg:backdrop-blur-none backdrop-blur-sm lg:bg-transparent bg-white/30 px-4 lg:px-20">
       <div className="flex justify-between items-center w-full relative">
         {/* Logo */}
         <Image
