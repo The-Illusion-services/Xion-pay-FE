@@ -27,7 +27,7 @@ const Page = () => {
   const [modalType, setModalType] = useState("success");
   const [errorMode, setErrorMode] = useState(false);
   const [errorMsg, setErrMsg] = useState("");
-  const [hasTouched, setHasTouched] = useState(false)
+  const [hasTouched, setHasTouched] = useState(false);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -42,7 +42,7 @@ const Page = () => {
   const { setIsLoading } = useContext(CreateContext).loader;
 
   const joinWaitList = async () => {
-    if(errorMode) return;
+    if (errorMode) return;
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -62,13 +62,13 @@ const Page = () => {
       const responseData = await response.json();
       setIsLoading(false);
       setModalType("success");
-      setEmail("")
+      setEmail("");
       setShowModal(true);
       // console.log(responseData);
     } catch (err) {
       console.log(err);
       setModalType("error");
-      setEmail("")
+      setEmail("");
       setShowModal(true);
       setIsLoading(false);
     }
@@ -80,30 +80,27 @@ const Page = () => {
   }, []);
 
   const handleEmailChange = (e: any) => {
-
-     if (email === "" && hasTouched) {
+    if (email === "" && hasTouched) {
       setErrorMode(true);
       setErrMsg("Field cannot be empty");
-      
     }
     if (!validateEmail(email) && hasTouched) {
       setErrorMode(true);
       setErrMsg("Invalid email");
-      
-    }else if(validateEmail(email)){
+    } else if (validateEmail(email)) {
       setErrorMode(false);
     }
 
     setEmail(e.target.value);
   };
 
-  const handleHasTouched = ()=>{
-    if(email === ""){
-      setErrorMode(true)
-      setErrMsg("Field cannot be empty")
+  const handleHasTouched = () => {
+    if (email === "") {
+      setErrorMode(true);
+      setErrMsg("Field cannot be empty");
     }
-    setHasTouched(true)
-  }
+    setHasTouched(true);
+  };
 
   return (
     <>
@@ -174,9 +171,11 @@ const Page = () => {
                         : "bg-white"
                     }`}
                   />
-                   {errorMode && (
-                  <span className="text-red-400 ml-4 text-center lg:text-start text-xs flex lg:hidden">{errorMsg}</span>
-                )}
+                  {errorMode && (
+                    <span className="text-red-400 ml-4 text-center lg:text-start text-xs flex lg:hidden">
+                      {errorMsg}
+                    </span>
+                  )}
 
                   <button
                     type="submit"
@@ -191,7 +190,9 @@ const Page = () => {
                 </div>
 
                 {errorMode && (
-                  <span className="text-red-400 ml-4 text-xs hidden lg:flex pt-1">{errorMsg}</span>
+                  <span className="text-red-400 ml-4 text-xs hidden lg:flex pt-1">
+                    {errorMsg}
+                  </span>
                 )}
               </article>
             </form>
