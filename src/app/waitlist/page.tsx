@@ -62,11 +62,13 @@ const Page = () => {
       const responseData = await response.json();
       setIsLoading(false);
       setModalType("success");
+      setEmail("")
       setShowModal(true);
-      console.log(responseData);
+      // console.log(responseData);
     } catch (err) {
       console.log(err);
       setModalType("error");
+      setEmail("")
       setShowModal(true);
       setIsLoading(false);
     }
