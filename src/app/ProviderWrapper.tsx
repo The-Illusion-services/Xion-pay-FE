@@ -23,7 +23,7 @@ const ProviderWrapper = ({
           <ContextProvider>
           <Modal/>
             <section>
-               <Spinner />
+               {/* <Spinner /> */}
               <Toast />
               {children}
             </section>
