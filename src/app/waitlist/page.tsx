@@ -136,13 +136,13 @@ const Page = () => {
           data-aos-duration="1200"
           data-aos-once="true"
         >
-          <div className="text-center leading-8 font-rationalSemibold">
+          <div className="text-center leading-6 lg:leading-8 font-rationalSemibold">
             <span className="text-2xl lg:text-[40px] font-bold">
               Be among the first to experience <br className="hidden lg:flex" />{" "}
               next-gen crypto payments!
             </span>
           </div>
-          <div className="text-center text-sm font-rationalLight">
+          <div className="text-center text-base font-rationalLight">
             <p>
               Seamless, secure, and borderless transactions—experience the
               future of Web3 payments <br className="hidden lg:flex" /> before
@@ -164,7 +164,7 @@ const Page = () => {
                     onChange={handleEmailChange}
                     onBlur={handleHasTouched}
                     placeholder="Enter email address "
-                    className={`border rounded-lg w-full h-8 text-sm px-4 focus:outline-none ${
+                    className={`border rounded-lg w-full h-12 lg:h-8 text-sm px-4 focus:outline-none ${
                       errorMode && "border-red-500"
                     } ${
                       isDarkMode
@@ -182,7 +182,7 @@ const Page = () => {
                       isDarkMode
                         ? "bg-[#EEEEEE] text-[#101012]"
                         : "bg-[#101012] text-[#EEEEEE]"
-                    } rounded-lg  h-8 px-3 text-sm w-full lg:w-[30%] transition-transform hover:scale-105 delay-50`}
+                    } rounded-lg  lg:h-8 h-12 px-3 text-sm w-full lg:w-[30%] transition-transform hover:scale-105 delay-50`}
                   >
                     Join the waitlist
                   </button>
