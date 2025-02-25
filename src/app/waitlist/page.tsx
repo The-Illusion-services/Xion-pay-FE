@@ -156,7 +156,7 @@ const Page = () => {
               className="w-full flex lg:flex-row flex-col gap-y-2 lg:gap-y-0 gap-x-2 items-center justify-center"
             >
               <article className="w-full flex flex-col">
-                <div className="w-full flex lg:flex-row flex-col  gap-x-2">
+                <div className="w-full flex lg:flex-row flex-col  gap-x-2 gap-y-2">
                   <input
                     ref={inputRef}
                     // type="email"
