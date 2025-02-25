@@ -63,12 +63,16 @@ const Page = () => {
       setIsLoading(false);
       setModalType("success");
       setEmail("");
+      setHasTouched(false)
+      setErrorMode(false)
       setShowModal(true);
       // console.log(responseData);
     } catch (err) {
       console.log(err);
       setModalType("error");
       setEmail("");
+      setHasTouched(false)
+      setErrorMode(false)
       setShowModal(true);
       setIsLoading(false);
     }
@@ -113,7 +117,7 @@ const Page = () => {
       />
       <Navbar setIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode} />
       <main
-        className={`lg:px-20 flex flex-col justify-between h-fit py-8  gap-y-16   ${
+        className={`lg:px-20 flex flex-col justify-between h-fit py-8  gap-y-16  transition-colors  ${
           isDarkMode ? "text-[#EEEEEE] " : "text-[#101012]"
         }`}
       >
