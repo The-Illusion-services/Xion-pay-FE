@@ -77,11 +77,7 @@ const Page = () => {
       setIsLoading(false);
     }
   };
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef?.current?.focus();
-    }
-  }, []);
+
 
   const handleEmailChange = (e: any) => {
     if (email === "" && hasTouched) {
@@ -133,7 +129,7 @@ const Page = () => {
           />
         </div>
         <section
-          className="flex flex-col items-center gap-y-6 w-[80%] lg:w-[60%] mx-auto pt-12"
+          className="flex flex-col items-center gap-y-6 w-[90%] lg:w-[60%] mx-auto pt-12"
           data-aos="fade-up"
           data-aos-easing="ease-out"
           data-aos-duration="1200"
