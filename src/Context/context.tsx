@@ -89,27 +89,28 @@ const ContextProvider = ({
  
   const { token, userId, userRole } = authState;
 
-  // useEffect(() => {
-  //   if (
-  //     pathname !== "/auth/login" &&
-  //     pathname !== "/auth/register" &&
-  //     !pathname?.includes("/auth/pay") &&
-  //     pathname !== "/"
-  //     && pathname !== null
-  //   ) {
-  //     const updatedPathname = `/${window.location.href.split("/app")[1]}`;
-  //     console.log(window.location.href);
+  useEffect(() => {
+    if (
+      pathname !== "/auth/login" &&
+      pathname !== "/waitlist" &&
+      pathname !== "/auth/register" &&
+      !pathname?.includes("/auth/pay") &&
+      pathname !== "/"
+      && pathname !== null
+    ) {
+      const updatedPathname = `/${window.location.href.split("/app")[1]}`;
+      console.log(window.location.href);
       
-  //     localStorage.setItem("xion-pay-lastVisitedPage", pathname);
-  //     // setPreviousLocation(updatedPathname);
-  //   }
-  // }, [pathname]);
-
-  useEffect(()=>{
-    if(pathname !== "/waitlist"){
-      router.push("/waitlist")
+      localStorage.setItem("xion-pay-lastVisitedPage", pathname);
+      // setPreviousLocation(updatedPathname);
     }
-  },[])
+  }, [pathname]);
+
+  // useEffect(()=>{
+  //   if(pathname !== "/waitlist"){
+  //     router.push("/waitlist")
+  //   }
+  // },[])
 
   // Login function
   const login = (accessToken: string, userId: string, userRole: string) => {
@@ -138,20 +139,7 @@ const ContextProvider = ({
   // }, [pathname]);
 
   // Clear cached course checker on navigation
-  useEffect(() => {
-    if (!pathname?.includes("/creator/course-management")) {
-      localStorage.removeItem("checkCachedCourse");
-    }
-  }, [pathname]);
 
-  // Automatically log in from localStorage
-  useEffect(() => {
-    const storedDataRaw = localStorage.getItem("userData");
-    const storedData = storedDataRaw && JSON.parse(storedDataRaw);
-    if (storedData?.token) {
-      setAuthState(storedData);
-    }
-  }, []);
 
   
   // console.log(window.location.href.split("/app")[1]);

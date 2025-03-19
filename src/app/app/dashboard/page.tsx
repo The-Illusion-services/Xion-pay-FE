@@ -118,7 +118,7 @@ const Page = () => {
     <>
       <main className="">
         <Topbar />
-        <section className="mt-20 px-4">
+        <section className="pt-20 px-4 min-h-screen">
           <article className="flex justify-between items-center">
             <div className="flex flex-row  items-center gap-x-2">
               <h1 className="text-sm text-[#AAAAAA] font-light">

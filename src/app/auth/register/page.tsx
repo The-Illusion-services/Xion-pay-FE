@@ -120,159 +120,159 @@ const Register: FC = () => {
   const onSubmit = () => mutation.mutate();
 
   return (
-    // <AuthLayout title={title}>
-    //   <main className="h-full w-full flex capitalize">
-    //     <div className="flex h-full w-full items-center justify-center">
-    //       {confirmEmailModal ? (
-    //         <ConfirmVerfificationCode />
-    //       ) : (
-    //         <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white">
-    //           <CardHeader className="p-0 text-center">
-    //             <CardTitle className="text-2xl font-medium">Register</CardTitle>
-    //             <CardDescription className="pb-4 text-border-secondary">
-    //               Enter your credentials to create an account
-    //             </CardDescription>
-    //             <Separator />
-    //           </CardHeader>
-    //           <AnimatePresence>
-    //             {mutation.isError && (
-    //               <motion.div
-    //                 initial={{ y: -20, opacity: 0.5 }}
-    //                 animate={{ y: 0, opacity: 1 }}
-    //                 exit={{ y: -20, opacity: 0.2 }}
-    //               >
-    //                 <ToastMessage
-    //                   message={
-    //                     mutation?.error?.message ||
-    //                     "An error occured during sign in"
-    //                   }
-    //                 />
-    //               </motion.div>
-    //             )}
-    //           </AnimatePresence>
-    //           <CardContent className="p-0 flex flex-col gap-y-5">
-    //             <Form {...form}>
-    //               <form
-    //                 onSubmit={form.handleSubmit(onSubmit)}
-    //                 className="flex flex-col gap-y-6"
-    //               >
-    //                 <div className="grid w-full items-center gap-y-6">
-    //                   <FormField
-    //                     control={form.control}
-    //                     name="first_name"
-    //                     render={({ field }) => (
-    //                       <FormItem className="flex flex-col space-y-1.5">
-    //                         <Label htmlFor="email">First Name</Label>
-    //                         <FormControl>
-    //                           <Input
-    //                             placeholder="Enter first name"
-    //                             autoComplete="off"
-    //                             {...field}
-    //                           />
-    //                         </FormControl>
-    //                         <FormMessage />
-    //                       </FormItem>
-    //                     )}
-    //                   />
-    //                   <FormField
-    //                     control={form.control}
-    //                     name="last_name"
-    //                     render={({ field }) => (
-    //                       <FormItem className="flex flex-col space-y-1.5">
-    //                         <Label htmlFor="lastName">Last Name</Label>
-    //                         <FormControl>
-    //                           <Input
-    //                             placeholder="Enter last name"
-    //                             autoComplete="off"
-    //                             {...field}
-    //                           />
-    //                         </FormControl>
-    //                         <FormMessage />
-    //                       </FormItem>
-    //                     )}
-    //                   />
-    //                   <FormField
-    //                     control={form.control}
-    //                     name="email"
-    //                     render={({ field }) => (
-    //                       <FormItem className="flex flex-col space-y-1.5">
-    //                         <Label htmlFor="email">Email</Label>
-    //                         <FormControl>
-    //                           <Input
-    //                             placeholder="Enter email address"
-    //                             autoComplete="off"
-    //                             {...field}
-    //                           />
-    //                         </FormControl>
-    //                         <FormMessage />
-    //                       </FormItem>
-    //                     )}
-    //                   />
-    //                   <FormField
-    //                     control={form.control}
-    //                     name="password"
-    //                     render={({ field }) => (
-    //                       <FormItem className="flex flex-col space-y-1.5">
-    //                         <Label htmlFor="password">Password</Label>
-    //                         <FormControl>
-    //                           <Input
-    //                             placeholder="Enter password"
-    //                             autoComplete="new-password"
-    //                             {...field}
-    //                           />
-    //                         </FormControl>
-    //                         <FormMessage />
-    //                       </FormItem>
-    //                     )}
-    //                   />
-    //                   <FormField
-    //                     control={form.control}
-    //                     name="confirm_password"
-    //                     render={({ field }) => (
-    //                       <FormItem className="flex flex-col space-y-1.5">
-    //                         <Label htmlFor="email">Confirm Password</Label>
-    //                         <FormControl>
-    //                           <Input
-    //                             placeholder="Confirm password"
-    //                             autoComplete="off"
-    //                             {...field}
-    //                           />
-    //                         </FormControl>
-    //                         <FormMessage />
-    //                       </FormItem>
-    //                     )}
-    //                   />
-    //                 </div>
-    //                 <CardFooter className="flex-col gap-y-12 p-0">
-    //                   <Button className="bg-indigo-primary w-full">
-    //                     Register{" "}
-    //                     {mutation.isPending && (
-    //                       <LoaderCircle
-    //                         strokeWidth={3}
-    //                         className="flex
-    //                   text-white w-5 h-5 rotate-icon"
-    //                       />
-    //                     )}
-    //                   </Button>
-    //                   <p className="text-sm text-border-secondary">
-    //                     Not new here?{" "}
-    //                     <Link
-    //                       href="/auth/login"
-    //                       className="text-indigo-primary font-medium"
-    //                     >
-    //                       Create Account
-    //                     </Link>
-    //                   </p>
-    //                 </CardFooter>
-    //               </form>
-    //             </Form>
-    //           </CardContent>
-    //         </Card>
-    //       )}
-    //     </div>
-    //   </main>
-    // </AuthLayout>
-    <></>
+    <AuthLayout title={title}>
+      <main className="h-full w-full flex capitalize">
+        <div className="flex h-full w-full items-center justify-center">
+          {confirmEmailModal ? (
+            <ConfirmVerfificationCode />
+          ) : (
+            <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white">
+              <CardHeader className="p-0 text-center">
+                <CardTitle className="text-2xl font-medium">Register</CardTitle>
+                <CardDescription className="pb-4 text-border-secondary">
+                  Enter your credentials to create an account
+                </CardDescription>
+                <Separator />
+              </CardHeader>
+              <AnimatePresence>
+                {mutation.isError && (
+                  <motion.div
+                    initial={{ y: -20, opacity: 0.5 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -20, opacity: 0.2 }}
+                  >
+                    <ToastMessage
+                      message={
+                        mutation?.error?.message ||
+                        "An error occured during sign in"
+                      }
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <CardContent className="p-0 flex flex-col gap-y-5">
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="flex flex-col gap-y-6"
+                  >
+                    <div className="grid w-full items-center gap-y-6">
+                      <FormField
+                        control={form.control}
+                        name="first_name"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col space-y-1.5">
+                            <Label htmlFor="email">First Name</Label>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter first name"
+                                autoComplete="off"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="last_name"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col space-y-1.5">
+                            <Label htmlFor="lastName">Last Name</Label>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter last name"
+                                autoComplete="off"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col space-y-1.5">
+                            <Label htmlFor="email">Email</Label>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter email address"
+                                autoComplete="off"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col space-y-1.5">
+                            <Label htmlFor="password">Password</Label>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter password"
+                                autoComplete="new-password"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="confirm_password"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col space-y-1.5">
+                            <Label htmlFor="email">Confirm Password</Label>
+                            <FormControl>
+                              <Input
+                                placeholder="Confirm password"
+                                autoComplete="off"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <CardFooter className="flex-col gap-y-12 p-0">
+                      <Button className="bg-indigo-primary w-full">
+                        Register{" "}
+                        {mutation.isPending && (
+                          <LoaderCircle
+                            strokeWidth={3}
+                            className="flex
+                      text-white w-5 h-5 rotate-icon"
+                          />
+                        )}
+                      </Button>
+                      <p className="text-sm text-border-secondary">
+                        Not new here?{" "}
+                        <Link
+                          href="/auth/login"
+                          className="text-indigo-primary font-medium"
+                        >
+                          Login
+                        </Link>
+                      </p>
+                    </CardFooter>
+                  </form>
+                </Form>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </main>
+    </AuthLayout>
+    
   );
 };
 

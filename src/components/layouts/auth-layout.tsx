@@ -77,7 +77,7 @@ export default function AuthLayout({
 
       <div>
         <PageAnimation>
-          <div className="md:py-8 py-0 h-full flex flex-col justify-center min-h-screen">
+          <div className="md:py-8 py-0 h-full flex flex-col justify-center min-h-screen bg-black">
             <div className="flex items-center justify-center h-full px-4">
               {children}
             </div>

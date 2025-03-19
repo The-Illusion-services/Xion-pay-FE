@@ -255,7 +255,7 @@ const appSidebar = ({
       </section>
 
       {/* Content Section */}
-      <section className="lg:ml-[16%]">{children}</section>
+      <section className="lg:ml-[16%] bg-black">{children}</section>
     </React.Fragment>
      </AuthGuard>
   );

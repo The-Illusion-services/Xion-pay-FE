@@ -29,7 +29,7 @@ export default function RootLayout({
   const queryClient = new QueryClient();
   return (
     <html lang="en">
-      <body className={` antialiased`}>
+      <body className={` antialiased  `}>
         <link
           href="https://db.onlinewebfonts.com/c/a09cc1fff02da4cda4da3eb1fb54c12f?family=Rational+Text+DEMO+SemiBold"
           rel="stylesheet"
