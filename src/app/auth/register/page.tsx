@@ -1,7 +1,8 @@
 "use client";
 
 import { AuthLayout } from "@/src/components/layouts";
-import React, { FC, useState } from "react";
+import React, { FC, useState, useContext } from "react";
+import { CreateContext } from "@/src/Context/context";
 import { useMutation } from "@tanstack/react-query";
 import { AuthService } from "@/src/services";
 import { Button } from "@/src/components/ui/button";
@@ -63,6 +64,7 @@ const formSchema = z
 let title = "Log In";
 
 const Register: FC = () => {
+  const { setIsLoading } = useContext(CreateContext).loader;
   const router = useRouter();
   const { updateUser } = useAuthToken();
   const [confirmEmailModal, setConfirmEmailModal] = useState(false);
@@ -81,8 +83,8 @@ const Register: FC = () => {
 
   const registerRequest: any = async () => {
     try {
-      // TODO: remove when api starts working
-      // setConfirmEmailModal(true);
+    setIsLoading(true);
+      
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}auth/register/`,
@@ -96,9 +98,11 @@ const Register: FC = () => {
       );
       const responseData = await response.json();
       console.log(responseData);
-
+      setIsLoading(false);
       return responseData;
     } catch (error: any) {
+    setIsLoading(false);
+
       throw new Error(
         error?.response?.data?.message ||
           error?.response?.data?.data?.message ||
