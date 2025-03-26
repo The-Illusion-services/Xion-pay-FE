@@ -3,7 +3,6 @@ import React, { createContext, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 
-
 import { signOut } from "next-auth/react";
 interface ContextTypes {
   auth: {
@@ -25,7 +24,9 @@ interface ContextTypes {
     errMsg: string;
     setErrMsg: React.Dispatch<React.SetStateAction<string>>;
     msg: string;
-    setMsg:React.Dispatch<React.SetStateAction<string>>;
+    setMsg: React.Dispatch<React.SetStateAction<string>>;
+    showPaymentLinkModal: boolean;
+    setShowPaymentLinkModal: React.Dispatch<React.SetStateAction<boolean>>;
   };
   loader: {
     isLoading: boolean;
@@ -37,7 +38,7 @@ interface ContextTypes {
 
   previousLocation: string;
   setPreviousLocation: React.Dispatch<React.SetStateAction<string>>;
-  paymentLink: boolean,
+  paymentLink: boolean;
   setPaymentLink: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -79,28 +80,32 @@ const ContextProvider = ({
   const [showModal, setShowModal] = useState(false);
   const [currUser, setCurrUser] = useState("recruit");
   const [skeletalLoading, setSkeletalLoading] = useState(false);
-  
+  const [showPaymentLinkModal, setShowPaymentLinkModal] = useState(false);
+
   const [showSignOutModal, setShowSignOutModal] = useState(false);
-  
+
   const [previousLocation, setPreviousLocation] = useState("");
-  const [msg, setMsg] = useState("")
-  
-  const [paymentLink, setPaymentLink] = useState(false)
- 
+  const [msg, setMsg] = useState("");
+
+  const [paymentLink, setPaymentLink] = useState(false);
+
   const { token, userId, userRole } = authState;
 
   useEffect(() => {
+    const isNotFound = document.title.includes("404") || pathname === "/404";
+
     if (
       pathname !== "/auth/login" &&
       pathname !== "/waitlist" &&
       pathname !== "/auth/register" &&
       !pathname?.includes("/auth/pay") &&
-      pathname !== "/"
-      && pathname !== null
+      pathname !== "/" &&
+      !isNotFound &&
+      pathname !== null
     ) {
       const updatedPathname = `/${window.location.href.split("/app")[1]}`;
       console.log(window.location.href);
-      
+
       localStorage.setItem("xion-pay-lastVisitedPage", pathname);
       // setPreviousLocation(updatedPathname);
     }
@@ -134,14 +139,12 @@ const ContextProvider = ({
   //     !pathname?.includes("/creator/course-management/create") &&
   //     !pathname?.includes("/creator/course-management/update")
   //   ) {
-      
+
   //   }
   // }, [pathname]);
 
   // Clear cached course checker on navigation
 
-
-  
   // console.log(window.location.href.split("/app")[1]);
 
   return (
@@ -166,7 +169,9 @@ const ContextProvider = ({
           errMsg,
           setErrMsg,
           msg,
-          setMsg
+          setMsg,
+          showPaymentLinkModal,
+          setShowPaymentLinkModal,
         },
         loader: {
           isLoading,
@@ -175,11 +180,11 @@ const ContextProvider = ({
           setSkeletalLoading,
         },
         user: { currUser },
-      
+
         previousLocation,
         setPreviousLocation,
         paymentLink,
-        setPaymentLink
+        setPaymentLink,
       }}
     >
       {children}

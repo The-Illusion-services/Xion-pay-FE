@@ -10,21 +10,21 @@ const PersonalInformation = () => {
           <label>Full name</label>
           <input
             placeholder="Enter Full name"
-            className="border h-10 p-2 bg-[#13161F] mt-2 rounded-md"
+            className="border h-10 p-2 bg-transparent mt-2 rounded-md"
           />
         </div>
         <div className="flex flex-col w-full">
           <label>Email address</label>
           <input
             placeholder="Enter email address"
-            className="border h-10 p-2 bg-[#13161F] mt-2 rounded-md"
+            className="border h-10 p-2 bg-transparent mt-2 rounded-md"
           />
         </div>
         <div className="flex flex-col w-full">
           <label>Phone Number</label>
           <input
             placeholder="Enter Full name"
-            className="border h-10 p-2 bg-[#13161F] mt-2 rounded-md"
+            className="border h-10 p-2 bg-transparent mt-2 rounded-md"
           />
         </div>
         <button className="p-1 bg-[#5856D6] w-32 block ml-auto rounded-md">

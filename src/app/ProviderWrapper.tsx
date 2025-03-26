@@ -8,6 +8,7 @@ import Toast from "@/src/components/Toast";
 import { SessionProvider } from "next-auth/react";
 import { Suspense } from "react";
 import Modal from "./app/dashboard/modal";
+import CreatePaymentLinkModal from "../components/Modals/CreatePaymentLinkModal";
 
 const ProviderWrapper = ({
   children,
@@ -22,8 +23,9 @@ const ProviderWrapper = ({
        
           <ContextProvider>
           <Modal/>
+          <CreatePaymentLinkModal/>
             <section>
-               {/* <Spinner /> */}
+               <Spinner isDarkMode={true}/>
               <Toast />
               {children}
             </section>

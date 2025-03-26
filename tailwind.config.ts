@@ -28,22 +28,10 @@ const config = {
   			'easing-gradient': 'linear-gradient(to bottom, #0d0f11, #121418, #191c20, #191b1f)'
   		},
   		colors: {
-  			'blue-secondary': '#171b26',
-			'indigo-primary': '#5754d7',
-  			'border-secondary': '#A3A3A3',
-  			'border-primary': '#404040',
-  			background: 'hsl(var(--background))',
-  			foreground: 'hsl(var(--foreground))',
-  			sidebar: {
-  				DEFAULT: 'hsl(var(--sidebar-background))',
-  				foreground: 'hsl(var(--sidebar-foreground))',
-  				primary: 'hsl(var(--sidebar-primary))',
-  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-  				accent: 'hsl(var(--sidebar-accent))',
-  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-  				border: 'hsl(var(--sidebar-border))',
-  				ring: 'hsl(var(--sidebar-ring))'
-  			}
+  			gray_primary: "#1A1A1A",
+        
+        white_primary: "#F2F2F2"
+  			
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',

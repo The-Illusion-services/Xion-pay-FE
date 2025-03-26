@@ -1,7 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 import Head from "next/head";
 import type { Metadata } from "next";
-// import { Geist, Geist_Mono } from "next/font/google";
 import ProviderWrapper from "./ProviderWrapper";
 
 import "./globals.css";
