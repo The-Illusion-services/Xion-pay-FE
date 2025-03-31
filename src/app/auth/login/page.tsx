@@ -64,6 +64,8 @@ const Login: FC = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const { updateUser } = useAuthToken();
+  const initialLoading = true
+  
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -111,12 +113,13 @@ const Login: FC = () => {
   const onSubmit = () => loginRequest();
 
   useEffect(() => {
-    const lastVisitedPage = localStorage.getItem("xion-pay-lastVisitedPage");
-    if (status === "authenticated" && !lastVisitedPage) {
-      router.push("/app/dashboard");
-    } else if (status !== "unauthenticated" && lastVisitedPage) {
-      router.push(lastVisitedPage);
-    }
+    // const lastVisitedPage = localStorage.getItem("xion-pay-lastVisitedPage");
+    // if (status === "authenticated" && !lastVisitedPage) {
+    //   router.push("/app/dashboard");
+    // } else if (status !== "unauthenticated" && lastVisitedPage) {
+    //   router.push(lastVisitedPage);
+    // }
+    router.push("/waitlist")
   }, [status, router]);
 
   if (status === "loading") {
@@ -127,7 +130,7 @@ const Login: FC = () => {
     );
   }
 
-  if (status === "unauthenticated") {
+  if (!initialLoading) {
     return (
       // <AuthLayout title={title}>
       <main

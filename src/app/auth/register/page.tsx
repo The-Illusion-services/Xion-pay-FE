@@ -1,7 +1,7 @@
 "use client";
 
 import { AuthLayout } from "@/src/components/layouts";
-import React, { FC, useState, useContext } from "react";
+import React, { FC, useState, useContext, useEffect } from "react";
 import { CreateContext } from "@/src/Context/context";
 import { useMutation } from "@tanstack/react-query";
 import { AuthService } from "@/src/services";
@@ -37,6 +37,8 @@ import ToastMessage from "@/src/components/illusion-ui/toast-message";
 import Image from "next/image";
 import authBg from "@/src/assets/auth-pages-bg.png";
 import authBgMain from "@/src/assets/auth-pages-bg-main.png";
+import { useSession } from "next-auth/react";
+
 
 
 const formSchema = z
@@ -67,6 +69,12 @@ let title = "Log In";
 
 const Register: FC = () => {
   const { setIsLoading } = useContext(CreateContext).loader;
+  const { data: session, status } = useSession();
+  const initialLoading = true;
+  
+  useEffect(()=>{
+    router.push("/waitlist")
+  },[])
   const router = useRouter();
   const { updateUser } = useAuthToken();
   const [confirmEmailModal, setConfirmEmailModal] = useState(false);
@@ -124,6 +132,7 @@ const Register: FC = () => {
 
   const onSubmit = () => mutation.mutate();
 
+  if(!initialLoading )
   return (
     <main className="h-full w-full flex flex-col lg:flex-row capitalize min-h-screen bg-black justify-center"
     style={{

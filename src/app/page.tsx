@@ -1,14 +1,24 @@
-import React from "react";
+"use client"
+import React, {useEffect, useState} from "react";
 import { BookOpen, ArrowRight } from "lucide-react";
 import background from "@/src/assets/bg-black.png";
 import logoWhite from "@/src/assets/logo-white.png";
 import logoWhiteHero from "@/src/assets/logo-white-hero.png";
-
+import { useRouter } from "next/navigation";
 import heroImg from "@/src/assets/hero-img.png";
 
 import Image from "next/image";
 
 const NovyPayHeroLanding = () => {
+  const [isLoading, setIsLoading] = useState(true)
+  const router = useRouter();
+  useEffect(()=>{
+    return router.push("/waitlist")
+    
+  }, [])
+
+  if(!isLoading){
+
   return (
     <div
       className="min-h-screen bg-black flex items-center justify-center lg:p-4 lg:flex-row flex-col w-full"
@@ -78,6 +88,8 @@ const NovyPayHeroLanding = () => {
       </div> */}
     </div>
   );
+}
+
 };
 
 export default NovyPayHeroLanding;

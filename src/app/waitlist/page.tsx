@@ -46,7 +46,7 @@ const Page = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}waitlist/join/`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}auth/waitlist/join/`,
         {
           method: "POST",
           body: JSON.stringify({ email }),
@@ -135,13 +135,13 @@ const Page = () => {
           data-aos-duration="1200"
           data-aos-once="true"
         >
-          <div className="text-center leading-6 lg:leading-8 font-rationalSemibold">
+          <div className="text-center leading-6 lg:leading-8 font-bold">
             <span className="text-2xl lg:text-[40px] font-bold">
               Be among the first to experience <br className="hidden lg:flex" />{" "}
               next-gen crypto payments!
             </span>
           </div>
-          <div className="text-center text-base font-rationalLight">
+          <div className="text-center text-base font-light">
             <p>
               Seamless, secure, and borderless transactions—experience the
               future of Web3 payments <br className="hidden lg:flex" /> before
@@ -149,7 +149,7 @@ const Page = () => {
             </p>
           </div>
 
-          <article className="w-full flex flex-col gap-y-2 text-sm font-rationalLight">
+          <article className="w-full flex flex-col gap-y-2 text-sm font-light">
             <form
               onSubmit={handleSubmit}
               className="w-full flex lg:flex-row flex-col gap-y-2 lg:gap-y-0 gap-x-2 items-center justify-center"
@@ -216,7 +216,7 @@ const Page = () => {
             }`}
           >
             <Link />
-            <h2 className="text-sm font-bold font-rationalSemibold">
+            <h2 className="text-sm  font-bold">
               Payment Links
             </h2>
             <p className="text-xs font-rationalLight">
@@ -234,7 +234,7 @@ const Page = () => {
               alt="api-access-key"
               className="w-5 h-5"
             />
-            <h2 className="text-sm font-rationalSemibold">API Access</h2>
+            <h2 className="text-sm font-bold">API Access</h2>
             <p className="text-xs font-rationalLight">
               Integrate payments directly into your <br /> applications
             </p>
@@ -245,7 +245,7 @@ const Page = () => {
             }`}
           >
             <Link />
-            <h2 className="text-sm font-bold font-rationalSemibold">
+            <h2 className="text-sm  font-bold">
               Payment Links
             </h2>
             <p className="text-xs font-rationalLight">
