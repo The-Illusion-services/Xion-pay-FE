@@ -35,7 +35,7 @@ export default NextAuth({
             console.log(user);
             return user;
           } else {
-            throw new Error(user?.message || "Invalid login credentials");
+            throw new Error(user?.detail || "Invalid login credentials");
           }
         } catch (error) {
           throw new Error(error.message);

@@ -16,7 +16,7 @@ import { SessionProvider } from "next-auth/react";
 // });
 
 export const metadata: Metadata = {
-  title: "Burnt Pay",
+  title: "Novy Pay",
   description: "Next-gen crypto payments built on the XION blockchain",
 };
 

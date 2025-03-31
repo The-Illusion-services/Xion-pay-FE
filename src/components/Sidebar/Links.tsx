@@ -21,7 +21,7 @@ const SidebarLinkComp: React.FC<LinkProps> = ({
       href={`/app/${title}`}
       onClick={() => handleDispatch(title.toUpperCase())}
       className={`w-[116px] h-[26px] flex items-center justify-center gap-x-1 ${
-        state[title as keyof SidebarState].isActive && " text-white_primary font-rationalSemibold"
+        state[title as keyof SidebarState].isActive && " text-white_primary font-bold"
       } `}
     >
       {Icon}

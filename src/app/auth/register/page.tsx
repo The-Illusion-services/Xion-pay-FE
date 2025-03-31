@@ -36,6 +36,8 @@ import { LoaderCircle } from "lucide-react";
 import ToastMessage from "@/src/components/illusion-ui/toast-message";
 import Image from "next/image";
 import authBg from "@/src/assets/auth-pages-bg.png";
+import authBgMain from "@/src/assets/auth-pages-bg-main.png";
+
 
 const formSchema = z
   .object({
@@ -83,8 +85,7 @@ const Register: FC = () => {
 
   const registerRequest: any = async () => {
     try {
-    setIsLoading(true);
-      
+      setIsLoading(true);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}auth/register/`,
@@ -101,7 +102,7 @@ const Register: FC = () => {
       setIsLoading(false);
       return responseData;
     } catch (error: any) {
-    setIsLoading(false);
+      setIsLoading(false);
 
       throw new Error(
         error?.response?.data?.message ||
@@ -124,29 +125,36 @@ const Register: FC = () => {
   const onSubmit = () => mutation.mutate();
 
   return (
-    <main className="h-full w-full flex capitalize min-h-screen bg-black">
+    <main className="h-full w-full flex capitalize max-h-screen bg-black"
+    style={{
+      backgroundImage: `url(${authBgMain.src})`,
+      backgroundSize: "cover", // Makes the image fit while covering the entire div
+      backgroundPosition: "center", // Centers the image
+      backgroundRepeat: "no-repeat", // Prevents repetition
+    }}
+    >
       <div className="w-[50%] gap-y-8 flex flex-col items-center justify-center">
         <Image
           src={authBg}
           alt="auth-pages-background"
           height={20}
           width={600}
-          className=" absolute z-10"
+          className=" absolute z-10 max-h-[95vh]"
         />
-        <h2 className="text-3xl font-medium z-20 relative text-white">
+        <h2 className="text-3xl font-bold z-20 relative text-white">
           Simplifying Payments, Securing <br /> Transactions
         </h2>
-        <p className="text-white z-10 relative px-28">
+        <p className="text-white z-10 relative px-[100px] font-thin">
           BurntPay empowers businesses and individuals with fast, borderless
           blockchain transactions. Create payment links, manage escrow, and
           store sensitive credentials securely—no complicated setup required.
           Get started in minutes!
         </p>
       </div>
-      <div className="flex h-full w-[50%] items-center justify-center">
-        <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white">
+      <div className="flex max-h-screen w-[50%] items-center justify-center">
+        <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white overflow-y-auto scroll-smooth">
           <CardHeader className="p-0 text-center">
-            <CardTitle className="text-2xl font-medium">
+            <CardTitle className="text-2xl font-bold">
               Create your account
             </CardTitle>
             <CardDescription className="pb-4 text-border-secondary">
@@ -174,7 +182,7 @@ const Register: FC = () => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col gap-y-6"
+                className="flex flex-col gap-y-6 overflow-y-auto"
               >
                 <div className="grid w-full items-center gap-y-6">
                   <FormField
@@ -187,6 +195,7 @@ const Register: FC = () => {
                           <Input
                             placeholder="Enter first name"
                             autoComplete="off"
+                            className="border-[#474747] placeholder:text-[#474747]"
                             {...field}
                           />
                         </FormControl>
@@ -204,6 +213,7 @@ const Register: FC = () => {
                           <Input
                             placeholder="Enter last name"
                             autoComplete="off"
+                            className="border-[#474747] placeholder:text-[#474747]"
                             {...field}
                           />
                         </FormControl>
@@ -221,6 +231,7 @@ const Register: FC = () => {
                           <Input
                             placeholder="Enter email address"
                             autoComplete="off"
+                            className="border-[#474747] placeholder:text-[#474747]"
                             {...field}
                           />
                         </FormControl>
@@ -238,6 +249,7 @@ const Register: FC = () => {
                           <Input
                             placeholder="Enter password"
                             autoComplete="new-password"
+                            className="border-[#474747] placeholder:text-[#474747]"
                             {...field}
                           />
                         </FormControl>
@@ -255,6 +267,7 @@ const Register: FC = () => {
                           <Input
                             placeholder="Confirm password"
                             autoComplete="off"
+                            className="border-[#474747] placeholder:text-[#474747]"
                             {...field}
                           />
                         </FormControl>
@@ -289,6 +302,7 @@ const Register: FC = () => {
           </CardContent>
         </Card>
       </div>
+      
     </main>
   );
 };
