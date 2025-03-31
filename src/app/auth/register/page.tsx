@@ -125,7 +125,7 @@ const Register: FC = () => {
   const onSubmit = () => mutation.mutate();
 
   return (
-    <main className="h-full w-full flex capitalize max-h-screen bg-black"
+    <main className="h-full w-full flex flex-col lg:flex-row capitalize min-h-screen bg-black justify-center"
     style={{
       backgroundImage: `url(${authBgMain.src})`,
       backgroundSize: "cover", // Makes the image fit while covering the entire div
@@ -133,7 +133,7 @@ const Register: FC = () => {
       backgroundRepeat: "no-repeat", // Prevents repetition
     }}
     >
-      <div className="w-[50%] gap-y-8 flex flex-col items-center justify-center">
+      <div className="lg:w-[50%] hidden gap-y-8 lg:flex flex-col items-center justify-center">
         <Image
           src={authBg}
           alt="auth-pages-background"
@@ -151,8 +151,8 @@ const Register: FC = () => {
           Get started in minutes!
         </p>
       </div>
-      <div className="flex max-h-screen w-[50%] items-center justify-center">
-        <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white overflow-y-auto scroll-smooth">
+      <div className="flex lg:max-h-screen lg:w-[50%] items-center justify-center px-4 ">
+        <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white lg:overflow-y-auto scroll-smooth">
           <CardHeader className="p-0 text-center">
             <CardTitle className="text-2xl font-bold">
               Create your account

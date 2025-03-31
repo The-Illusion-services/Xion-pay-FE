@@ -131,7 +131,7 @@ const Login: FC = () => {
     return (
       // <AuthLayout title={title}>
       <main
-        className="h-full w-full flex  capitalize bg-black min-h-screen"
+        className="h-full w-full flex lg:flex-row flex-col capitalize bg-black min-h-screen justify-center"
         style={{
           backgroundImage: `url(${authBgMain.src})`,
           backgroundSize: "cover", // Makes the image fit while covering the entire div
@@ -139,7 +139,7 @@ const Login: FC = () => {
           backgroundRepeat: "no-repeat", // Prevents repetition
         }}
       >
-        <div className="w-[50%] gap-y-8 flex flex-col items-center justify-center">
+        <div className="lg:w-[50%]  gap-y-8 hidden lg:flex flex-col items-center justify-center">
           <Image
             src={authBg}
             alt="auth-pages-background"
@@ -157,7 +157,7 @@ const Login: FC = () => {
             Get started in minutes!
           </p>
         </div>
-        <div className="flex h-full w-[50%] items-center justify-center">
+        <div className="flex h-full lg:w-[50%] items-center justify-center ">
           <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white">
             <CardHeader className="p-0 text-center">
               <CardTitle className="text-2xl font-bold">
