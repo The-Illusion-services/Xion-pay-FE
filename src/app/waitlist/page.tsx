@@ -42,7 +42,14 @@ const Page = () => {
   const { setIsLoading } = useContext(CreateContext).loader;
 
   const joinWaitList = async () => {
+    if (email === "") {
+      setErrorMode(true);
+      setErrMsg("Field cannot be empty");
+      return;
+    }
     if (errorMode) return;
+    console.log(errorMode);
+
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -77,7 +84,6 @@ const Page = () => {
       setIsLoading(false);
     }
   };
-
 
   const handleEmailChange = (e: any) => {
     if (email === "" && hasTouched) {
@@ -216,9 +222,7 @@ const Page = () => {
             }`}
           >
             <Link />
-            <h2 className="text-sm  font-bold">
-              Payment Links
-            </h2>
+            <h2 className="text-sm  font-bold">Payment Links</h2>
             <p className="text-xs font-rationalLight">
               Generate instant payment links <br /> for your customers
             </p>
@@ -245,9 +249,7 @@ const Page = () => {
             }`}
           >
             <Link />
-            <h2 className="text-sm  font-bold">
-              Payment Links
-            </h2>
+            <h2 className="text-sm  font-bold">Payment Links</h2>
             <p className="text-xs font-rationalLight">
               Generate instant payment links <br /> for your customers
             </p>
