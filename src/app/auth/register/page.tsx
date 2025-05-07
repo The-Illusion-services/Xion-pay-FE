@@ -38,6 +38,7 @@ import Image from "next/image";
 import authBg from "@/src/assets/auth-pages-bg.png";
 import authBgMain from "@/src/assets/auth-pages-bg-main.png";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 
 
@@ -73,7 +74,7 @@ const Register: FC = () => {
   const initialLoading = true;
   
   useEffect(()=>{
-    router.push("/waitlist")
+    // router.push("/waitlist")
   },[])
   const router = useRouter();
   const { updateUser } = useAuthToken();
@@ -105,34 +106,39 @@ const Register: FC = () => {
           },
         }
       );
+      if(!response.ok){
+        console.log(response.json());
+        
+        throw new Error(
+          
+            "An error occurred"
+        );
+      }
       const responseData = await response.json();
       console.log(responseData);
       setIsLoading(false);
-      return responseData;
+      
+      router.push("/auth/login");
+
     } catch (error: any) {
       setIsLoading(false);
-
-      throw new Error(
-        error?.response?.data?.message ||
-          error?.response?.data?.data?.message ||
-          "An error occurred"
-      );
+      toast.error("An error occured")
     }
   };
 
-  const mutation: any = useMutation({
-    mutationFn: registerRequest,
-    onSuccess: (res: any) => {
-      // TODO: remove when api starts working
-      // setConfirmEmailModal(true);
-      // updateUser(res.data.data);
-      router.push("/auth/login");
-    },
-  });
+  // const mutation: any = useMutation({
+  //   mutationFn: registerRequest,
+  //   onSuccess: (res: any) => {
+  //     // TODO: remove when api starts working
+  //     // setConfirmEmailModal(true);
+  //     // updateUser(res.data.data);
+  //     router.push("/auth/login");
+  //   },
+  // });
 
-  const onSubmit = () => mutation.mutate();
+  const onSubmit = () => registerRequest();
 
-  if(!initialLoading )
+  if(status !== "authenticated" )
   return (
     <main className="h-full w-full flex flex-col lg:flex-row capitalize min-h-screen bg-black justify-center"
     style={{
@@ -171,22 +177,7 @@ const Register: FC = () => {
             </CardDescription>
             <Separator />
           </CardHeader>
-          <AnimatePresence>
-            {mutation.isError && (
-              <motion.div
-                initial={{ y: -20, opacity: 0.5 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0.2 }}
-              >
-                <ToastMessage
-                  message={
-                    mutation?.error?.message ||
-                    "An error occured during sign in"
-                  }
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
+       
           <CardContent className="p-0 flex flex-col gap-y-5">
             <Form {...form}>
               <form
@@ -288,13 +279,7 @@ const Register: FC = () => {
                 <CardFooter className="flex-col gap-y-12 p-0">
                   <Button className="bg-white text-black w-full">
                     Register{" "}
-                    {mutation.isPending && (
-                      <LoaderCircle
-                        strokeWidth={3}
-                        className="flex
-                      text-white w-5 h-5 rotate-icon"
-                      />
-                    )}
+                   
                   </Button>
                   <p className="text-sm text-border-secondary">
                     Are you already a user?{" "}

@@ -45,7 +45,7 @@ const Page = () => {
   const getBalance = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}get-wallet-balance/`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}auth/get-wallet-balance/`,
         {
           headers: {
             authorization: `Bearer ${session?.user?.accessToken}`,
@@ -69,6 +69,27 @@ const Page = () => {
     queryKey: ["get-balance"],
     queryFn: getBalance,
   });
+  console.log(balanceObj);
+
+  const getTxnHistory = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}payments/transactions?page=0&page_size=10/`,
+        {
+          headers: {
+            authorization: `Bearer ${session?.user?.accessToken}`,
+          },
+        }
+      );
+      const responseData = await response.json();
+      // setModalMsg(responseData)
+      console.log(responseData);
+
+      return responseData;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const [amount, setAmount] = useState("");
   const [email, setEmail] = useState("");
@@ -82,7 +103,6 @@ const Page = () => {
   const { setIsLoading } = loader;
   const { setShowPaymentLinkModal } = modal;
 
- 
   const generateApiKey = async (e: any) => {
     e.preventDefault();
     try {
@@ -170,6 +190,11 @@ const Page = () => {
     setShowPaymentLinkModal(true);
   };
 
+  const { data: txnHistory, isLoading: txnHistoryLoading } = useQuery({
+    queryKey: ["transactions-history"],
+    queryFn: getTxnHistory,
+  });
+
   return (
     <main className="">
       <section className="pt-20 px-4 min-h-screen">
@@ -196,7 +221,7 @@ const Page = () => {
         <article className="text-white  relative  justify-between flex items-center mt-2">
           <div className="">
             <span className="font-bold text-4xl">
-              {balanceObj?.balance ?? "$20,983"}
+              {balanceObj?.balance_xion ?? "0"}
             </span>
           </div>
 
@@ -212,7 +237,7 @@ const Page = () => {
             </button>
           </div>
         </article>
-        <section className="bg-black mt-8 flex flex-row items-center gap-x-2  h-[420px]">
+        <section className="bg-black mt-8 flex flex-row items-center gap-x-2  h-[420px] justify-between">
           <article className="w-[70%] bg-gray_primary flex flex-col justify-evenly pb-4 gap-y-2 rounded-md">
             <span className="text-white ml-4 mt-4">Recent Transactions</span>
             <div className="w-full flex flex-row items-center justify-between text-white px-4">
@@ -253,7 +278,7 @@ const Page = () => {
             </div>
           </article>
 
-          <article className=" text-xs px-4 bg-gray_primary h-full flex flex-col rounded-md py-4 justify-between">
+          <article className=" text-xs px-4 bg-gray_primary h-full flex flex-col rounded-md py-4 justify-between w-[30%]">
             <span className="text-white text-lg font-medium">Success Rate</span>
             <div className=" flex flex-col items-center">
               <PieChart height={200} width={300}>
@@ -332,10 +357,17 @@ const Page = () => {
             </span>
           </div>
           <article className="w-[95%] mx-auto">
-            <TableComp
-              tableHeaders={tableHeaders}
-              tableValues={dummyTableValues}
-            />
+            {txnHistory?.message ===
+            "Failed to retrieve transaction history or no transaction history" ? (
+              <div className="min-h-[200px] flex items-center justify-center text-white">
+                <span className="text-3xl font-bold">No Transactions yet</span>
+              </div>
+            ) : (
+              <TableComp
+                tableHeaders={tableHeaders}
+                tableValues={dummyTableValues}
+              />
+            )}
           </article>
         </section>
         {/* <section className="flex gap-x-4 justify-center mt-10">

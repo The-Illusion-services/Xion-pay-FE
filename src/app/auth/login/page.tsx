@@ -113,13 +113,13 @@ const Login: FC = () => {
   const onSubmit = () => loginRequest();
 
   useEffect(() => {
-    // const lastVisitedPage = localStorage.getItem("xion-pay-lastVisitedPage");
-    // if (status === "authenticated" && !lastVisitedPage) {
-    //   router.push("/app/dashboard");
-    // } else if (status !== "unauthenticated" && lastVisitedPage) {
-    //   router.push(lastVisitedPage);
-    // }
-    router.push("/waitlist")
+    const lastVisitedPage = localStorage.getItem("xion-pay-lastVisitedPage");
+    if (status === "authenticated" && !lastVisitedPage) {
+      router.push("/app/dashboard");
+    } else if (status !== "unauthenticated" && lastVisitedPage) {
+      router.push(lastVisitedPage);
+    }
+    // router.push("/waitlist")
   }, [status, router]);
 
   if (status === "loading") {
@@ -130,7 +130,7 @@ const Login: FC = () => {
     );
   }
 
-  if (!initialLoading) {
+  if (status !== "authenticated") {
     return (
       // <AuthLayout title={title}>
       <main
