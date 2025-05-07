@@ -167,7 +167,7 @@ const Login: FC = () => {
                 Welcome Back
               </CardTitle>
               <CardDescription className="pb-4 text-border-secondary">
-                Enter your credentials to acccess your account
+                Enter your credentials to access your account
               </CardDescription>
               <Separator />
             </CardHeader>
