@@ -19,8 +19,8 @@ const Navbar: React.FC<Props> = ({ setIsDarkMode, isDarkMode }) => {
     { title: "Features", href: "/features" }
   ]
   return (
-    <div className="fixed top-0 px-4 py-6 w-[100vw] lg:px-20 text-white">
-      <div className="rounded-xl w-full z-40 backdrop-blur-4xl bg-white/30 px-4 py-3">
+    <div className="fixed top-0 px-4 py-6 w-[100vw] lg:px-20 z-40 text-white">
+      <div className="rounded-xl w-full z-40 backdrop-blur-3xl bg-transparent px-4 py-3">
         <div className="flex justify-between items-center w-full relative">
           {/* Logo */}
           <Image
@@ -29,7 +29,7 @@ const Navbar: React.FC<Props> = ({ setIsDarkMode, isDarkMode }) => {
             className="w-24 h-10"
           />
 
-          <ul className="flex gap-8">
+          <ul className="lg:flex hidden gap-8">
             {
               links.map((link) => <li key={link.title}><Link href={link.href}>{ link.title }</Link></li>)
             }
