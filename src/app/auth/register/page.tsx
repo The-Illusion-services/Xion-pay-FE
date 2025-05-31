@@ -60,7 +60,7 @@ const formSchema = z
 
 let title = "Log In";
 
-const Login: FC = () => {
+const Page: FC = () => {
   const { setIsLoading } = useContext(CreateContext).loader;
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -301,4 +301,4 @@ const Login: FC = () => {
   }
 };
 
-export default Login;
+export default Page;

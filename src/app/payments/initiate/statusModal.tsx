@@ -19,10 +19,19 @@ const PaymentStatusModals: React.FC<Props> = ({activeModal, setActiveModal, show
 
 
   const closeModal = () => {
-   setShowModal(false)
-   window.location.href = "about:blank";
+    setShowModal(false);
+    
+    if (typeof window !== 'undefined') {
+      // Try to close the tab/window
+      window.close();
+      
+      // Fallback: redirect to blank page if close() doesn't work
+      // (close() only works for windows opened by script)
+      setTimeout(() => {
+        window.location.href = "about:blank";
+      }, 100);
+    }
   };
-
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
       {/* Success Modal */}
