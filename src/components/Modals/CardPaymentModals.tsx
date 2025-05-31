@@ -286,8 +286,8 @@ const CardPaymentModal: React.FC<CardPaymentModalProps> = ({
             fullname: formData.fullName,
           }),
           headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${session?.user?.accessToken}`,
+            "Content-Type": "application/json"
+            // authorization: `Bearer ${session?.user?.accessToken}`,
           },
         }
       );

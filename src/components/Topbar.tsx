@@ -66,7 +66,7 @@ const Topbar = () => {
 
   return (
     <div className="z-10 fixed w-[84%] flex justify-between bg-gray_primary text-white h-16 py-3 top-0 px-4">
-      <div className="hidden w-[50%] lg:flex lg:flex-row lg:items-center bg-black h-10 px-2 rounded-[20px] x">
+      <div className="hidden w-[50%] lg:flex lg:flex-row lg:items-center bg-black h-10 px-2 rounded-[20px] ">
         <div className="w-[5%] flex text-2xl text-textGray">
           <CiSearch />
         </div>
@@ -88,7 +88,7 @@ const Topbar = () => {
         </div>
         <article
           className={`absolute ${
-            showMenu ? "h-28 opacity-1" : "h-0 opacity-0"
+            showMenu ? "h-28 opacity-1 " : "h-0 opacity-0 hidden"
           } shadow-md w-[18%] rounded-[20px] mt-[150px] transition-all bg-gray_primary py-2 gap-y-2 flex flex-col drop-shadow-md`}
         >
           <div className="flex flex-row justify-center bg-black p-2 rounded-[20px] w-[90%] items-center mx-auto gap-x-2 text-sm">

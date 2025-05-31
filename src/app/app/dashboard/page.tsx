@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from "react";
 import TableComp from "@/src/components/Table/Table";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { IoEyeOffOutline } from "react-icons/io5";
 import {
   CartesianGrid,
   Cell,
@@ -20,7 +19,7 @@ import {
 } from "recharts";
 import { toast } from "sonner";
 import CardPaymentModal from "@/src/components/Modals/CardPaymentModals";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDateFilter } from "@/src/hooks/date";
 import { buildTransactionQuery } from "@/src/hooks/date";
 import {
@@ -30,6 +29,7 @@ import {
 } from "@/src/Utils";
 
 const Page = () => {
+  const queryClient = useQueryClient()
   const [chartData, setChartData] = useState<any[]>([]);
   const {
     filterType,
@@ -104,7 +104,7 @@ const Page = () => {
   const getTxnHistory = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}payments/transactions?page=1&page_size=4${dateQuery}&token=${activeCurrency}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}payments/transactions`,
         {
           headers: {
             authorization: `Bearer ${session?.user?.accessToken}`,
@@ -159,7 +159,8 @@ const Page = () => {
       setPaymentLink(false);
       setMsg(` ${responseData.key}`);
       setShowModal(true);
-      console.log(responseData);
+      queryClient.invalidateQueries();
+      // console.log(responseData);
     } catch (err: any) {
       toast.error(err.message);
       setIsLoading(false);
@@ -226,6 +227,11 @@ const Page = () => {
         (totalFailedTxnRaw?.length + totalCompletedTxnRaw?.length)) *
         100
     );
+    console.log(
+      typeof 
+      (totalFailedTxnRaw?.length /
+        (totalFailedTxnRaw?.length + totalCompletedTxnRaw?.length)) 
+    );
   }, [txnHistory?.data?.results]);
 
   const data = [
@@ -277,6 +283,7 @@ const Page = () => {
       return "Good evening";
     }
   }
+
 
   return (
     <>
@@ -354,10 +361,10 @@ const Page = () => {
             <article className="w-[70%] bg-gray_primary flex flex-col justify-evenly pb-4 gap-y-2 rounded-md">
               <div className="flex flex-row justify-between items-center w-full px-4">
                 <span className="text-white  mt-4">Recent Transactions</span>
-                <select onChange={(e) => setActiveCurrency(e.target.value)}>
+                {/* <select onChange={(e) => setActiveCurrency(e.target.value)}>
                   <option value="XION">XION</option>
                   <option value="USDC">USDC</option>
-                </select>
+                </select> */}
               </div>
               <div className="w-full flex flex-row items-center justify-between text-white px-4">
                 {/* <div className="flex flex-col">
@@ -480,12 +487,14 @@ const Page = () => {
                 <div className="border-l-4 border-[#008000] flex flex-col text-white pl-1">
                   <span>Success</span>
                   <span className="text-xl">
-                    {percentageSuccessfulTxn ?? 0}%
+                    {Number.isNaN(percentageSuccessfulTxn) ? 0 : percentageSuccessfulTxn}%
                   </span>
                 </div>
                 <div className="border-l-4 border-[#FB3748] flex flex-col text-white pl-1">
                   <span>Failed</span>
-                  <span className="text-xl">{percentageFailedTxn ?? 0}%</span>
+                  <span className="text-xl">
+                  {Number.isNaN(percentageFailedTxn) ? 0 : percentageFailedTxn}%
+                  </span>
                 </div>
               </div>
             </article>

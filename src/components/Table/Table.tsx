@@ -6,8 +6,9 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-
-
+import NoData from "@/src/assets/no-data/empty-img-gray.png";
+import Image from "next/image";
+import { Typography, Box } from "@mui/material";
 type results = {
   [key: string]: string
 }
@@ -45,7 +46,33 @@ const TableComp: React.FC<ComponentProps> = ({ tableHeaders, tableValues }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tableValues?.map((row, rowIndex) => {
+          {tableValues?.length < 1 ?
+          <TableRow className=" ">
+          <TableCell colSpan={9} align="center">
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+                padding: "100px 0",
+              }}
+            >
+              <Image
+                src={NoData}
+                alt="No users"
+                width={200}
+                height={200}
+              />
+              <Typography sx={{color: "white"}}>
+                No Transactions Found
+              </Typography>
+            </Box>
+          </TableCell>
+        </TableRow>
+        :
+          tableValues?.map((row, rowIndex) => {
             return (
               <TableRow
                 key={rowIndex}
@@ -94,7 +121,8 @@ const TableComp: React.FC<ComponentProps> = ({ tableHeaders, tableValues }) => {
                 })}
               </TableRow>
             );
-          })}
+          })
+        }
         </TableBody>
       </Table>
     </TableContainer>

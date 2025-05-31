@@ -1,8 +1,10 @@
+"use client"
 import Image from "next/image";
 import logoBlack from "@/src/assets/logo-black.png";
 import logoWhite from "@/src/assets/logo-white.png";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 type Props = {
   setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,6 +15,7 @@ const Navbar: React.FC<Props> = ({ setIsDarkMode, isDarkMode }) => {
   const handleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
   };
+  const router = useRouter()
   const links = [
     { title: "Home", href: "/" },
     { title: "How it works", href: "/" },
@@ -29,13 +32,13 @@ const Navbar: React.FC<Props> = ({ setIsDarkMode, isDarkMode }) => {
             className="w-24 h-10"
           />
 
-          <ul className="lg:flex hidden gap-8">
+          {/* <ul className="lg:flex hidden gap-8">
             {
               links.map((link) => <li key={link.title}><Link href={link.href}>{ link.title }</Link></li>)
             }
-          </ul>
+          </ul> */}
           
-          <div>
+          <div onClick={()=> router.push("/auth/login")}>
             <Button variant={'default'} className="bg-white hover:bg-white/70 transition-all duration-2000 ease-in-out text-black font-bold">Sign Up</Button>
           </div>
 
