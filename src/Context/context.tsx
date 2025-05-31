@@ -101,7 +101,7 @@ const ContextProvider = ({
       !pathname?.includes("/auth/pay") &&
       pathname !== "/" &&
       !isNotFound &&
-      pathname !== null
+      pathname !== null && !pathname?.includes("/payment/initiate")
     ) {
       const updatedPathname = `/${window.location.href.split("/app")[1]}`;
     
