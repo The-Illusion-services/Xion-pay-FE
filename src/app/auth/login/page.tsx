@@ -106,6 +106,7 @@ const Page = () => {
         {
           method: "POST",
           body: JSON.stringify({
+            xion_address: bech32Address,
             address: client.granteeAddress,
             message: arbitraryMessage,
             signature,
@@ -144,7 +145,7 @@ const Page = () => {
         }
       }
     } catch (err) {
-      console.error("Verification error:", err);
+      // console.error("Verification error:", err);
       toast.error("Authentication failed. Please try again.");
       // Reset states to allow retry
       setHasAttemptedSign(false);
@@ -173,7 +174,7 @@ const Page = () => {
     }
 
     setHasAttemptedSign(true);
-
+    console.log(granteeAddress)
     try {
       const response = await signArb?.(granteeAddress, arbitraryMessage);
       if (response) {
@@ -202,7 +203,9 @@ const Page = () => {
     // Only proceed if we have a grantee address and no existing session
     if (client?.granteeAddress) {
       console.log("Initiating sign process");
-      console.log("sign");
+      // console.log("sign");
+      // console.log(client?.granteeAddress)
+      // console.log(bech32Address)
       handleSign(client?.granteeAddress);
     }
   }, [
