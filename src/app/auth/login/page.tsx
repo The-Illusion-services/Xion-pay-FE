@@ -1,7 +1,7 @@
 "use client";
 
 import { AuthLayout } from "@/src/components/layouts";
-import React, { FC, useContext, useEffect } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Button } from "@/src/components/ui/button";
@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, isMotionComponent } from "framer-motion";
 
 import { Label } from "@/src/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,11 +28,6 @@ import {
 } from "@/src/components/ui/form";
 import { useRouter } from "next/navigation";
 import { useAuthToken } from "@/src/hooks";
-import { Separator } from "@/src/components/ui/separator";
-import Link from "next/link";
-import { Input } from "@/src/components/illusion-ui/input/input";
-import { LoaderCircle } from "lucide-react";
-import ToastMessage from "@/src/components/illusion-ui/toast-message";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { CgSpinner } from "react-icons/cg";
@@ -40,6 +35,12 @@ import { CreateContext } from "@/src/Context/context";
 import Image from "next/image";
 import authBg from "@/src/assets/auth-pages-bg.png";
 import authBgMain from "@/src/assets/auth-pages-bg-main.png";
+import {
+  Abstraxion,
+  useAbstraxionAccount,
+  useModal,
+  useAbstraxionSigningClient,
+} from "@burnt-labs/abstraxion";
 
 const formSchema = z
   .object({
@@ -64,8 +65,173 @@ const Login: FC = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const { updateUser } = useAuthToken();
-  const initialLoading = true
-  
+  const { client, signArb } = useAbstraxionSigningClient();
+
+  // Add state to track signing process and prevent duplicates
+  const [isSigningInProgress, setIsSigningInProgress] = useState(false);
+  const [hasAttemptedSign, setHasAttemptedSign] = useState(false);
+  const [result, setResult] = useState("");
+
+  const arbitraryMessage = `Welcome to ${
+    window.location.hostname
+  }!\n\nSign this message to authenticate.\n\nTimestamp: ${Date.now()}`;
+
+  const [, setShow] = useModal();
+  const {
+    data: { bech32Address },
+    isConnected,
+    isConnecting,
+  } = useAbstraxionAccount();
+
+  // Optimized verify function with error handling
+  const verifyArbitraryMessage = async (signature: string | undefined) => {
+    setIsLoading(true)
+    if (!signature || !client) return false;
+
+    setIsSigningInProgress(true);
+
+    try {
+      const granteeAccountData = await client.getGranteeAccountData();
+      if (!granteeAccountData) {
+        console.error("No grantee account data available");
+        return false;
+      }
+
+      const userSessionPubKey = Buffer.from(granteeAccountData.pubkey).toString(
+        "base64"
+      );
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}auth/verify-signature/`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            address: client.granteeAddress,
+            message: arbitraryMessage,
+            signature,
+            pubkey: userSessionPubKey,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Verification failed: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      const {
+        access: access_token,
+        user_id,
+        refresh: refresh_token,
+      } = responseData;
+
+      if (access_token) {
+        const signInResponse = await signIn("xion-abstraction", {
+          redirect: false,
+          access_token,
+          user_id,
+          refresh_token,
+        });
+
+        if (signInResponse?.ok) {
+          router.push("/app/dashboard");
+          return responseData;
+        } else {
+          throw new Error("Sign in failed");
+        }
+      }
+    } catch (err) {
+      console.error("Verification error:", err);
+      toast.error("Authentication failed. Please try again.");
+      // Reset states to allow retry
+      setHasAttemptedSign(false);
+    } finally {
+      setIsSigningInProgress(false);
+    setIsLoading(false)
+
+    }
+
+    return false;
+  };
+
+  // Optimized sign handler with duplicate prevention
+  const handleSign = async (
+    granteeAddress: string
+  ): Promise<void> => {
+    // Prevent multiple simultaneous signing attempts
+    if (isSigningInProgress || hasAttemptedSign) {
+      console.log("Sign operation already in progress or completed");
+      return;
+    }
+
+    if (!client?.granteeAddress) {
+      console.error("No grantee address available");
+      return;
+    }
+
+    setHasAttemptedSign(true);
+
+    try {
+      const response = await signArb?.(granteeAddress, arbitraryMessage);
+      if (response) {
+        setResult(response);
+        await verifyArbitraryMessage(response);
+      }
+    } catch (error) {
+      console.error("Signing error:", error);
+      setHasAttemptedSign(false); // Reset on error to allow retry
+    }
+  };
+
+  // Optimized useEffect with better condition checking
+  useEffect(() => {
+    // Skip if already authenticated
+    if (session?.user?.accessToken) {
+      console.log("User already authenticated");
+      return;
+    }
+
+    // Skip if not connected or signing in progress
+    if (!isConnected || isSigningInProgress || hasAttemptedSign) {
+      return;
+    }
+
+    // Only proceed if we have a grantee address and no existing session
+    if (client?.granteeAddress) {
+      console.log("Initiating sign process");
+      console.log("sign");
+      handleSign(client?.granteeAddress);
+    }
+  }, [
+    isConnected,
+    client?.granteeAddress,
+    // session?.user?.accessToken,
+    // isSigningInProgress,
+    // hasAttemptedSign
+  ]);
+
+  // Separate useEffect for navigation logic
+  useEffect(() => {
+    if (status === "loading") return;
+
+    const lastVisitedPage = localStorage.getItem("xion-pay-lastVisitedPage");
+
+    if (status === "authenticated") {
+      const destination = lastVisitedPage || "/app/dashboard";
+      router.push(destination);
+    }
+  }, [status, router]);
+
+  // Reset signing state when disconnected
+  useEffect(() => {
+    if (!isConnected) {
+      setHasAttemptedSign(false);
+      setIsSigningInProgress(false);
+    }
+  }, [isConnected]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -76,65 +242,11 @@ const Login: FC = () => {
     mode: "onChange", // Ensures validation checks on each change
   });
 
-  const loginRequest: any = async () => {
-    setIsLoading(true);
-    const data = form.getValues;
-    try {
-      // const response = await AuthService.login(form.getValues());
-      const response = await signIn("credentials", {
-        redirect: false, // Prevent automatic redirection
-        email: form.getValues("email"),
-        password: form.getValues("password"),
-      });
-
-      if (!response?.ok) {
-        if (response?.error) {
-          throw new Error(response.error);
-        }
-        console.log(response);
-      }
-      // return responseData;
-      setIsLoading(false);
-    } catch (error: any) {
-      // console.log(error.message);
-      toast.error(error.message);
-      setIsLoading(false);
-    }
-  };
-
-  const mutation: any = useMutation({
-    mutationFn: loginRequest,
-    onSuccess: (res: any) => {
-      // updateUser(res.data.data);
-      router.push("/app/dashboard");
-    },
-  });
-
-  const onSubmit = () => loginRequest();
-
-  useEffect(() => {
-    const lastVisitedPage = localStorage.getItem("xion-pay-lastVisitedPage");
-    if (status === "authenticated" && !lastVisitedPage) {
-      router.push("/app/dashboard");
-    } else if (status !== "unauthenticated" && lastVisitedPage) {
-      router.push(lastVisitedPage);
-    }
-    // router.push("/waitlist")
-  }, [status, router]);
-
-  if (status === "loading") {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.36)] z-50">
-        <CgSpinner className="text-6xl animate-spin  text-PrimaryPurple" />
-      </div>
-    );
-  }
-
   if (status !== "authenticated") {
     return (
       // <AuthLayout title={title}>
       <main
-        className="h-full w-full flex lg:flex-row flex-col capitalize bg-black min-h-screen justify-center"
+        className="h-full lg:w-full w-screen flex lg:flex-row flex-col capitalize bg-black min-h-screen justify-center"
         style={{
           backgroundImage: `url(${authBgMain.src})`,
           backgroundSize: "cover", // Makes the image fit while covering the entire div
@@ -160,109 +272,27 @@ const Login: FC = () => {
             Get started in minutes!
           </p>
         </div>
-        <div className="flex h-full lg:w-[50%] items-center justify-center ">
-          <Card className="w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white">
+        <div className="flex flex-col h-screen w-full lg:w-[50%] items-center justify-center ">
+          <Card className="lg:w-[500px] h-full flex flex-col gap-y-6 px-6 py-8 bg-blue-secondary text-white items-center justify-center">
             <CardHeader className="p-0 text-center">
-              <CardTitle className="text-2xl font-bold">
-                Welcome Back
-              </CardTitle>
+              <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
               <CardDescription className="pb-4 text-border-secondary">
-                Enter your credentials to acccess your account
+                Sign in to acccess your account
               </CardDescription>
-              <Separator />
+              
             </CardHeader>
-            <AnimatePresence>
-              {mutation.isError && (
-                <motion.div
-                  initial={{ y: -20, opacity: 0.5 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -20, opacity: 0.2 }}
-                >
-                  <ToastMessage
-                    message={
-                      mutation?.error?.message ||
-                      "An error occured during sign in"
-                    }
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
-            <CardContent className="p-0 flex flex-col gap-y-5">
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="flex flex-col gap-y-6"
-                >
-                  <div className="grid w-full items-center gap-y-6">
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-col space-y-1.5">
-                          <Label htmlFor="email">Email Address</Label>
-                          <FormControl>
-                            <Input
-                              placeholder="Enter email address"
-                              autoComplete="off"
-                              className="border-[#474747] placeholder:text-[#474747]"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="password"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-col space-y-1.5">
-                          <Label htmlFor="password">Password</Label>
-                          <FormControl>
-                            <Input
-                              placeholder="Enter password"
-                              autoComplete="new-password"
-                              className="border-[#474747] placeholder:text-[#474747]"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <p className="text-sm text-border-secondary">
-                    Forgot Password?{" "}
-                    <Link href="#" className="text-indigo-primary font-medium">
-                      Recover
-                    </Link>
-                  </p>
-                  <CardFooter className="flex-col gap-y-12 p-0">
-                    <Button className="bg-white text-black w-full">
-                      Log In{" "}
-                      {mutation.isPending && (
-                        <LoaderCircle
-                          strokeWidth={3}
-                          className="flex
-                        text-white w-5 h-5 rotate-icon"
-                        />
-                      )}
-                    </Button>
-                    <p className="text-sm text-border-secondary">
-                      Are you new here?{" "}
-                      <Link
-                        href="/auth/register"
-                        className="text-indigo-primary font-medium"
-                      >
-                        Create Account
-                      </Link>
-                    </p>
-                  </CardFooter>
-                </form>
-              </Form>
+ 
+            <CardContent className="p-0 flex flex-col gap-y-5 lg:w-full w-[100%]">
+              <Button
+                onClick={() => setShow(true)}
+                className="bg-white text-black lg:w-full"
+              >
+                Log In{" "}
+              </Button>
             </CardContent>
           </Card>
         </div>
+        <Abstraxion onClose={() => setShow(false)} />
       </main>
       // </AuthLayout>
     );
