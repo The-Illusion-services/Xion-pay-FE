@@ -18,7 +18,7 @@ import { signOut } from "next-auth/react";
 import SidebarLinkComp from "@/src/components/Sidebar/Links";
 import { AiOutlineSwap } from "react-icons/ai";
 import Topbar from "@/src/components/Topbar";
-
+import { useAbstraxionSigningClient } from "@burnt-labs/abstraxion";
 type Action = {
   type: string;
 };
@@ -44,7 +44,7 @@ const appSidebar = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const { logout, userRole, setShowSignOutModal, showSignOutModal } =
+  const {  userRole, setShowSignOutModal, showSignOutModal } =
     useContext(CreateContext).auth;
 
   const router = useRouter();
@@ -52,15 +52,26 @@ const appSidebar = ({
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const { logout, client } = useAbstraxionSigningClient();
 
   const handleShowSignOutModal = () => {
     setShowSignOutModal(!showSignOutModal);
   };
 
-  const handleSignout = () => {
-    router.push("/auth/login");
-    localStorage.removeItem("lastVisitedPage");
-    signOut();
+  // const handleSignout = () => {
+  //   router.push("/auth/login");
+  //   localStorage.removeItem("lastVisitedPage");
+  //   signOut();
+  // };
+  const handleSignout = async () => {
+    try {
+       logout && logout();
+       router.push("/auth/login");
+       localStorage.removeItem("lastVisitedPage");
+       signOut();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   const initialState = {
@@ -182,7 +193,7 @@ const appSidebar = ({
               handleDispatch={handleDispatch}
               state={state}
             />
-            <SidebarLinkComp
+            {/* <SidebarLinkComp
               title="escrow"
               Icon={<IoMdListBox className="text-lg" />}
               handleDispatch={handleDispatch}
@@ -193,7 +204,7 @@ const appSidebar = ({
               Icon={<MdOutlineVerifiedUser className="text-lg" />}
               handleDispatch={handleDispatch}
               state={state}
-            />
+            /> */}
             <SidebarLinkComp
               title="settings"
               Icon={<IoSettingsSharp className="text-lg" />}

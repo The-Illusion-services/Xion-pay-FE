@@ -3,89 +3,32 @@
 import React from "react";
 import TableComp from "@/src/components/Table/Table";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-const Page = () => {
-  const { data: session } = useSession();
-  const dummyTableValues = [
-    {
-      txnID: "TXN12345",
-      date: "Jan 2, 2024",
-      merchant: "Jeremiah Madelyn",
-      token: "USDC (Polygon)",
-      amount: "$150",
-      status: "successful",
-    },
-    {
-      txnID: "TXN12345",
-      date: "Jan 2, 2024",
-      merchant: "Jeremiah Madelyn",
-      token: "USDC (Polygon)",
-      amount: "$150",
-      status: "successful",
-    },
-    {
-      txnID: "TXN12345",
-      date: "Jan 2, 2024",
-      merchant: "Jeremiah Madelyn",
-      token: "USDC (Polygon)",
-      amount: "$150",
-      status: "successful",
-    },
-    {
-      txnID: "TXN12345",
-      date: "Jan 2, 2024",
-      merchant: "Jeremiah Madelyn",
-      token: "USDC (Polygon)",
-      amount: "$150",
-      status: "successful",
-    },
-    {
-      txnID: "TXN12345",
-      date: "Jan 2, 2024",
-      merchant: "Jeremiah Madelyn",
-      token: "USDC (Polygon)",
-      amount: "$150",
-      status: "successful",
-    },
-    {
-      txnID: "TXN12345",
-      date: "Jan 2, 2024",
-      merchant: "Jeremiah Madelyn",
-      token: "USDC (Polygon)",
-      amount: "$150",
-      status: "successful",
-    },
-    {
-      txnID: "TXN12345",
-      date: "Jan 2, 2024",
-      merchant: "Jeremiah Madelyn",
-      token: "USDC (Polygon)",
-      amount: "$150",
-      status: "successful",
-    },
-    {
-      txnID: "TXN12345",
-      date: "Jan 2, 2024",
-      merchant: "Jeremiah Madelyn",
-      token: "USDC (Polygon)",
-      amount: "$150",
-      status: "successful",
-    },
-  ];
-  const tableHeaders = [
-    "TRANSACTIONID",
-    "DATE&TIME",
-    "MERCHANT/USER",
-    "PAYMENT METHOD",
-    "AMOUNT",
-    "STATUS",
-  ];
+import TableNavigator from "@/src/components/Table/TableNavigator";
+import { useSearchParams, useRouter } from "next/navigation";
 
-  const getTxnHistory = async () => {
+const Page = () => {
+  const router = useRouter();
+  const { data: session } = useSession();
+  const queryClient = useQueryClient();
+  const searchParams = useSearchParams();
+  const pageNumber = Number(searchParams?.get("page"))
+
+  const tableHeaders = [
+    "REFERENCE",
+    "AMOUNT",
+    "CURRENCY",
+    "EMAIL",
+    "STATUS",
+    "TIME"
+  ];
+  const currentParams = new URLSearchParams(searchParams?.toString());
+
+  const getTxnHistory = async (pageNumber?: number) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}payments/transactions?page=0&page_size=10/`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}payments/transactions?page=${pageNumber}&page_size=10`,
         {
           headers: {
             authorization: `Bearer ${session?.user?.accessToken}`,
@@ -104,8 +47,24 @@ const Page = () => {
 
   const { data: txnHistory, isLoading: txnHistoryLoading } = useQuery({
     queryKey: ["transactions-history"],
-    queryFn: getTxnHistory,
+    queryFn: () => getTxnHistory(pageNumber),
   });
+
+  const prefetchNextPage = () => {
+    if (txnHistory?.data?.total_pages > pageNumber) {
+      queryClient.prefetchQuery({
+        queryKey: ["transactions-history", pageNumber + 1],
+        queryFn: () => getTxnHistory(pageNumber + 1),
+      });
+    }
+  };
+  const goToPage = (newPage: number) => {
+    currentParams.set("page", newPage.toFixed());
+    router.push(`?${currentParams.toString()}`);
+  };
+
+
+  
   return (
     <main className="min-h-screen bg-black pt-20 px-4">
       <h2 className="text-white font-medium text-4xl">All Transactions</h2>
@@ -119,32 +78,15 @@ const Page = () => {
         ) : (
           <TableComp
             tableHeaders={tableHeaders}
-            tableValues={dummyTableValues}
+            tableValues={txnHistory?.data?.results}
           />
         )}
-        <section className="bg-gray_primary h-20 flex items-center flex-row  justify-between px-4">
-          <div className="flex items-center flex-row gap-x-2 text-[#949494] border w-28 p-1 border-[#949494] rounded-md justify-center">
-            <ArrowLeftIcon className="text-[#949494] " />
-            <span>Previous</span>
-          </div>
-          <div className="flex flex-row items-center gap-x-4 text-[#949494]">
-            <span className="py-1 px-3 text-white bg-black rounded-md">1</span>
-            <span className="">2</span>
-
-            <span className="">3</span>
-
-            <span className="">...</span>
-
-            <span className="">8</span>
-            <span className="">9</span>
-
-            <span className="">10</span>
-          </div>
-          <div className="flex items-center flex-row gap-x-2 text-[#949494] border w-28 p-1 border-[#949494] rounded-md justify-center">
-            <span>Next</span>
-            <ArrowRightIcon className="text-[#949494] " />
-          </div>
-        </section>
+       <TableNavigator
+       pageNumber={pageNumber}
+       totalPages={txnHistory?.data?.total_pages}
+       goToPage={goToPage}
+       prefetchNextPage={prefetchNextPage}
+       />
       </section>
     </main>
   );

@@ -42,6 +42,36 @@ export default NextAuth({
         }
       },
     }),
+
+    CredentialsProvider({
+      id: "xion-abstraction", // A different ID for Google login
+      name: "Abstraction Login",
+      credentials: {
+        access_token: { label: "Access Token", type: "text" },
+        user_id: { label: "User Id", type: "text" },
+        refresh_token: { label: "Refresh Token", type: "text", optional: true },
+        role: { label: "Role", type: "text" },
+      },
+      async authorize(credentials) {
+        try {
+          if (!credentials.access_token) {
+            throw new Error("Missing Google credentials");
+          }
+
+          // Mocking user data (replace with your backend verification if needed)
+          const user = {
+            user_id: credentials.user_id,
+            access_token: credentials.access_token,
+            refresh_token: credentials.refresh_token,
+            
+          };
+
+          return user; // Will be available in session
+        } catch (error) {
+          throw new Error(error.message);
+        }
+      },
+    }),
   ],
   pages: {
     signIn: "/auth/login",
@@ -61,6 +91,7 @@ export default NextAuth({
         token.username = user.username;
         token.xion_address = user.xion_address
         token.email = user.email
+        token.refresh_token = user.refresh_token
       }
       return token;
     },

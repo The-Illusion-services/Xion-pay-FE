@@ -18,10 +18,13 @@ const SidebarLinkComp: React.FC<LinkProps> = ({
 }) => {
   return (
     <Link
-      href={`/app/${title}`}
+      href={`/app/${
+        title === "transactions" ? `${title}?page=1&page_size=10` : title
+      }`}
       onClick={() => handleDispatch(title.toUpperCase())}
       className={`w-[116px] h-[26px] flex items-center justify-center gap-x-1 ${
-        state[title as keyof SidebarState].isActive && " text-white_primary font-bold"
+        state[title as keyof SidebarState].isActive &&
+        " text-white_primary font-bold"
       } `}
     >
       {Icon}
