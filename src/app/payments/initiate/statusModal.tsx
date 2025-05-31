@@ -107,7 +107,7 @@ const PaymentStatusModals: React.FC<Props> = ({activeModal, setActiveModal, show
               </p>
               <button 
                 className="text-white font-medium py-3 px-6 rounded-lg opacity-90 cursor-not-allowed"
-                style={{ backgroundColor: '#FFBF00' }}
+                // style={{ backgroundColor: '#FFBF00' }}
                 disabled
               >
                 Processing...

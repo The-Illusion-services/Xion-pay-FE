@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import TableNavigator from "@/src/components/Table/TableNavigator";
 import { useSearchParams, useRouter } from "next/navigation";
 
+
 const Page = () => {
   const router = useRouter();
   const { data: session } = useSession();

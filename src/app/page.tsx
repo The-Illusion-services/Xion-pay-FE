@@ -60,7 +60,7 @@ const NovyPayHeroLanding = () => {
             <h1 style={{ WebkitTextFillColor: "transparent", background: "linear-gradient(to right, #EDEDED, #878787)", WebkitBackgroundClip: "text" }} className="lg:text-6xl text-4xl leading-[1.3em] font-extrabold text-center line">Powering Seamless Transactions for Individuals and Businesses</h1>
             <p className="text-center text-[#C4C4C4] lg:w-[40em] w-full">Send, receive, and manage funds across borders using fiat or crypto  with real-time tracking, low fees, and total peace of mind</p>
             <div className="flex gap-3">
-              <Link href="/app/auth/register"><Button variant={'default'} className="bg-white hover:bg-white/70 transition-all duration-2000 ease-in-out text-black font-bold">Get Started</Button></Link>
+              <Link href="/auth/login"><Button variant={'default'} className="bg-white hover:bg-white/70 transition-all duration-2000 ease-in-out text-black font-bold">Get Started</Button></Link>
               <Button variant={'default'} className="backdrop-blur-[1.2px] bg-white/30 border-[#474747] hover:bg-white/30 transition-all duration-2000 ease-in-out text-white font-bold">View API Docs</Button>
             </div>
             <Image src={eclipse2} alt="" />
