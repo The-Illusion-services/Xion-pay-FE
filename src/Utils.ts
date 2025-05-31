@@ -188,7 +188,7 @@ const sampleBackendData: BackendTransaction[] = [
 // Monthly chart data for May 2025
 console.log("Monthly (May 2025):");
 const monthlyData: WeeklyChartData[] = transformToMonthlyChartData(sampleBackendData, 2025, 5);
-console.log(monthlyData);
+// console.log(monthlyData);
 // Output: [
 //   { week: 1, amount: 0 },
 //   { week: 2, amount: 3825 }, // 25.50 + 12.75
@@ -200,7 +200,7 @@ console.log(monthlyData);
 // Yearly chart data for 2025
 console.log("\nYearly (2025):");
 const yearlyData: MonthlyChartData[] = transformToYearlyChartData(sampleBackendData, 2025);
-console.log(yearlyData);
+// console.log(yearlyData);
 // Output: [
 //   { month: "Jan", amount: 4525 }, // 45.25
 //   { month: "Feb", amount: 0 },
