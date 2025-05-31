@@ -43,7 +43,7 @@
 
 @font-face {
   font-family: "akkurat";
-  src: url("") format("woff2"), url("/fonts/your-font.woff") format("woff");
+  src: url("../assets/fonts/Akkurat.ttf");
   font-weight: normal;
   font-style: normal;
 }
