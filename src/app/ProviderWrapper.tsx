@@ -10,7 +10,6 @@ import { Suspense } from "react";
 import Modal from "./app/dashboard/modal";
 import CreatePaymentLinkModal from "../components/Modals/CreatePaymentLinkModal";
 import { AbstraxionProvider } from "@burnt-labs/abstraxion";
-
 import "@burnt-labs/abstraxion/dist/index.css";
 import "@burnt-labs/ui/dist/index.css";
 
@@ -28,18 +27,20 @@ const ProviderWrapper = ({
   return (
     <AbstraxionProvider config={treasuryConfig}>
       <ReactQueryProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <SessionProvider>
-          <ContextProvider>
-            <Modal />
-            <CreatePaymentLinkModal />
-            <section>
-              <Spinner isDarkMode={true} />
-              <Toast />
-              {children}
-            </section>
-          </ContextProvider>
-        </SessionProvider>
+        <Suspense fallback={null}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <SessionProvider>
+            <ContextProvider>
+              <Modal />
+              <CreatePaymentLinkModal />
+              <section>
+                <Spinner isDarkMode={true} />
+                <Toast />
+                {children}
+              </section>
+            </ContextProvider>
+          </SessionProvider>
+        </Suspense>
       </ReactQueryProvider>
     </AbstraxionProvider>
   );

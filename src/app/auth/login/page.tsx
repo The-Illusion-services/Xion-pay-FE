@@ -26,7 +26,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/src/components/ui/form";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useAuthToken } from "@/src/hooks";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
@@ -60,20 +60,20 @@ const formSchema = z
 
 let title = "Log In";
 
-const Login: FC = () => {
+const Page = () => {
   const { setIsLoading } = useContext(CreateContext).loader;
   const { data: session, status } = useSession();
   const router = useRouter();
   const { updateUser } = useAuthToken();
   const { client, signArb } = useAbstraxionSigningClient();
-
+  const pathname = usePathname()
   // Add state to track signing process and prevent duplicates
   const [isSigningInProgress, setIsSigningInProgress] = useState(false);
   const [hasAttemptedSign, setHasAttemptedSign] = useState(false);
   const [result, setResult] = useState("");
 
   const arbitraryMessage = `Welcome to ${
-    window.location.hostname
+    pathname
   }!\n\nSign this message to authenticate.\n\nTimestamp: ${Date.now()}`;
 
   const [, setShow] = useModal();
@@ -301,4 +301,4 @@ const Login: FC = () => {
   }
 };
 
-export default Login;
+export default Page;

@@ -7,7 +7,8 @@ import authBgMain from "@/src/assets/auth-pages-bg-main.png";
 import { CgSpinner } from "react-icons/cg";
 const Page = () => {
   const searchParams = useSearchParams();
-  const reference = searchParams?.get("reference");
+  const currentParams = new URLSearchParams(searchParams?.toString());
+  const reference = currentParams.get("reference")
   const [isLoading, setIsLoading] = useState(true);
   const [isTokenValid, setIsTokenValid] = useState(false);
 
