@@ -12,10 +12,10 @@ import Image from "next/image";
 const NovyPayHeroLanding = () => {
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter();
-  useEffect(()=>{
-    return router.push("/waitlist")
+  // useEffect(()=>{
+  //   return router.push("/waitlist")
     
-  }, [])
+  // }, [])
 
   if(!isLoading){
 
