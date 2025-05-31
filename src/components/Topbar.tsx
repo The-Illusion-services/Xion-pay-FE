@@ -9,8 +9,12 @@ import { useSession } from "next-auth/react";
 
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-
+import { useAbstraxionAccount } from "@burnt-labs/abstraxion";
 const Topbar = () => {
+  const {
+    data: { bech32Address },
+
+  } = useAbstraxionAccount();
   const { data: session } = useSession();
   const [showMenu, setShowMenu] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
@@ -20,8 +24,8 @@ const Topbar = () => {
   };
 
   const handleCopyAddress = () => {
-    if (data?.address) {
-      navigator.clipboard.writeText(data.address);
+    if (bech32Address) {
+      navigator.clipboard.writeText(bech32Address);
       toast.success("Address Copied");
       // Optional: Add a toast notification here
     }
@@ -46,19 +50,19 @@ const Topbar = () => {
       console.log(err);
     }
   };
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["get-balance"],
-    queryFn: getBalance,
-  });
+  // const { data, error, isLoading } = useQuery({
+  //   queryKey: ["get-balance"],
+  //   queryFn: getBalance,
+  // });
 
   useEffect(() => {
-    if (data && data.address) {
-      const prefix = data.address.slice(0, 8);
-      const suffix = data.address.slice(-8);
+    if (bech32Address) {
+      const prefix = bech32Address.slice(0, 8);
+      const suffix = bech32Address.slice(-8);
       const formatted = `${prefix}...${suffix}`;
       setWalletAddress(formatted);
     }
-  }, [data]);
+  }, [bech32Address]);
 
   return (
     <div className="z-10 fixed w-[84%] flex justify-between bg-gray_primary text-white h-16 py-3 top-0 px-4">

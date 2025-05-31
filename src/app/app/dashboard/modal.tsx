@@ -28,7 +28,7 @@ const Modal = () => {
           ) : (
             <span>Here's your api key</span>
           )}
-          <div className="flex items-center p-1 bg-[#0c0e13] px-4">
+          <div className="flex items-center p-1 bg-[#0c0e13] px-4 py-2">
             <span className="text-sm text-center ">{msg.slice(0, 30)}...</span>
             <IoCopyOutline className="cursor-pointer" onClick={copyText} />
           </div>
