@@ -8,7 +8,10 @@ import { CgSpinner } from "react-icons/cg";
 const Page = () => {
   const searchParams = useSearchParams();
   const currentParams = new URLSearchParams(searchParams?.toString());
+  
   const reference = currentParams.get("reference")
+  const returnUrl = currentParams.get("return_url")
+
   const [isLoading, setIsLoading] = useState(true);
   const [isTokenValid, setIsTokenValid] = useState(false);
 
@@ -42,7 +45,7 @@ const Page = () => {
       }}
     >
       {reference && isTokenValid && isLoading === false ? (
-        <CardPaymentModal paymentReference={reference} />
+        <CardPaymentModal paymentReference={reference} returnUrl={returnUrl}/>
       ) : (
         <Modal />
       )}

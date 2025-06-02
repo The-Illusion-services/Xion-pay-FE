@@ -13,6 +13,7 @@ interface CardPaymentModalProps {
   onClose?: () => void;
   onSubmit?: (data: PaymentFormData) => void;
   paymentReference: string;
+  returnUrl: string | null 
 }
 
 interface PaymentFormData {
@@ -30,6 +31,7 @@ const CardPaymentModal: React.FC<CardPaymentModalProps> = ({
   onClose,
   onSubmit = () => {},
   paymentReference,
+  returnUrl
 }) => {
   const { setIsLoading } = useContext(CreateContext).loader;
   const { data: session } = useSession();
@@ -243,8 +245,14 @@ const CardPaymentModal: React.FC<CardPaymentModalProps> = ({
       setIsLoading(false);
       if (responseData.status === "success") {
         toast.success("Payment verification successful");
-        setShowModal(true);
-        setActiveModal("success");
+        if(returnUrl){
+          const url = new URL(returnUrl);
+          url.searchParams.set('paymentId', payment_id);
+          window.location.href = url.toString();
+        }else{
+          setShowModal(true);
+          setActiveModal("success");
+        }
         // verifyPayment(responseData.payment_id)
       }
 

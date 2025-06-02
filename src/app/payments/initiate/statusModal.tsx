@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 // import { X, Check, Loader } from 'lucide-react';
 import { CiCircleCheck } from "react-icons/ci";
 import { FaRegCircleXmark } from "react-icons/fa6";
@@ -24,6 +24,11 @@ const PaymentStatusModals: React.FC<Props> = ({
   const closeModal = () => {
     setShowModal(false);
   };
+  const searchParams = useSearchParams();
+  const currentParams = new URLSearchParams(searchParams?.toString());
+
+  const returnUrl = currentParams.get("return_url");
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
       {/* Success Modal */}
@@ -44,7 +49,7 @@ const PaymentStatusModals: React.FC<Props> = ({
                 className="bg-green-500 text-white font-medium py-3 px-6 rounded-lg hover:bg-green-600 transition transform hover:-translate-y-1"
                 onClick={closeModal}
               >
-                <a href="about:blank">Close</a>
+                <a href={returnUrl ? returnUrl : "about:blank"}>Close</a>
               </button>
             </div>
           </div>
@@ -69,7 +74,7 @@ const PaymentStatusModals: React.FC<Props> = ({
                 className="bg-red-500 text-white font-medium py-3 px-6 rounded-lg hover:bg-red-600 transition transform hover:-translate-y-1"
                 onClick={closeModal}
               >
-                <a href="about:blank">Close</a>
+                <a href={returnUrl ? returnUrl : "about:blank"}>Close</a>
               </button>
             </div>
           </div>
