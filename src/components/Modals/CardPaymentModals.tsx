@@ -245,13 +245,12 @@ const CardPaymentModal: React.FC<CardPaymentModalProps> = ({
       setIsLoading(false);
       if (responseData.status === "success") {
         toast.success("Payment verification successful");
+        setShowModal(true);
+        setActiveModal("success");
         if(returnUrl){
           const url = new URL(returnUrl);
           url.searchParams.set('paymentId', payment_id);
           window.location.href = url.toString();
-        }else{
-          setShowModal(true);
-          setActiveModal("success");
         }
         // verifyPayment(responseData.payment_id)
       }
