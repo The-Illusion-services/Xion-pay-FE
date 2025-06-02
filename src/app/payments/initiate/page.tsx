@@ -11,7 +11,7 @@ const Page = () => {
   
   const reference = currentParams.get("reference")
   const returnUrl = currentParams.get("return_url")
-  
+
   const [isLoading, setIsLoading] = useState(true);
   const [isTokenValid, setIsTokenValid] = useState(false);
 
