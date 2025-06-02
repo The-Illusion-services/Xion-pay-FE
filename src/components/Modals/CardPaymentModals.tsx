@@ -230,11 +230,6 @@ const CardPaymentModal: React.FC<CardPaymentModalProps> = ({
       setActiveModal("processing");
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}payments/verify/${payment_id}`,
-        {
-          headers: {
-            authorization: `Bearer ${session?.user?.accessToken}`,
-          },
-        }
       );
       const responseData = await response.json();
       if (!response.ok) {
