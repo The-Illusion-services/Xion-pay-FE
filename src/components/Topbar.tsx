@@ -1,26 +1,45 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { CreateContext } from "../Context/context";
 import { Copy, LogOut } from "lucide-react";
 import React from "react";
 import { CiSearch } from "react-icons/ci";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { useGlobalData } from "../hooks/useGlobalData";
-import { useSession } from "next-auth/react";
-
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useAbstraxionAccount } from "@burnt-labs/abstraxion";
+import {
+  useAbstraxionAccount,
+  useAbstraxionSigningClient,
+} from "@burnt-labs/abstraxion";
 const Topbar = () => {
+  const router = useRouter();
   const {
     data: { bech32Address },
-
   } = useAbstraxionAccount();
+   const  {setIsLoading} = useContext(CreateContext).loader;
+  const { logout } = useAbstraxionSigningClient();
+
   const { data: session } = useSession();
   const [showMenu, setShowMenu] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
 
   const handleShowMenu = () => {
     setShowMenu(!showMenu);
+  };
+
+  const handleSignout = async () => {
+    setIsLoading(true)
+    try {
+      logout && logout();
+      router.push("/auth/login");
+      localStorage.removeItem("lastVisitedPage");
+      signOut();
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   const handleCopyAddress = () => {
@@ -98,7 +117,7 @@ const Topbar = () => {
               onClick={handleCopyAddress}
             />
           </div>
-          <div className="border-t border-[#474747] w-[80%] mx-auto flex flex-row items-center py-1 gap-x-2 px-4 cursor-pointer hover:text-gray-300">
+          <div onClick={handleSignout} className="border-t border-[#474747] w-[80%] mx-auto flex flex-row items-center py-1 gap-x-2 px-4 cursor-pointer hover:text-gray-300">
             <LogOut className="text-[#474747]" />
             <span>Logout</span>
           </div>
