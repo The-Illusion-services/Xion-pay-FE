@@ -46,6 +46,7 @@ const appSidebar = ({
 }>) => {
   const {  userRole, setShowSignOutModal, showSignOutModal } =
     useContext(CreateContext).auth;
+    const {setIsLoading} = useContext(CreateContext).loader;
 
   const router = useRouter();
 
@@ -64,6 +65,8 @@ const appSidebar = ({
   //   signOut();
   // };
   const handleSignout = async () => {
+    setIsLoading(true)
+
     try {
        logout && logout();
        router.push("/auth/login");

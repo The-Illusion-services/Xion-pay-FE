@@ -87,7 +87,7 @@ const TableComp: React.FC<ComponentProps> = ({ tableHeaders, tableValues }) => {
                     key !== "metadata" &&
                     key !== "updated_at" &&
                     key !== "failure_reason" &&
-                    key !== "id" && key !== "payment_type" && key !== "token_type" && key !== "blockchain_transaction_data"
+                   key !== "payment_type" && key !== "token_type" && key !== "blockchain_transaction_data"
                   ) {
                     return (
                       <TableCell

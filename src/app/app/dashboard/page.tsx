@@ -172,6 +172,7 @@ const Page = () => {
 
   const tableHeaders = [
     "REFERENCE",
+    "ID",
     "AMOUNT",
     "CURRENCY",
     "EMAIL",
