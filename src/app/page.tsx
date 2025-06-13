@@ -160,7 +160,7 @@ const NovyPayHeroLanding = () => {
 
 };
 
-const Footer = ({ isDarkMode } : { isDarkMode: boolean }) => {
+ const Footer = ({ isDarkMode } : { isDarkMode: boolean }) => {
   return (
     <footer className="lg:px-20 px-5 py-12 flex flex-col gap-8 text-white">
       <section className="grid lg:grid-cols-5 gap-28">
