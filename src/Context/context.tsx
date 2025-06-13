@@ -100,7 +100,7 @@ const ContextProvider = ({
       pathname !== "/auth/register" &&
       !pathname?.includes("/auth/pay") &&
       pathname !== "/" && 
-      pathname !== "payment" &&
+      !pathname?.includes("/payment") &&
       !isNotFound &&
       pathname !== null && !pathname?.includes("/payments/initiate")
     ) {
