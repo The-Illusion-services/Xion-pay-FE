@@ -29,7 +29,7 @@ import {
 } from "@/src/Utils";
 
 const Page = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const [chartData, setChartData] = useState<any[]>([]);
   const {
     filterType,
@@ -229,9 +229,10 @@ const Page = () => {
         100
     );
     console.log(
-      typeof 
-      (totalFailedTxnRaw?.length /
-        (totalFailedTxnRaw?.length + totalCompletedTxnRaw?.length)) 
+      typeof (
+        totalFailedTxnRaw?.length /
+        (totalFailedTxnRaw?.length + totalCompletedTxnRaw?.length)
+      )
     );
   }, [txnHistory?.data?.results]);
 
@@ -284,7 +285,6 @@ const Page = () => {
       return "Good evening";
     }
   }
-
 
   return (
     <>
@@ -488,13 +488,19 @@ const Page = () => {
                 <div className="border-l-4 border-[#008000] flex flex-col text-white pl-1">
                   <span>Success</span>
                   <span className="text-xl">
-                    {Number.isNaN(percentageSuccessfulTxn) ? 0 : percentageSuccessfulTxn}%
+                    {Number.isNaN(percentageSuccessfulTxn)
+                      ? 0
+                      : percentageSuccessfulTxn?.toFixed()}
+                    %
                   </span>
                 </div>
                 <div className="border-l-4 border-[#FB3748] flex flex-col text-white pl-1">
                   <span>Failed</span>
                   <span className="text-xl">
-                  {Number.isNaN(percentageFailedTxn) ? 0 : percentageFailedTxn}%
+                    {Number.isNaN(percentageFailedTxn)
+                      ? 0
+                      : percentageFailedTxn?.toFixed()}
+                    %
                   </span>
                 </div>
               </div>

@@ -1,23 +1,62 @@
 "use client";
 import background from "@/src/assets/bg-black.png";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logoWhite from "@/src/assets/logo-white.png";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-
+import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 const Page = () => {
   const router = useRouter();
-  
+  const { data: session } = useSession();
   const searchParams = useSearchParams();
   const currentParams = new URLSearchParams(searchParams?.toString());
-
+  const [paymentStatus, setPaymentStatus] = useState("");
   const amount = currentParams.get("amount");
   const recipient = currentParams.get("holding_address");
   const token = currentParams.get("token_type");
+  const reference = currentParams.get("reference");
 
   const fiatUrl = currentParams.get("fiat_url");
 
+  const getRefStatus = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}payments/verify/${reference}`,
+        {
+          headers: {
+            "Content-Type": "application-json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("");
+      }
+      const responseData = await response.json();
+      return responseData;
+    } catch (err: any) {
+      console.log("an error occured");
+      return err.message;
+    }
+  };
+
+  const {
+    data: refStatus,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ["get-reference-status"],
+    queryFn: getRefStatus,
+    enabled: !!reference,
+  });
+ 
+  useEffect(() => {
+    if (refStatus?.data?.payment_status) {
+      setPaymentStatus(refStatus?.data?.payment_status);
+    }
+  }, [refStatus?.data?.payment_status]);
   return (
     <main className="h-screen flex  items-center justify-center fixed top-0 bottom-0 left-0 right-0">
       {/* <Navbar setIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode}></Navbar> */}
@@ -36,9 +75,20 @@ const Page = () => {
           </span>
         </div>
         <div className="flex justify-between gap-x-10">
-          <a href={fiatUrl ?? undefined}>
+          <a
+            href={fiatUrl && paymentStatus !== "expired" ? fiatUrl : undefined}
+          >
             <button
-              onClick={() => !fiatUrl && toast.error("Invalid or no fiat url")}
+              onClick={() => {
+                !fiatUrl && toast.error("Invalid or no fiat url");
+                if (paymentStatus === "expired") {
+                  toast.error(
+                    "Payment reference expired, please initialize a new one"
+                  );
+
+                  return;
+                }
+              }}
               className=" px-4 h-10  rounded-lg bg-white text-black"
             >
               Pay with Fiat
@@ -50,8 +100,15 @@ const Page = () => {
                 toast.error("No or invalid tokens");
                 return;
               }
+              if (paymentStatus === "expired") {
+                toast.error(
+                  "Payment reference expired, please initialize a new one"
+                );
+
+                return;
+              }
               router.push(
-                `/payments/crypto?amount=${amount}&holding_address=${recipient}&token_type=${token}`
+                `/payments/crypto?amount=${amount}&holding_address=${recipient}&token_type=${token}&reference=${reference}`
               );
             }}
             className=" px-4 h-10  rounded-lg bg-white text-black"

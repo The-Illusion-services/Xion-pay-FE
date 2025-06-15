@@ -18,7 +18,7 @@ import { FaRegCircleXmark } from "react-icons/fa6";
 import logoWhite from "@/src/assets/logo-white.png";
 import { useRouter } from "next/navigation";
 
- const Page = ()=> {
+const Page = () => {
   const router = useRouter();
   const [, setShow] = useModal();
   const {
@@ -35,6 +35,8 @@ import { useRouter } from "next/navigation";
   const { setIsLoading } = useContext(CreateContext).loader;
   const amount = currentParams.get("amount");
   const recipient = currentParams.get("holding_address");
+  const reference = currentParams.get("reference");
+
   const token = currentParams.get("token_type");
   const [errorMsg, setErrorMsg] = useState("");
   const { client: signingClient } = useAbstraxionSigningClient();
@@ -86,21 +88,54 @@ import { useRouter } from "next/navigation";
         `https://www.mintscan.io/xion-testnet/tx/${sendSuccess?.split(": ")[1]}`
       );
       // console.log(sendSuccess?.split(": ")[1])
-      router.push(
-        `/payments/success?blockExplorerUrl=https://www.mintscan.io/xion-testnet/tx/${result.transactionHash}`
-      );
+      updatePaymentStatus(result?.transactionHash);
     } catch (error: any) {
       // console.error("Error sending funds:", error);
-      console.log(error.message);
-      if (error.message.includes("insufficient funds")) {
+      if (error?.message.includes("insufficient funds")) {
         setErrorMsg("Insufficient balance");
+        console.log("insufficient");
         router.push(`/payments/failed?error=insufficient funds`);
+        return;
+      } else {
+        router.push(`/payments/failed`);
       }
       setSendError(
         error.message || "An unexpected error occurred while sending funds."
       );
+      console.log(error.message);
     } finally {
       setIsSending(false);
+      setIsLoading(false);
+    }
+  };
+
+  const updatePaymentStatus = async (txnHash: string) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}payments/update-status/`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({
+            reference,
+            status: "completed",
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("An error occured");
+      }
+      toast.success("Payment status updated");
+
+      router.push(
+        `/payments/success?blockExplorerUrl=https://www.mintscan.io/xion-testnet/tx/${txnHash}`
+      );
+    } catch (err) {
+      toast.error("Failed to update payment status");
+    } finally {
       setIsLoading(false);
     }
   };
@@ -192,5 +227,5 @@ import { useRouter } from "next/navigation";
       </div>
     </main>
   );
-}
-export default Page
+};
+export default Page;
