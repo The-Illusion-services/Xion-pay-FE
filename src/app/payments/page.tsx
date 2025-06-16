@@ -38,16 +38,14 @@ const Page = () => {
         throw new Error("");
       }
       const responseData = await response.json();
-      
+
       return responseData;
     } catch (err: any) {
       console.log("an error occured");
       return err.message;
     } finally {
       setIsLoading(false);
-      setHasLoaded(true)
-      
-        
+      setHasLoaded(true);
     }
   };
 
@@ -63,7 +61,6 @@ const Page = () => {
   });
 
   useEffect(() => {
-    
     if (refStatus?.data?.payment_status) {
       setPaymentStatus(refStatus?.data?.payment_status);
     }
@@ -87,7 +84,11 @@ const Page = () => {
         </div>
         <div className="flex justify-between gap-x-10">
           <a
-            href={fiatUrl && hasLoaded && paymentStatus !== "expired" ? fiatUrl : undefined}
+            href={
+              fiatUrl && hasLoaded && paymentStatus !== "expired"
+                ? fiatUrl
+                : undefined
+            }
           >
             <button
               onClick={() => {
@@ -111,16 +112,16 @@ const Page = () => {
                 toast.error("No or invalid tokens");
                 return;
               }
-              if (paymentStatus === "expired" || !hasLoaded) {
+
+              if (paymentStatus === "pending" && hasLoaded) {
+                router.push(
+                  `/payments/crypto?amount=${amount}&holding_address=${recipient}&token_type=${token}&reference=${reference}`
+                );
+              } else {
                 toast.error(
                   "Payment reference expired, please initialize a new one"
                 );
-
-                return;
               }
-              router.push(
-                `/payments/crypto?amount=${amount}&holding_address=${recipient}&token_type=${token}&reference=${reference}`
-              );
             }}
             className=" px-4 h-10  rounded-lg bg-white text-black"
           >
