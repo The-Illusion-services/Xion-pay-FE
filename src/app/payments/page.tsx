@@ -113,7 +113,11 @@ const Page = () => {
                 return;
               }
 
-              if (paymentStatus === "pending" && hasLoaded) {
+              if (
+                (paymentStatus === "pending" ||
+                  paymentStatus === "initialized") &&
+                hasLoaded
+              ) {
                 router.push(
                   `/payments/crypto?amount=${amount}&holding_address=${recipient}&token_type=${token}&reference=${reference}`
                 );
