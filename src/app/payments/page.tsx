@@ -1,12 +1,13 @@
 "use client";
 import background from "@/src/assets/bg-black.png";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import logoWhite from "@/src/assets/logo-white.png";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import { CreateContext } from "@/src/Context/context";
 const Page = () => {
   const router = useRouter();
   const { data: session } = useSession();
@@ -17,10 +18,13 @@ const Page = () => {
   const recipient = currentParams.get("holding_address");
   const token = currentParams.get("token_type");
   const reference = currentParams.get("reference");
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   const fiatUrl = currentParams.get("fiat_url");
+  const { setIsLoading } = useContext(CreateContext).loader;
 
   const getRefStatus = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}payments/verify/${reference}`,
@@ -34,10 +38,16 @@ const Page = () => {
         throw new Error("");
       }
       const responseData = await response.json();
+      
       return responseData;
     } catch (err: any) {
       console.log("an error occured");
       return err.message;
+    } finally {
+      setIsLoading(false);
+      setHasLoaded(true)
+      
+        
     }
   };
 
@@ -51,8 +61,9 @@ const Page = () => {
     queryFn: getRefStatus,
     enabled: !!reference,
   });
- 
+
   useEffect(() => {
+    
     if (refStatus?.data?.payment_status) {
       setPaymentStatus(refStatus?.data?.payment_status);
     }
@@ -76,7 +87,7 @@ const Page = () => {
         </div>
         <div className="flex justify-between gap-x-10">
           <a
-            href={fiatUrl && paymentStatus !== "expired" ? fiatUrl : undefined}
+            href={fiatUrl && hasLoaded && paymentStatus !== "expired" ? fiatUrl : undefined}
           >
             <button
               onClick={() => {
@@ -96,11 +107,11 @@ const Page = () => {
           </a>
           <button
             onClick={() => {
-              if (!token || !recipient) {
+              if (!token || !recipient || !hasLoaded) {
                 toast.error("No or invalid tokens");
                 return;
               }
-              if (paymentStatus === "expired") {
+              if (paymentStatus === "expired" || !hasLoaded) {
                 toast.error(
                   "Payment reference expired, please initialize a new one"
                 );
