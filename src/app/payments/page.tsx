@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { CreateContext } from "@/src/Context/context";
+import { FaRegCircleXmark } from "react-icons/fa6";
 const Page = () => {
   const router = useRouter();
   const { data: session } = useSession();
@@ -63,10 +64,50 @@ const Page = () => {
   useEffect(() => {
     if (refStatus?.data?.payment_status) {
       setPaymentStatus(refStatus?.data?.payment_status);
+      if (
+        refStatus?.data?.payment_status !== "pending" &&
+        refStatus?.data?.payment_status !== "initialized"
+      ) {
+        setShowErrorModal(true);
+      }
     }
   }, [refStatus?.data?.payment_status]);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+
+  const FailedModal = () => {
+    return (
+      <>
+        <main className="flex items-center justify-center fixed top-0 bottom-0 left-0 right-0">
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-0 p-4 flex-col gap-y-10">
+            {/* <Image src={logoWhite} alt="logo-white" className="w-[10%] h-[10%]" /> */}
+            {/* <span className="text-4xl font-bold text-white">Payment Portal</span> */}
+            <div className="bg-gray_primary rounded-xl shadow-lg p-6 max-w-md w-full animate-in fade-in slide-in-from-bottom-4 duration-300">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mb-4">
+                  <FaRegCircleXmark className="w-8 h-8 text-white" />
+                </div>
+                <h2 className="text-xl font-semibold mb-2 text-white">
+                  Payment Processing Failed
+                </h2>
+                <p className="text-white_primary mb-6">
+                  Payment Link Expired Or Failed Please Reinitialize Payment.
+                </p>
+                <button
+                  className="bg-red-500 text-white font-medium py-3 px-6 rounded-lg hover:bg-red-600 transition transform hover:-translate-y-1"
+                  onClick={() => setShowErrorModal(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  };
   return (
     <main className="h-screen flex  items-center justify-center fixed top-0 bottom-0 left-0 right-0">
+      {showErrorModal && <FailedModal />}
       {/* <Navbar setIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode}></Navbar> */}
       <div className="absolute z-[-10] bottom-0 top-0 right-0 left-0">
         <Image
@@ -85,7 +126,9 @@ const Page = () => {
         <div className="flex justify-between gap-x-10">
           <a
             href={
-              fiatUrl && hasLoaded && paymentStatus !== "expired"
+              fiatUrl &&
+              hasLoaded &&
+              (paymentStatus === "pending" || paymentStatus === "initialized")
                 ? fiatUrl
                 : undefined
             }
@@ -93,9 +136,13 @@ const Page = () => {
             <button
               onClick={() => {
                 !fiatUrl && toast.error("Invalid or no fiat url");
-                if (paymentStatus === "expired") {
+                if (
+                  paymentStatus !== "pending" &&
+                  paymentStatus !== "initialized" &&
+                  hasLoaded
+                ) {
                   toast.error(
-                    "Payment reference expired, please initialize a new one"
+                    "Payment reference expired or failed, please initialize a new one"
                   );
 
                   return;
@@ -123,7 +170,7 @@ const Page = () => {
                 );
               } else {
                 toast.error(
-                  "Payment reference expired, please initialize a new one"
+                  "Payment reference expired or failed, please initialize a new one"
                 );
               }
             }}
