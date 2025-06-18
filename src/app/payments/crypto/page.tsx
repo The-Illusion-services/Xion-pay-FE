@@ -36,6 +36,7 @@ const Page = () => {
   const amount = currentParams.get("amount");
   const recipient = currentParams.get("holding_address");
   const reference = currentParams.get("reference");
+  const [txnHash, setTxnHash] = useState("");
 
   const token = currentParams.get("token_type");
   const [errorMsg, setErrorMsg] = useState("");
@@ -88,28 +89,28 @@ const Page = () => {
         `https://www.mintscan.io/xion-testnet/tx/${sendSuccess?.split(": ")[1]}`
       );
       // console.log(sendSuccess?.split(": ")[1])
-      updatePaymentStatus(result?.transactionHash);
+      updatePaymentStatus("completed");
     } catch (error: any) {
-      // console.error("Error sending funds:", error);
-      if (error?.message.includes("insufficient funds")) {
-        setErrorMsg("Insufficient balance");
-        console.log("insufficient");
-        router.push(`/payments/failed?error=insufficient funds`);
-        return;
-      } else {
-        router.push(`/payments/failed`);
-      }
       setSendError(
         error.message || "An unexpected error occurred while sending funds."
       );
-      console.log(error.message);
+      if (error?.message.includes("insufficient funds")) {
+        setErrorMsg("Insufficient balance");
+        updatePaymentStatus("failed");
+        router.push(`/payments/failed?error=insufficient funds`);
+        return;
+      } else {
+        updatePaymentStatus("failed");
+        router.push(`/payments/failed`);
+        return;
+      }
     } finally {
       setIsSending(false);
       setIsLoading(false);
     }
   };
 
-  const updatePaymentStatus = async (txnHash: string) => {
+  const updatePaymentStatus = async (status: string) => {
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -118,7 +119,7 @@ const Page = () => {
           method: "PATCH",
           body: JSON.stringify({
             reference,
-            status: "completed",
+            status,
           }),
           headers: {
             "Content-Type": "application/json",
