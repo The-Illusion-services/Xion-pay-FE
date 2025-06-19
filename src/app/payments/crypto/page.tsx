@@ -78,7 +78,7 @@ const Page = () => {
         fee,
         memo
       );
-
+      console.log(result);
       setSendSuccess(
         // console.log(result.transactionHash)
         `Successfully sent funds! TxHash: ${result.transactionHash}`
@@ -131,9 +131,19 @@ const Page = () => {
       }
       toast.success("Payment status updated");
 
-      router.push(
-        `/payments/success?blockExplorerUrl=https://www.mintscan.io/xion-testnet/tx/${txnHash}`
-      );
+      if (status === "failed") {
+        if (errorMsg === "Insufficient balance") {
+          router.push(`/payments/failed?error=insufficient funds`);
+        } else {
+          router.push(`/payments/failed`);
+        }
+        return;
+      } else {
+        router.push(
+          `/payments/success?blockExplorerUrl=https://www.mintscan.io/xion-testnet/tx/${txnHash}`
+        );
+        return;
+      }
     } catch (err) {
       toast.error("Failed to update payment status");
     } finally {
