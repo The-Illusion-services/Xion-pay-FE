@@ -39,13 +39,17 @@ const WalletCardUI: React.FC = () => {
             authorization: `Bearer ${session?.user?.accessToken}`,
           },
         }
-      );
-      const responseData = await response.json();
+        );
+        const responseData = await response.json();
+      if(!response.ok){
+        throw new Error (responseData.error ?? "An error occured")
+      }
 
       return responseData;
     } catch (err) {
-      toast.error("An error occured")
-      console.log(err);
+      // toast.error("An error occured")
+      return null
+      // console.log(err);
     }
   };
   const { data: walletCard } = useQuery({
@@ -57,6 +61,7 @@ const WalletCardUI: React.FC = () => {
     setIsPinChange(true);
     setIsWalletSetupModalVisible(true);
   };
+  console.log(walletCard)
   if (!walletCard) {
     return (
       <div className="max-w-md mx-auto p-6">
