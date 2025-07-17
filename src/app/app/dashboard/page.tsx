@@ -1,10 +1,17 @@
 "use client";
 import { CreateContext } from "@/src/Context/context";
-import { useContext, useEffect, useState } from "react";
-
+import {
+  transformToMonthlyChartData,
+  transformToWeeklyChartData,
+  transformToYearlyChartData,
+} from "@/src/Utils";
 import TableComp from "@/src/components/Table/Table";
+import WalletCardUI from "@/src/components/WalletCard/WalletCardUI";
+import { buildTransactionQuery, useDateFilter } from "@/src/hooks/date";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
 import {
   CartesianGrid,
   Cell,
@@ -18,18 +25,17 @@ import {
   YAxis,
 } from "recharts";
 import { toast } from "sonner";
-import CardPaymentModal from "@/src/components/Modals/CardPaymentModals";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useDateFilter } from "@/src/hooks/date";
-import { buildTransactionQuery } from "@/src/hooks/date";
-import {
-  transformToMonthlyChartData,
-  transformToWeeklyChartData,
-  transformToYearlyChartData,
-} from "@/src/Utils";
 
 const Page = () => {
   const queryClient = useQueryClient();
+  const {
+    pin,
+    setPin,
+    isPinChange,
+    setIsPinChange,
+    isWalletSetupModalVisible,
+    setIsWalletSetupModalVisible,
+  } = useContext(CreateContext).cards;
   const [chartData, setChartData] = useState<any[]>([]);
   const {
     filterType,
@@ -285,6 +291,7 @@ const Page = () => {
       return "Good evening";
     }
   }
+ 
 
   return (
     <>
@@ -299,55 +306,32 @@ const Page = () => {
             </div> */}
           </article>
           <section className="flex flex-row justify-between items-center">
-            <article className="flex flex-col justify-start items-start mt-10 ">
+            <article className="flex flex-col justify-between gap-y-8 h-full ">
+
+            <div className="flex flex-col justify-start items-start ">
               <div className="flex flex-row  items-center gap-x-2">
-                <h1 className="text-sm text-[#AAAAAA] font-light">
+                <h1 className="text-xl text-[#AAAAAA] font-light">
                   Total Balance
                 </h1>
                 {/* <IoEyeOffOutline className="text-[#AAAAAA]" /> */}
               </div>
-              <article className="flex flex-row gap-x-6">
-                <div className="flex items-center gap-x-1 text-[#AAAAAA]">
-                  <h3>XION:</h3>
-                  <h1 className="text-sm text-[#AAAAAA] font-light">
+              <article className="flex flex-row gap-x-6 ">
+              <div className="flex items-end gap-x-1  text-[#AAAAAA]">
+                  <h1 className="text-2xl text-white font-bold">
                     {walletBalance?.balances?.xion?.amount}
                   </h1>
+                  <h3 className="text-xs pb-1">XION</h3>
                 </div>
-                <div className="flex items-center gap-x-1  text-[#AAAAAA]">
-                  <h3>USDC:</h3>
-                  <h1 className="text-sm text-[#AAAAAA] font-light">
+                <div className="flex items-end gap-x-1  text-[#AAAAAA]">
+                  <h1 className="text-2xl text-white font-bold">
                     {walletBalance?.balances?.usdc?.amount}
                   </h1>
+                  <h3 className="text-xs pb-1">USDC</h3>
                 </div>
               </article>
-            </article>
-
-            {/* <article className="text-white  relative  justify-between flex items-center mt-2">
-            <div className="">
-             
             </div>
 
-            <div className="flex items-center justify-between gap-x-4">
-              <button className="p-2 px-4  rounded-lg border">
-                Withdraw to Wallet
-              </button>
-              {apiKey?.length >= 1 ? (
-                <button
-                  onClick={() => setIsCardPaymentModalOpen(true)}
-                  className="p-2 px-4  rounded-lg bg-white text-black"
-                >
-                  Make a paymennt
-                </button>
-              ) : (
-                <button
-                  onClick={generateApiKey}
-                  className="p-2 px-4  rounded-lg bg-white text-black"
-                >
-                  Generate Api Key
-                </button>
-              )}
-            </div>
-          </article> */}
+            
             {apiKey?.length < 1 && (
               <button
                 onClick={generateApiKey}
@@ -356,8 +340,13 @@ const Page = () => {
                 Generate Api Key
               </button>
             )}
-          </section>
+            </article>
 
+              <section>
+                {/* <h2 className="text-white">Cards</h2> */}
+                <WalletCardUI/>
+              </section>
+          </section>
           <section className="bg-black mt-8 flex flex-row items-center gap-x-2  h-[420px] justify-between">
             <article className="w-[70%] bg-gray_primary flex flex-col justify-evenly pb-4 gap-y-2 rounded-md">
               <div className="flex flex-row justify-between items-center w-full px-4">
@@ -542,45 +531,6 @@ const Page = () => {
               )}
             </article>
           </section>
-          {/* <section className="flex gap-x-4 justify-center mt-10">
-            <form className="w-[30%] border p-2 rounded-md">
-              <div className="flex flex-col w-full">
-                <label>Email address</label>
-                <input
-                  placeholder="Enter email address"
-                  value={email}
-                  onChange={handleEmailChange}
-                  className="focus:outline-none h-10 p-2 bg-[#13161F] mt-2 rounded-md text-white"
-                />
-              </div>
-              <div className="flex flex-col w-full">
-                <label>Amount</label>
-                <input
-                  placeholder="Enter amount"
-                  value={amount}
-                  onChange={handleAmountChange}
-                  className="focus:outline-none h-10 p-2 bg-[#13161F] mt-2 rounded-md text-white"
-                />
-              </div>
-              <button
-                className="p-2 px-4 block mx-auto rounded-md bg-[#5856D6] mt-5 text-white"
-                onClick={generatePaymentLink}
-              >
-                {" "}
-                Generate payment link{" "}
-              </button>
-            </form>
-
-            <form className="w-[30%] flex items-center border p-2 rounded-md">
-              <button
-                className="p-2 px-4 block mx-auto rounded-md bg-[#5856D6] mt-5 text-white"
-                onClick={generateApiKey}
-              >
-                {" "}
-                Generate api key{" "}
-              </button>
-            </form>
-          </section> */}
         </section>
       </main>
     </>

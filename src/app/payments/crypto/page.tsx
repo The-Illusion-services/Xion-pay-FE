@@ -36,6 +36,7 @@ const Page = () => {
   const amount = currentParams.get("amount");
   const recipient = currentParams.get("holding_address");
   const reference = currentParams.get("reference");
+  const callbackUrl = currentParams.get("callbackUrl");
   const [txnHash, setTxnHash] = useState("");
 
   const token = currentParams.get("token_type");
@@ -140,7 +141,7 @@ const Page = () => {
         return;
       } else {
         router.push(
-          `/payments/success?blockExplorerUrl=https://www.mintscan.io/xion-testnet/tx/${txnHash}`
+          `/payments/success?blockExplorerUrl=https://www.mintscan.io/xion-testnet/tx/${txnHash}&callbackUrl=${callbackUrl}`
         );
         return;
       }
@@ -156,6 +157,7 @@ const Page = () => {
     if (!bech32Address) {
       setShow(true);
     } else if (bech32Address && signingClient) {
+      console.log(bech32Address)
       handleSend();
     }
   }, [bech32Address, signingClient]);

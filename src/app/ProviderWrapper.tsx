@@ -12,6 +12,7 @@ import CreatePaymentLinkModal from "../components/Modals/CreatePaymentLinkModal"
 import { AbstraxionProvider } from "@burnt-labs/abstraxion";
 import "@burnt-labs/abstraxion/dist/index.css";
 import "@burnt-labs/ui/dist/index.css";
+import SetupModal from "../components/WalletCard/SetupModal";
 
 const ProviderWrapper = ({
   children,
@@ -32,6 +33,7 @@ const ProviderWrapper = ({
           <SessionProvider>
             <ContextProvider>
               <Modal />
+              <SetupModal/>
               <CreatePaymentLinkModal />
               <section>
                 <Spinner isDarkMode={true} />

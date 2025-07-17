@@ -17,6 +17,8 @@ const Page = () => {
   const [paymentStatus, setPaymentStatus] = useState("");
   const amount = currentParams.get("amount");
   const cryptoAmount = currentParams.get("crypto_amount");
+  const callbackUrl = currentParams.get("callback_url");
+
 
   const recipient = currentParams.get("holding_address");
   const token = currentParams.get("token_type");
@@ -168,7 +170,7 @@ const Page = () => {
                 hasLoaded
               ) {
                 router.push(
-                  `/payments/crypto?amount=${cryptoAmount}&holding_address=${recipient}&token_type=${token}&reference=${reference}`
+                  `/payments/crypto?amount=${cryptoAmount}&holding_address=${recipient}&token_type=${token}&reference=${reference}&callbackUrl=${callbackUrl}`
                 );
               } else {
                 toast.error(

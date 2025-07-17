@@ -34,6 +34,14 @@ interface ContextTypes {
     skeletalLoading: boolean;
     setSkeletalLoading: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  cards: {
+    pin: string;
+    setPin: React.Dispatch<React.SetStateAction<string>>;
+    isWalletSetupModalVisible: boolean;
+    setIsWalletSetupModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    isPinChange: boolean
+    setIsPinChange: React.Dispatch<React.SetStateAction<boolean>>;
+  };
   user: { currUser: string };
 
   previousLocation: string;
@@ -81,6 +89,10 @@ const ContextProvider = ({
   const [currUser, setCurrUser] = useState("recruit");
   const [skeletalLoading, setSkeletalLoading] = useState(false);
   const [showPaymentLinkModal, setShowPaymentLinkModal] = useState(false);
+  const [pin, setPin] = useState("");
+  const [isPinChange, setIsPinChange] = useState(false);
+  const [isWalletSetupModalVisible, setIsWalletSetupModalVisible] =
+    useState(false);
 
   const [showSignOutModal, setShowSignOutModal] = useState(false);
 
@@ -99,13 +111,13 @@ const ContextProvider = ({
       pathname !== "/waitlist" &&
       pathname !== "/auth/register" &&
       !pathname?.includes("/auth/pay") &&
-      pathname !== "/" && 
+      pathname !== "/" &&
       !pathname?.includes("/payment") &&
       !isNotFound &&
-      pathname !== null && !pathname?.includes("/payments/initiate")
+      pathname !== null &&
+      !pathname?.includes("/payments/initiate")
     ) {
       const updatedPathname = `/${window.location.href.split("/app")[1]}`;
-    
 
       localStorage.setItem("xion-pay-lastVisitedPage", pathname);
       // setPreviousLocation(updatedPathname);
@@ -179,6 +191,14 @@ const ContextProvider = ({
           setIsLoading,
           skeletalLoading,
           setSkeletalLoading,
+        },
+        cards: {
+          pin,
+          setPin,
+          isWalletSetupModalVisible,
+          setIsWalletSetupModalVisible,
+          isPinChange,
+          setIsPinChange
         },
         user: { currUser },
 
