@@ -25,8 +25,35 @@ import {
   YAxis,
 } from "recharts";
 import { toast } from "sonner";
+// import { IoEyeOffOutEyline } from "react-icons/io5";
+import { EyeOff, Eye } from "lucide-react";
 
 const Page = () => {
+  const [balanceVisibilty, setBalanceVisibility] = useState({
+    card: false,
+    xion: false,
+    usdc: false,
+  });
+  const toggleBalanceVisibility = (type: string) => {
+    if (type === "card") {
+      setBalanceVisibility({
+        ...balanceVisibilty,
+        card: !balanceVisibilty.card,
+      });
+    } else if (type === "xion") {
+      setBalanceVisibility({
+        ...balanceVisibilty,
+        xion: !balanceVisibilty.xion,
+      });
+    } else if (type === "usdc") {
+      setBalanceVisibility({
+        ...balanceVisibilty,
+        usdc: !balanceVisibilty.usdc,
+      });
+    } else {
+      return;
+    }
+  };
   const queryClient = useQueryClient();
   const {
     pin,
@@ -131,12 +158,10 @@ const Page = () => {
   const [email, setEmail] = useState("");
 
   const [modalMsg, setModalMsg] = useState("");
-  const { msg, setMsg, setShowModal, showModal } =
-    useContext(CreateContext).modal;
+  const { setMsg, setShowModal } = useContext(CreateContext).modal;
   const { paymentLink, setPaymentLink, loader, modal } =
     useContext(CreateContext);
   const { setIsLoading } = loader;
-  const { setShowPaymentLinkModal } = modal;
 
   const generateApiKey = async (e: any) => {
     e.preventDefault();
@@ -291,7 +316,133 @@ const Page = () => {
       return "Good evening";
     }
   }
- 
+
+  interface WalletBalance {
+    balances: {
+      xion: {
+        amount: string;
+      };
+      usdc: {
+        amount: string;
+      };
+    };
+  }
+
+  interface CurrencyCardsProps {
+    walletBalance?: WalletBalance;
+  }
+
+  
+  const CurrencyCards: React.FC<CurrencyCardsProps> = ({ walletBalance }) => {
+    return (
+      <div className="flex flex-col justify-start items-start ga-y-2 w-full">
+        {/* Header */}
+        <div className="w-full  rounded-lg py-4   ">
+          <div className="flex gap-x-2 items-center">
+            <span className="text-sm text-[#AAAAAA]">
+              Total Portfolio Value:
+            </span>
+            <span className="text-lg font-semibold text-white">
+              $
+              {(
+                parseFloat(walletBalance?.balances?.xion?.amount || "0") +
+                parseFloat(walletBalance?.balances?.usdc?.amount || "0")
+              ).toFixed(2)}
+            </span>
+          </div>
+        </div>
+
+        {/* Currency Cards */}
+        <div className="flex flex-row gap-x-4 w-full ">
+          {/* XION Card */}
+          <div className="flex-1 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl p-6 text-white shadow-lg hover:shadow-xl transition-shadow">
+            <div className="flex flex-col h-full">
+              <div className="flex justify-between items-start mb-4">
+                <div className="text-sm opacity-80">Balance</div>
+                <div className="text-xs bg-white/20 px-2 py-1 rounded-full">
+                  XION
+                </div>
+              </div>
+
+              <div className="flex-1 flex flex-col justify-center">
+                <div className="text-3xl font-bold mb-1 flex justify-between gap-x-2 items-center">
+                  <span>
+                    {!balanceVisibilty.xion
+                      ? (walletBalance?.balances?.xion?.amount || "0.00")
+                      : "••••••"}
+                  </span>
+                  <button
+                    onClick={() => toggleBalanceVisibility("xion")}
+                    className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                  >
+                    {!balanceVisibilty.xion ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
+                <div className="text-sm opacity-80">XION</div>
+              </div>
+
+              <div className="flex justify-between items-center text-xs opacity-60 mt-4">
+                <span>Token</span>
+                <span>XION</span>
+              </div>
+            </div>
+          </div>
+
+          {/* USDC Card */}
+          <div className="flex-1 bg-gradient-to-br from-green-600 to-emerald-600 rounded-xl p-6 text-white shadow-lg hover:shadow-xl transition-shadow">
+            <div className="flex flex-col h-full">
+              <div className="flex justify-between items-start mb-4">
+                <div className="text-sm opacity-80">Balance</div>
+                <div className="text-xs bg-white/20 px-2 py-1 rounded-full">
+                  USDC
+                </div>
+              </div>
+
+              <div className="flex-1 flex flex-col justify-center">
+              <div className="text-3xl font-bold mb-1 flex justify-between gap-x-2 items-center">
+                  <span>
+                    {!balanceVisibilty.usdc
+                      ? (walletBalance?.balances?.usdc?.amount || "0.00")
+                      : "••••••"}
+                  </span>
+                  <button
+                    onClick={() => toggleBalanceVisibility("usdc")}
+                    className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                  >
+                    {!balanceVisibilty.usdc ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
+                <div className="text-sm opacity-80">USDC</div>
+              </div>
+
+              <div className="flex justify-between items-center text-xs opacity-60 mt-4">
+                <span>Token</span>
+                <span>USDC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Optional: Total Summary */}
+        {/* <div className="w-full bg-[#1A1A1A] rounded-lg p-4 border border-[#474747]">
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-[#AAAAAA]">Total Portfolio Value</span>
+          <span className="text-lg font-semibold text-white">
+            ${((parseFloat(walletBalance?.balances?.xion?.amount || '0') + parseFloat(walletBalance?.balances?.usdc?.amount || '0')).toFixed(2))}
+          </span>
+        </div>
+      </div> */}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -305,47 +456,24 @@ const Page = () => {
               <span className="text-[#008000]">Due Tuesday, January 4</span>
             </div> */}
           </article>
-          <section className="flex flex-row justify-between items-center">
-            <article className="flex flex-col justify-between gap-y-8 h-full ">
+          <section className="flex flex-row justify-between items-center w-full ">
+            <article className="flex flex-col justify-between gap-y-8 h-full w-[40%]">
+              <CurrencyCards walletBalance={walletBalance} />
 
-            <div className="flex flex-col justify-start items-start ">
-              <div className="flex flex-row  items-center gap-x-2">
-                <h1 className="text-xl text-[#AAAAAA] font-light">
-                  Total Balance
-                </h1>
-                {/* <IoEyeOffOutline className="text-[#AAAAAA]" /> */}
-              </div>
-              <article className="flex flex-row gap-x-6 ">
-              <div className="flex items-end gap-x-1  text-[#AAAAAA]">
-                  <h1 className="text-2xl text-white font-bold">
-                    {walletBalance?.balances?.xion?.amount}
-                  </h1>
-                  <h3 className="text-xs pb-1">XION</h3>
-                </div>
-                <div className="flex items-end gap-x-1  text-[#AAAAAA]">
-                  <h1 className="text-2xl text-white font-bold">
-                    {walletBalance?.balances?.usdc?.amount}
-                  </h1>
-                  <h3 className="text-xs pb-1">USDC</h3>
-                </div>
-              </article>
-            </div>
-
-            
-            {apiKey?.length < 1 && (
-              <button
-                onClick={generateApiKey}
-                className=" px-4 h-10  rounded-lg bg-white text-black"
-              >
-                Generate Api Key
-              </button>
-            )}
+              {apiKey?.length < 1 && (
+                <button
+                  onClick={generateApiKey}
+                  className=" px-4 h-10  rounded-lg bg-white text-black"
+                >
+                  Generate Api Key
+                </button>
+              )}
             </article>
 
-              <section>
-                {/* <h2 className="text-white">Cards</h2> */}
-                <WalletCardUI/>
-              </section>
+            <section>
+              {/* <h2 className="text-white">Cards</h2> */}
+              <WalletCardUI />
+            </section>
           </section>
           <section className="bg-black mt-8 flex flex-row items-center gap-x-2  h-[420px] justify-between">
             <article className="w-[70%] bg-gray_primary flex flex-col justify-evenly pb-4 gap-y-2 rounded-md">

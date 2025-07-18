@@ -7,14 +7,16 @@ import { useSearchParams } from "next/navigation";
 import logoWhite from "@/src/assets/logo-white.png";
 import Image from "next/image";
 import { toast } from "sonner";
-import { Loader } from "lucide-react";
+import { Loader, Router } from "lucide-react";
 import background from "@/src/assets/bg-black.png";
-
+import { useRouter } from "next/navigation";
 const Page = () => {
+  const router = useRouter();
   const { setIsLoading } = useContext(CreateContext).loader;
   const searchParams = useSearchParams();
   const currentParams = new URLSearchParams(searchParams?.toString());
   const reference = currentParams.get("reference");
+  const callbackUrl = currentParams.get("callback_url");
 
   const initialValues = {
     novypay_token: "",
@@ -60,6 +62,7 @@ const Page = () => {
 
       // Handle successful submission
       toast.success("Transaction successful!");
+      router.push(`/payments/success?callbackUrl=${result.callback_url}`);
     } catch (error: any) {
       console.error("Submission error:", error);
       toast.error(error.message);
@@ -84,11 +87,11 @@ const Page = () => {
         onSubmit={handleSubmit}
       >
         {({ values, touched, errors }) => (
-          <Form className="bg-gray_primary w-[30%] h-[90vh] p-10 rounded-lg flex flex-col  justify-between">
+          <Form className="bg-gray_primary w-[30%] h-[75vh] p-10 rounded-lg flex flex-col justify-between">
             <h2 className="text-center text-white_primary text-2xl font-bold">
               Card Payment
             </h2>
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-300">
                   Novy Pay token
@@ -155,7 +158,7 @@ const Page = () => {
                 )}
               </button>
             </div>
-            <div className="flex items-center justify-center w-full mt-10 ">
+            <div className="flex items-center justify-center w-full ">
               <span className="text-white">Powered By</span>
               <Image
                 src={logoWhite}

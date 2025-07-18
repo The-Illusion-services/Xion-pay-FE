@@ -39,16 +39,16 @@ const WalletCardUI: React.FC = () => {
             authorization: `Bearer ${session?.user?.accessToken}`,
           },
         }
-        );
-        const responseData = await response.json();
-      if(!response.ok){
-        throw new Error (responseData.error ?? "An error occured")
+      );
+      const responseData = await response.json();
+      if (!response.ok) {
+        throw new Error(responseData.error ?? "An error occured");
       }
 
       return responseData;
     } catch (err) {
       // toast.error("An error occured")
-      return null
+      return null;
       // console.log(err);
     }
   };
@@ -61,7 +61,7 @@ const WalletCardUI: React.FC = () => {
     setIsPinChange(true);
     setIsWalletSetupModalVisible(true);
   };
-  console.log(walletCard)
+  console.log(walletCard);
   if (!walletCard) {
     return (
       <div className="max-w-md mx-auto p-6">
@@ -83,6 +83,23 @@ const WalletCardUI: React.FC = () => {
       </div>
     );
   }
+
+  const copyText = async (text: string) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    try {
+      document.execCommand("copy");
+      toast.success("Token copied to clipboard!");
+    } catch (execErr) {
+      console.error("Fallback copy failed: ", execErr);
+      toast.error("Failed to copy text.");
+    }
+
+    document.body.removeChild(textArea);
+  };
 
   return (
     <div className="max-w-md  mx-auto p-6">
@@ -128,7 +145,11 @@ const WalletCardUI: React.FC = () => {
           <div className="text-xs opacity-60 mb-1">Card Number</div>
           <div className="font-mono tracking-wider text-[10px] flex flex-row items-center gap-x-2">
             <span>{walletCard?.novypay_token}</span>
-            <Copy size={16} className="text-white_primary"/>
+            <Copy
+              size={16}
+              className="text-white_primary cursor-pointer"
+              onClick={() => copyText(walletCard?.novypay_token)}
+            />
           </div>
         </div>
 
