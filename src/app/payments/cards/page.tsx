@@ -87,7 +87,7 @@ const Page = () => {
         onSubmit={handleSubmit}
       >
         {({ values, touched, errors }) => (
-          <Form className="bg-gray_primary w-[30%] h-[75vh] p-10 rounded-lg flex flex-col justify-between">
+          <Form className="bg-gray_primary lg:w-[30%] w-[95%] h-[75vh] p-10 rounded-lg flex flex-col justify-between">
             <h2 className="text-center text-white_primary text-2xl font-bold">
               Card Payment
             </h2>

@@ -13,6 +13,7 @@ import { AbstraxionProvider } from "@burnt-labs/abstraxion";
 import "@burnt-labs/abstraxion/dist/index.css";
 import "@burnt-labs/ui/dist/index.css";
 import SetupModal from "../components/WalletCard/SetupModal";
+import ScreenGuard from "@/src/components/ScreenGuard"
 
 const ProviderWrapper = ({
   children,
@@ -29,6 +30,7 @@ const ProviderWrapper = ({
     <AbstraxionProvider config={treasuryConfig}>
       <ReactQueryProvider>
         <Suspense fallback={null}>
+          {/* <ScreenGuard/> */}
           <ReactQueryDevtools initialIsOpen={false} />
           <SessionProvider>
             <ContextProvider>
