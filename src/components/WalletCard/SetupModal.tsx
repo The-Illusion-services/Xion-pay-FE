@@ -90,7 +90,7 @@ const SetupModal = () => {
               onClick={() => createNewCard(pin)}
               className="bg-white px-4 py-1 text-gray-900 rounded-sm text-sm"
             >
-              Create Wallet
+              {isPinChange ? "Change Pin" : "Create Wallet"}
             </button>
           </div>
         </section>
