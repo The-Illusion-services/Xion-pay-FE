@@ -39,7 +39,7 @@ const Page = () => {
       );
       const responseData = await response.json();
       // setModalMsg(responseData)
-      console.log(responseData);
+      // console.log(responseData);
 
       return responseData;
     } catch (err) {

@@ -178,64 +178,85 @@ const appSidebar = ({
   return (
     <AuthGuard>
       {/* // <SignoutModal /> */}
-      <ScreenGuard>
-        <React.Fragment>
-          <section className=" bg-gray_primary text-white border-solid mt-20 fixed z-10 lg:h-full shadow-md flex flex-col text-3xl h-20 bottom-0  w-full lg:w-[16%] lg:px-2 pt-5 ">
-            <div className=" flex items-center ">
-              <Image src={logo} alt="logo" className="h-10 w-24" />
-            </div>
-            <article className="lg:h-[50%] lg:items-start flex flex-row lg:flex-col justify-evenly  items-center h-full  w-full px-6">
-              <SidebarLinkComp
-                title="dashboard"
-                Icon={<LuLayoutDashboard className="text-lg" />}
-                handleDispatch={handleDispatch}
-                state={state}
-              />
-              <SidebarLinkComp
-                title="transactions"
-                Icon={<AiOutlineSwap className="text-lg" />}
-                handleDispatch={handleDispatch}
-                state={state}
-              />
-              {/* <SidebarLinkComp
-              title="escrow"
-              Icon={<IoMdListBox className="text-lg" />}
-              handleDispatch={handleDispatch}
-              state={state}
-            />
-            <SidebarLinkComp
-              title="compliance"
-              Icon={<MdOutlineVerifiedUser className="text-lg" />}
-              handleDispatch={handleDispatch}
-              state={state}
-            /> */}
-              <SidebarLinkComp
-                title="settings"
-                Icon={<IoSettingsSharp className="text-lg" />}
-                handleDispatch={handleDispatch}
-                state={state}
-              />
-            </article>
+      {/* <ScreenGuard> */}
+      <React.Fragment>
+  {/* Desktop Sidebar - Hidden on mobile */}
+  <section className="hidden lg:flex bg-gray_primary text-white border-solid  fixed z-10 h-screen shadow-md flex-col text-3xl w-[16%] px-2">
+    <div className="flex items-center">
+      <Image src={logo} alt="logo" className="h-10 w-24" />
+    </div>
+    <article className="h-[50%] items-start flex flex-col justify-start gap-4 w-full px-6 mt-8">
+      <SidebarLinkComp
+        title="dashboard"
+        Icon={<LuLayoutDashboard className="text-lg" />}
+        handleDispatch={handleDispatch}
+        state={state}
+      />
+      <SidebarLinkComp
+        title="transactions"
+        Icon={<AiOutlineSwap className="text-lg" />}
+        handleDispatch={handleDispatch}
+        state={state}
+      />
+      <SidebarLinkComp
+        title="settings"
+        Icon={<IoSettingsSharp className="text-lg" />}
+        handleDispatch={handleDispatch}
+        state={state}
+      />
+    </article>
 
-            {/* Logout Button */}
-            <article className="mt-auto p-4">
-              <button
-                onClick={handleSignout}
-                className="hover:lg:bg-[#5856D60D] cursor-pointer rounded-md h-8 px-2 flex w-full text-sm gap-x-1 lg:flex-row items-center"
-              >
-                <GoSignOut />
-                <span>Sign Out</span>
-              </button>
-            </article>
-          </section>
+    {/* Logout Button - Desktop */}
+    <article className="mt-auto p-4">
+      <button
+        onClick={handleSignout}
+        className="hover:bg-[#5856D60D] cursor-pointer rounded-md h-8 px-2 flex w-full text-sm gap-x-1 items-center"
+      >
+        <GoSignOut />
+        <span>Sign Out</span>
+      </button>
+    </article>
+  </section>
 
-          {/* Content Section */}
-          <section className="lg:ml-[16%] bg-black">
-            <Topbar />
-            {children}
-          </section>
-        </React.Fragment>
-      </ScreenGuard>
+  {/* Mobile Bottom Tab Navigation */}
+  <section className="lg:hidden bg-gray_primary text-white fixed bottom-0 left-0 right-0 z-10 h-20 shadow-md border-t border-gray-600">
+    <article className="flex flex-row justify-around items-center h-full px-4">
+      <SidebarLinkComp
+        title="dashboard"
+        Icon={<LuLayoutDashboard className="text-xl" />}
+        handleDispatch={handleDispatch}
+        state={state}
+      />
+      <SidebarLinkComp
+        title="transactions"
+        Icon={<AiOutlineSwap className="text-xl" />}
+        handleDispatch={handleDispatch}
+        state={state}
+      />
+      <SidebarLinkComp
+        title="settings"
+        Icon={<IoSettingsSharp className="text-xl" />}
+        handleDispatch={handleDispatch}
+        state={state}
+      />
+      {/* Mobile Logout Button */}
+      <button
+        onClick={handleSignout}
+        className="flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-md hover:bg-[#5856D60D]"
+      >
+        <GoSignOut className="text-xl" />
+        <span className="text-xs font-light">Sign Out</span>
+      </button>
+    </article>
+  </section>
+
+  {/* Content Section */}
+  <section className="lg:ml-[16%] bg-black pb-20 lg:pb-0">
+    <Topbar />
+    {children}
+  </section>
+</React.Fragment>
+      {/* </ScreenGuard> */}
     </AuthGuard>
   );
 };

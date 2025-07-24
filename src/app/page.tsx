@@ -31,6 +31,7 @@ import {
   Lock,
   LucideIcon,
   LucideImage,
+  Play,
   Shield,
   ShieldCheck,
   Store,
@@ -110,6 +111,18 @@ const NovyPayHeroLanding = () => {
                   target="no_blank"
                 >
                   View API Docs
+                </a>
+              </Button>
+              <Button
+                variant={"default"}
+                className="backdrop-blur-[1.2px] bg-white_primary border-[#474747] hover:bg-white/60 transition-all duration-2000 ease-in-out text-gray_primary font-bold"
+              >
+                <Play size={16}/>
+                <a
+                  href="https://demo.novypay.app"
+                  target="no_blank"
+                >
+                  Playground
                 </a>
               </Button>
             </div>

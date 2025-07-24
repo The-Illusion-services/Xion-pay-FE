@@ -61,7 +61,7 @@ const WalletCardUI: React.FC = () => {
     setIsPinChange(true);
     setIsWalletSetupModalVisible(true);
   };
-  console.log(walletCard);
+  
   if (!walletCard) {
     return (
       <div className="max-w-md mx-auto p-6">
